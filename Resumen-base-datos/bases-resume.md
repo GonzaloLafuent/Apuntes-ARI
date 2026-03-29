@@ -265,24 +265,24 @@ La **cuarta forma normal** implica  **BCNF**, que a su vez implica **tercera for
 ![Texto alternativo](propiedades-formas-normales.png)
 
 ## Mas sobre operaciones de algebra relacional
-En este caso considremos a la realciones como **multiconjuntos** permitiendo que una misma tupla este repetida mas de una vez. esto modifica algunas de las operciones que vimos sobre el algebra relacional.
+En este caso consideramos a la relaciones como **multiconjuntos** permitiendo que una misma tupla este repetida mas de una vez. esto modifica algunas de las operaciones que vimos sobre el algebra relacional.
 
 En modelos comerciales de **DBMS** se usa el modelo de muticonjuntos, principalmente porque hace mas eficientes a las operaciones.
 
 ### Union, interseccion y difrencia sobre multiocnjuntos
-Suponiendo que una tupla **t** apartece en una lreacion **R** un numoer **n** de veces y aparece un numoer **m** de eveces en una relacion **S**. luego:
+Suponiendo que una tupla **t** aparece en una relacion **R** un numero **n** de veces y aparece un numero **m** de veces en una relacion **S**. luego:
 - En el multiconjunto $ R \cup S $, la tupla **t** aparece n + m veces.
-- En el multiconjunto $ R \cap S $, la tupla **t** aparece min(n,m) veces.
-- En el multiconjunto $ R - S $, la tupla **t** aparece max(0,m-m) veces. si aparece mas veces en **R** que en **S** luego la cantidad de veces que estaar en la diferencia sera la resta de ambas cantidadeds, en caso contrario, como la diferencia da un numero negatico, el valor sera 0.
+- En el multiconjunto $ R \cap S $, la tupla **t** aparece $min(n,m)$ veces.
+- En el multiconjunto $ R - S $, la tupla **t** aparece $max(0,m-m)$ veces. Si aparece mas veces en **R** que en **S** luego la cantidad de veces que estara en la diferencia sera la resta de ambas cantidades, en caso contrario, como la diferencia da un numero negativo, el valor sera 0.
 
 ### Proyeccion
-A diferencia de la poryeccion con sets, no se elimina los resultados duplicados obtenidos.
+A diferencia de la proyeccion con sets, no se elimina los resultados duplicados obtenidos.
 
 ### Seleccion 
 Se aplica la seleccion a cada tupla de forma independiente y no volvemos a eliminar los duplicados. 
 
 ### Producto cartesiano
-En este caso no cambia, se utilizan las tuplas de una relacion para llenar la parte izquierda del par y la segunca coordenada se rellana con la segunda relacion, mas alla de que haya o no duplicados. 
+En este caso no cambia, se utilizan las tuplas de una relacion para llenar la parte izquierda del par y la segunda coordenada se rellana con la segunda relacion, mas alla de que haya o no duplicados. 
 
 ### Joins
 Nuevamente aca no hay cambios, a su vez tampoco se eliminan duplicados. 
@@ -291,40 +291,54 @@ Nuevamente aca no hay cambios, a su vez tampoco se eliminan duplicados.
 Se han agregadop operaciones extra que sirve para los lenagujes de consulta modernos.
 
 ### Eliminacion de duplicados
-se expresa como $\delta(R)$, permitieindo convertir el muticonjunto de tuplas en un cojunto, por medio de la eliminacion de duplicados. 
+se expresa como $\delta(R)$, permitieindo convertir el multiconjunto de tuplas en un conjunto, por medio de la eliminacion de duplicados. 
 
 ### Operadores de agregacion
 Permiten hacer resumenes sobre la informacion de una columnas. dentro tenemos:
 - **Sum:** genera la suma de una columna con valores numericos.
 - **AVG:** produce el promedio de una columna con valores numericos.
-- **Min/Max:** genera el valor mas chico o grande ede una columna con valores numericos. 
+- **Min/Max:** genera el valor mas chico o grande de una columna con valores numericos. 
 - **Count:** produce el numero de valores en una determinada columna.
 
 ### Grouping
-Nos permite agrupar una relacion y/o agregar algunas columnas. el operador utilizado para esto sera $\gamma$. sera una lista de elemntos donde cada es:
-- Un atributo de la realcion **R** donde se aplica $\gamma$. este sera uno de loa atributos por los caules **R** se agrupara. 
-- un operador de agreacion aplicado a un atributo de la realcion. para proveer un nombre para el atributo correspondiente a la agreagion en eset resultado, un flecha y un nuevo nombre se concatenan en la agreacion. El atributo subrayado se dice que es el atributo agregado.
-la expresion reatornad por $\gamma_{L}(R)$ se construye como:
-- una particion de tuplas de **R** en grupos. cada grupo consiste en un todas las tuplas que posee un valor particular en los traibuto de grouping dentro de **L**.
+Nos permite agrupar una relacion y/o agregar algunas columnas. El operador utilizado para esto sera $\gamma$. sera una lista de elementos donde cada uno es:
+- Un atributo de la relacion **R** donde se aplica $\gamma$. este sera uno de loa atributos por los caules **R** se agrupara. 
+- un operador de agreacion aplicado a un atributo de la relacion. Para proveer un nombre para el atributo correspondiente al resultado de la agregacion, se añaden una flecha y un nuevo nombre que se concatenan en la agreacion. El atributo subrayado se dice que es el atributo agregado.
+la expresion retornada por $\gamma_{L}(R)$ se construye como:
+- una particion de tuplas de **R** en grupos. cada grupo consiste en un todas las tuplas que posee un valor particular en los atributos de grouping dentro de **L**.
 - Para cada grupo, produce una tupla que contiene: 
-- el valoe de atributo de grouping para ese grupo
-- Las agragcion, para todas las tuplas de ese grupo, para los atributos agregod de la lista **L**.
+- el valor de atributo de grouping para ese grupo
+- Las agregaciones, para todas las tuplas de ese grupo, para los atributos agregados de la lista **L**.
 
 En resumen: el operador permite dividir la relacion en grupos segun ciuertos atributos y aplica funciones agregadas para cada grupo. 
-Los atributos de agrupoacion son lo que perduran de la realcion orginla, los de agracion computan el valor del opeador de agregacion seleccionado.
+Los atributos de agrupacion son lo que perduran de la relacion orginal, los de agregacion computan el valor del opeador de agregacion seleccionado.
 
 ### Operador de ordenamiento
-Nos permite ordernar la forma en la que se muestran las tuplas de acuerdo a un cojunto de atributos. ser representa con el operador $\tau_{L}(R)$ donde **L** representa el conjunto de aatributos sobre los que s eordena la relacion. El orden en el que aparecen los atributos de ordenamiento determina cual sera el primero que se tuilice para odernar las tuplas. 
+Nos permite ordernar la forma en la que se muestran las tuplas de acuerdo a un conjunto de atributos. Se representa con el operador $\tau_{L}(R)$ donde **L** representa el conjunto de atributos sobre los que se ordena la relacion. El orden en el que aparecen los atributos de ordenamiento determina cual sera el primero que se utilice para ordenar las tuplas. 
 
 ### Ourter joins.
-En eset caso lo que nos permite es tener un **natural join** dentre dos relaciones **R** y **S**, agregando a su vez aquellas tuplas que nos matchearon en ningun valor para ambas realciones. Para indicar que estas tuplas no fueron producto del **natural join**, se les agrega como valor **NULL** aquellas columnas que no posee valor en esa tupla. 
+En este caso lo que nos permite es tener un **natural join** dentro dos relaciones **R** y **S**, agregando a su vez aquellas tuplas que no matchearon en ningun valor para ambas relaciones. Para indicar que estas tuplas no fueron producto del **natural join**, se les agrega como valor **NULL** aquellas columnas que no posee valor en esa tupla. 
 
-Tenemos 2 casos mas de este operador. el **Outer join de izquierda** que solo agregalas tuplas que no matchean del operando izquierdo, y el **outer join de derecha** que es la misma idea pero para la realcion que se opera en la derecha. 
+Tenemos 2 casos mas de este operador. El **Outer join de izquierda** que solo agrega las tuplas que no matchean del operando izquierdo, y el **outer join de derecha** que es la misma idea pero para la relacion que se opera en la derecha. 
+
+### Lista de Operaciones
+![Texto alternativo](resumen-operaciones.png)
+
+### Lista equivalencias
+![Texto alternativo](equivalencia-seleccion.png)
+![Texto alternativo](equivalencia-proyeccion.png)
+![Texto alternativo](equivalencia-producto-cartesiano.png)
+![Texto alternativo](equivalencia-join.png)
+![Texto alternativo](equivalencia-union.png)
+![Texto alternativo](equivalencia-diferencia.png)
+![Texto alternativo](equivalencia-interseccion.png)
+
 
 ## Indices
-Un **indice** de un atributo **A** en uaa relacion es una estructura de data que hace mas eficiente la busqeudad de esas tuplas que posee un valor fijo para el atributo **A**. Podemos pensar que los indices como un arbol binario de busquead de oares (clave,valor), en donde la clave es asociada con un valor que es el conjunto de ubicaciones de las tuplas que posee a **a** en el componenete para el atributo **A**.
+Un **indice** de un atributo **A** en una relacion es una estructura de data que hace mas eficiente la busquedad de esas tuplas que posee un valor fijo para el atributo **A**. Podemos pensar que los indices como un arbol binario de busquead de pares (clave,valor), en donde la clave es asociada con un valor que es el conjunto de ubicaciones de las tuplas que posee a **a** en el componente para el atributo **A**.
 esto suele servir para cuando **A** es comparado con un valor constante.
 
 ### Por que usar indices?
-cuando una relacion es muy larga, es muy caro escanaer todas las tuplas para obtener aquellas que cumplen una determinada condicion. La forma naive de implmentarlo sera obtener todas las tuplas y testear la condicion sobre las mismas. sera mas facil poder genera una forma que me permita obtener aquellas que satifacen una condicion de forma directa. 
-la idea es que el indice nos permite tener una estcrtura de datos auxiliar para acelerar el accesos a registros de una relacion mediante la asociado de valores de atributos con us ubiacion fisicas. 
+cuando una relacion es muy larga, es muy caro escanaer todas las tuplas para obtener aquellas que cumplen una determinada condicion. La forma naive de implmentarlo sera obtener todas las tuplas y testear la condicion sobre las mismas. Sera mas facil poder genera una forma que me permita obtener aquellas que satifacen una condicion de forma directa. 
+la idea es que el indice nos permite tener una estructura de datos auxiliar para acelerar el accesos a registros de una relacion mediante la asociado de valores de atributos con us ubiacion fisicas. 
+

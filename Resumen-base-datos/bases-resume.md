@@ -8,13 +8,13 @@ Nos permite decribir data o informacion. la descripcion contiene 3 partes:
 
 Actualmente hay dos modelos fuertes con respecto a como representar los sistemas de bases de datos:
 - El modelo relacional: se basa en tablas. gran parte del estudio de este modelo se basa en ver como se implementan estas tablas.
-En la mayoria de veces las realciones no esta implementadas como estructuras en la memoria principal, a la hora de implmentarlas fisicamente hay que tener en cuenta la necesidad de a acceder a relaciones muy grandes que viven en el disco. Las operaciones estaran asociadas a algebra relacional. 
-- El modelo semiestructurado: se asemaja mas a arboles o grafos. El principal representante es XML, que permite repsentar informacion de forma jerarquica usando elmentos taggeados. 
+En la mayoria de veces las relciones no esta implementadas como estructuras en la memoria principal, a la hora de implmentarlas fisicamente hay que tener en cuenta la necesidad de a acceder a relaciones muy grandes que viven en el disco. Las operaciones estaran asociadas a lalgebra relacional. 
+- El modelo semiestructurado: se asemaja mas a arboles o grafos. El principal representante es XML, que permite representar informacion de forma jerarquica usando elmentos taggeados. 
 
-se podira pensar que el moldeo semiestrcturado posee mayor flexibilidad que el modelo relacional, pero mas alla de esto el modelo relational suele ser el mas preferido. Como la bases de datos son grandes,. se necesicete ser eficiente a la ahora de acceder o modificar data. A us vez de ser simple de utilizar. Estos dos objetivos son logrados por el modelo relacional:
+se podria pensar que el modelo semiestructurado posee mayor flexibilidad que el modelo relacional, pero mas alla de esto el modelo relacional suele ser el mas preferido. Como la bases de datos son grandes, se necesita ser eficiente a la ahora de acceder o modificar data. A su vez de ser simple de utilizar. Estos dos objetivos son logrados por el modelo relacional:
 - Provee una forma simple y limitada de modelar la data que es versatil como para poder modelar todo tipo de relacion
-- Porvee un cojunto limtiad de operciones pero utiles.
-Todo junto convierte las limitaciones en mejoras, permitiendo construir lengaujes que permiten expresar consultas de una forma muy buena. 
+- Provee un cojunto limitado de operciones pero utiles.
+Todo junto convierte las limitaciones en mejoras, permitiendo construir lenguajes que permiten expresar consultas de una forma muy buena. 
 
 ## Modelo relacional
 Permite representar data de una forma muy sencilla, como una tabla de dos dimensiones llamada relacion. 
@@ -36,42 +36,43 @@ El conjunto de esquemas de relaciones es llamada **esquema relacional de la base
 
 ## Historia del modelo relacional
 Surge a partir de un paper excrito **Ted Codd** en 1970. En este se propone que la informacion deberia ser presentada como tablas llamadas **relaciones**.
-Por detras, se tendria una estrctura compleja que permitiria la repsuesta reapída frente a ciertas consultas que se le haga. 
+Por detras, se tendria una estructura compleja que permitiria la repsuesta repída frente a ciertas consultas que se le haga. 
 Para 1990 este tipo de modelos se convirtieron en la idea a seguir, mas alla de esto la idea sobre modelos de bases de datos fue cambiando.
+El modelo relacional permitia entre que datos almaceno y como se almacenan, simplicidad, normalizcion de la informacion, optimizacion y un lengauje declarivo fuerte.
 
 ## Operaciones
-Para poder realizar operacion de manipulacion de informacion, sus conceptos se sostiene sobre el **Algebra relacional**. La idea es definir un lengauje especifico para bases de datos, siendo util definirlo sobre estos concepto al ser menos poderoso, esto hace que sea mas eificiente y sencillo de programar. 
-En un momento las bases relacionales se construian directamente sobre el algebra relacionla, hoy ya no es tan asi, sino que usan ese modelo como su base.
+Para poder realizar operacion de manipulacion de informacion, sus conceptos se sostiene sobre el **Algebra relacional**. La idea es definir un lengauje especifico para bases de datos, siendo util definirlo sobre estos concepto al ser menos poderoso, esto hace que sea mas eficiente y sencillo de programar. 
+En un momento las bases relacionales se construian directamente sobre el algebra relacional, hoy ya no es tan asi, sino que usan ese modelo como su base.
 
-**Algebra:** Esta formado por un cojunto de operadores y operando atomicos. nos permite generar expresiones operando operadores a operandos atomicos. En el algebra relacional los operandos atomicos, son la variables que representan relaciones y contsntes que son relaciones finitas. 
+**Algebra:** Esta formado por un cojunto de operadores y operando atomicos. nos permite generar expresiones operando operadores a operandos atomicos. En el algebra relacional los operandos atomicos, son la variables que representan relaciones y constantes que son relaciones finitas. 
 
 **Operaciones:** se puede dividir en: 
 - Operaciones clasica: union, interseccion y diferencia.
-- Operaciones que remueven parte de una relacion: seleccion y poryeccion.
-- Operafciones que combinan tuplas de dos relaciones: porducto cartesiano y tuplas. 
-- Operaciones de renombre: no afectan a las tuplas pero si cambian el esqeuma de la relacion.
+- Operaciones que remueven parte de una relacion: seleccion y proyeccion.
+- Operaciones que combinan tuplas de dos relaciones: producto cartesiano y tuplas. 
+- Operaciones de renombre: no afectan a las tuplas pero si cambian el esquema de la relacion.
 
 Estas expresiones dentro del algebra se llaman **querires** o **consultas**.
 
 **Operaciones conocidas:**
-- **Union:** $R \cup S$ conjunto de elemeento que que estan en R o S.
+- **Union:** $R \cup S$ conjunto de elementos que que estan en R o S.
 - **Interseccion:** $R \cap S$, conjunto de elementos que estan en R y S.
-- **Diferencia:** $R - S$. Cojunto de lementos que estan en R pero no en S.
+- **Diferencia:** $R - S$. Cojunto de elementos que estan en R pero no en S.
 
 Para poder aplicar esto es necesarios que:
-- R y S tengas esquemas con conjuntos de atributos identicos y el dominio de cada atribtuo debe ser el mimso para R y S.
-- Antes de computar cualquier de estas relaciones, las oclumnas de R y S deben estar oredenadas para que los atributos esten en el mimso orden para ambas realciones
+- R y S tengas esquemas con conjuntos de atributos identicos y el dominio de cada atributo debe ser el mismo para R y S.
+- Antes de computar cualquier de estas relaciones, las columnas de R y S deben estar ordenadas para que los atributos esten en el mismo orden para ambas relaciones
 
-**Proyeccion:** se utiliza para producir desde una relacion **R**, una nuvea que posee algunas columnas de **R**. Para identiifarla se establecen el conjunto de argumentos que se van a extraer de la misma. a la hora de hacer una poryeccion, si hay tuplas repertidas en la misma, estas se eliminan.
+**Proyeccion:** se utiliza para producir desde una relacion **R**, una nueva que posee algunas columnas de **R**. Para identiifarla se establecen el conjunto de argumentos que se van a extraer de la misma. a la hora de hacer una proyeccion, si hay tuplas repetidas en la misma, estas se eliminan.
 
-**Seleccion:**  Aplicado a una relacion **R** produce una nueva relacion como subconjuntos de tuplas de **R**. Contiene los mismos atribnutos que **R**
-Por lo general se expresan asignando una condicion sobre los atributos, es decir las tuplas obtenidas por medio de la seleccion seran aquellas que satisfacgan algunas codicion **C**. la condiicion se aplica sobre toda tuplas perteneciente a la realcion dada. 
+**Seleccion:**  Aplicado a una relacion **R** produce una nueva relacion como subconjuntos de tuplas de **R**. Contiene los mismos atributos que **R**
+Por lo general se expresan asignando una condicion sobre los atributos, es decir las tuplas obtenidas por medio de la seleccion seran aquellas que satisfacgan algunas codicion **C**. la condiicion se aplica sobre todas las tuplas pertenecientes a la relacion dada. 
 
-**Producto Cartesiano:** se denota como **R X S**, donde **R** y **S** son dos conjuntos, y el resultado de la operacion es un conjunto de pares, donde el primero elemento pertence a **R** y el segundo pertence a **S**.Como los elemntos de **R** y **S** son tuplas, el resultado de su porudtco cartesano sera un cojunto de tuplas aun mas grande en longitud.por lo genral los componete sde la tupla de la izquierda estarn antes que los de la tupla de la derecha. 
-Si un atributo posee el mismo nombre en ambas realciones, hya que genra un nuevo nombre para al menos alguno de ellos dos. 
+**Producto Cartesiano:** se denota como **R X S**, donde **R** y **S** son dos conjuntos, y el resultado de la operacion es un conjunto de pares, donde el primero elemento pertence a **R** y el segundo pertence a **S**.Como los elementos de **R** y **S** son tuplas, el resultado de su producto cartesiano sera un cojunto de tuplas aun mas grande en longitud. Por lo genral los componetes de la tupla de la izquierda estaran antes que los de la tupla de la derecha. 
+Si un atributo posee el mismo nombre en ambas relaciones, hay que generar un nuevo nombre para al menos alguno de ellos dos. 
 
 **Natural joins:** dado dos relaciones se busca unir aquellas tuplas que matchhean de alguna manera. Los que buscamos matchear son atributos entre relaciones.
-En este caso lo que hacemos es myachear aquellas tuplas que esten de acuerdo en algun atributo comun de los esquemas **R** y **S**. De esta forma un tupla de **R** y otra tupla de **S** conforman un par si y solo si ambas tuplas estan de acuuedo en un conjunto de atributos especificados. EL resultado es lo que se denomina como **Tupla joineada** o **joined tuple**.
+En este caso lo que hacemos es matchear aquellas tuplas que esten de acuerdo en algun atributo comun de los esquemas **R** y **S**. De esta forma un tupla de **R** y otra tupla de **S** conforman un par si y solo si ambas tuplas estan de acuerdo en un conjunto de atributos especificados. EL resultado es lo que se denomina como **Tupla joineada** o **joined tuple**.
 
 **Theta joins:** La idea es generar pares de tuplas pero en este caso con otro tipo de condiciones. En este caso usamos condiciones mas complejas que solo el matcheo en el valor de un conjunto de atributos. En este caso la expresion **theta** indica la posibilidad de incluir una condicion mas compleja.
 la forma de computar esto ser:
@@ -263,3 +264,67 @@ La **cuarta forma normal** implica  **BCNF**, que a su vez implica **tercera for
 ## Propiedades de las formas normales
 ![Texto alternativo](propiedades-formas-normales.png)
 
+## Mas sobre operaciones de algebra relacional
+En este caso considremos a la realciones como **multiconjuntos** permitiendo que una misma tupla este repetida mas de una vez. esto modifica algunas de las operciones que vimos sobre el algebra relacional.
+
+En modelos comerciales de **DBMS** se usa el modelo de muticonjuntos, principalmente porque hace mas eficientes a las operaciones.
+
+### Union, interseccion y difrencia sobre multiocnjuntos
+Suponiendo que una tupla **t** apartece en una lreacion **R** un numoer **n** de veces y aparece un numoer **m** de eveces en una relacion **S**. luego:
+- En el multiconjunto $ R \cup S $, la tupla **t** aparece n + m veces.
+- En el multiconjunto $ R \cap S $, la tupla **t** aparece min(n,m) veces.
+- En el multiconjunto $ R - S $, la tupla **t** aparece max(0,m-m) veces. si aparece mas veces en **R** que en **S** luego la cantidad de veces que estaar en la diferencia sera la resta de ambas cantidadeds, en caso contrario, como la diferencia da un numero negatico, el valor sera 0.
+
+### Proyeccion
+A diferencia de la poryeccion con sets, no se elimina los resultados duplicados obtenidos.
+
+### Seleccion 
+Se aplica la seleccion a cada tupla de forma independiente y no volvemos a eliminar los duplicados. 
+
+### Producto cartesiano
+En este caso no cambia, se utilizan las tuplas de una relacion para llenar la parte izquierda del par y la segunca coordenada se rellana con la segunda relacion, mas alla de que haya o no duplicados. 
+
+### Joins
+Nuevamente aca no hay cambios, a su vez tampoco se eliminan duplicados. 
+
+## Operaciones Extra
+Se han agregadop operaciones extra que sirve para los lenagujes de consulta modernos.
+
+### Eliminacion de duplicados
+se expresa como $\delta(R)$, permitieindo convertir el muticonjunto de tuplas en un cojunto, por medio de la eliminacion de duplicados. 
+
+### Operadores de agregacion
+Permiten hacer resumenes sobre la informacion de una columnas. dentro tenemos:
+- **Sum:** genera la suma de una columna con valores numericos.
+- **AVG:** produce el promedio de una columna con valores numericos.
+- **Min/Max:** genera el valor mas chico o grande ede una columna con valores numericos. 
+- **Count:** produce el numero de valores en una determinada columna.
+
+### Grouping
+Nos permite agrupar una relacion y/o agregar algunas columnas. el operador utilizado para esto sera $\gamma$. sera una lista de elemntos donde cada es:
+- Un atributo de la realcion **R** donde se aplica $\gamma$. este sera uno de loa atributos por los caules **R** se agrupara. 
+- un operador de agreacion aplicado a un atributo de la realcion. para proveer un nombre para el atributo correspondiente a la agreagion en eset resultado, un flecha y un nuevo nombre se concatenan en la agreacion. El atributo subrayado se dice que es el atributo agregado.
+la expresion reatornad por $\gamma_{L}(R)$ se construye como:
+- una particion de tuplas de **R** en grupos. cada grupo consiste en un todas las tuplas que posee un valor particular en los traibuto de grouping dentro de **L**.
+- Para cada grupo, produce una tupla que contiene: 
+- el valoe de atributo de grouping para ese grupo
+- Las agragcion, para todas las tuplas de ese grupo, para los atributos agregod de la lista **L**.
+
+En resumen: el operador permite dividir la relacion en grupos segun ciuertos atributos y aplica funciones agregadas para cada grupo. 
+Los atributos de agrupoacion son lo que perduran de la realcion orginla, los de agracion computan el valor del opeador de agregacion seleccionado.
+
+### Operador de ordenamiento
+Nos permite ordernar la forma en la que se muestran las tuplas de acuerdo a un cojunto de atributos. ser representa con el operador $\tau_{L}(R)$ donde **L** representa el conjunto de aatributos sobre los que s eordena la relacion. El orden en el que aparecen los atributos de ordenamiento determina cual sera el primero que se tuilice para odernar las tuplas. 
+
+### Ourter joins.
+En eset caso lo que nos permite es tener un **natural join** dentre dos relaciones **R** y **S**, agregando a su vez aquellas tuplas que nos matchearon en ningun valor para ambas realciones. Para indicar que estas tuplas no fueron producto del **natural join**, se les agrega como valor **NULL** aquellas columnas que no posee valor en esa tupla. 
+
+Tenemos 2 casos mas de este operador. el **Outer join de izquierda** que solo agregalas tuplas que no matchean del operando izquierdo, y el **outer join de derecha** que es la misma idea pero para la realcion que se opera en la derecha. 
+
+## Indices
+Un **indice** de un atributo **A** en uaa relacion es una estructura de data que hace mas eficiente la busqeudad de esas tuplas que posee un valor fijo para el atributo **A**. Podemos pensar que los indices como un arbol binario de busquead de oares (clave,valor), en donde la clave es asociada con un valor que es el conjunto de ubicaciones de las tuplas que posee a **a** en el componenete para el atributo **A**.
+esto suele servir para cuando **A** es comparado con un valor constante.
+
+### Por que usar indices?
+cuando una relacion es muy larga, es muy caro escanaer todas las tuplas para obtener aquellas que cumplen una determinada condicion. La forma naive de implmentarlo sera obtener todas las tuplas y testear la condicion sobre las mismas. sera mas facil poder genera una forma que me permita obtener aquellas que satifacen una condicion de forma directa. 
+la idea es que el indice nos permite tener una estcrtura de datos auxiliar para acelerar el accesos a registros de una relacion mediante la asociado de valores de atributos con us ubiacion fisicas. 

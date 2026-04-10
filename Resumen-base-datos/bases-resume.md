@@ -342,3 +342,21 @@ esto suele servir para cuando **A** es comparado con un valor constante.
 cuando una relacion es muy larga, es muy caro escanaer todas las tuplas para obtener aquellas que cumplen una determinada condicion. La forma naive de implmentarlo sera obtener todas las tuplas y testear la condicion sobre las mismas. Sera mas facil poder genera una forma que me permita obtener aquellas que satifacen una condicion de forma directa. 
 la idea es que el indice nos permite tener una estructura de datos auxiliar para acelerar el accesos a registros de una relacion mediante la asociado de valores de atributos con us ubiacion fisicas. 
 
+## DISEÑO DE BASES DE DATOS
+**TRANSACCIONES:** las transacciones son grupos de queries que deben ser ejecutadas de forma atomica e isolada una de otra. Cada query o modifaicion a su vez puede ser considera como una transaccion a su vez.
+Una transaccion debe ser **Perudurable**, esto implica que el efecto de cualquier transaccion completa debe ser preservado incluso cuando el sistema falla al completar la transaccion
+El proceso de una transaccion tiene dos partes:
+- Control de concurrencia o sheduler: se encarga de asegurar atomicidad y aislamiento de las transacciones.
+- manager de loggeo y recuperacion, responsable de la perdurabilidad de las transacciones.
+
+El procesador de transacciones debe ocuparse de que las transacciones se ejeucten de forma correcta, para esto realiza las siguientes tareas.
+- **LOGGEO**: para poder asegurar la **durabilidad**, cada cambio se loggea de forma separada en el disco. El **manager de log** sigue varias politicas diseñadas para segurar de que mas alla de que el sistema falla, el **manager de recuperacion** podra examinar los logs de los cambios y restaurar la base a un estado consistente.
+El **manager de log** escribe los logs en un buffer y negocia con el **buffer manager** para que los logs se escriban a disco en un tiempo apropiado.
+- **CONTROL DE CONCURRENCIA:** cada transaccion debe simular que se ejecuta de forma aislada, pero en realidad dentro del sistema habran multiples transacciones ejecutandose. 
+De esta forma el **scheduler** debe asugurarse que las acciones individuales de multiples transacciones son ejecutadas de forma tal que el efecto final es el mismo si se hubieran ejecutado una a la vez.
+Para hacer esto se suelen mantener **locks** en ciertas partes de la base. Estos **locks** preveen que dos transacciones accedan a la misma data de forma que genere errores. Estos se suelen gauardar en memoria principal, en lo que se denomina como **lock table**.
+- **RESOLUCION DE DEADLOCKS:** cuando las transacciones compiten por un recursos por medio de los **locks** que el scheduler garantiza, se peude genera situaciones donde ninguna siga progresando por que cada una necesita algo que la otra transaccion necesita. El **manager de transacciones** tendra el podes intervenir y cancelar una o mas transacciones para que las otras puedas seguir porgresando. 
+
+**FORMA EN LA ACTUA LA TRANSACCION:** El **manager de transacciones** le enviara mensajes al **manager de loggeo**, al **manager de buffer** para preguntar para saber cuando es posible o necesario copiar el buffer al disco y al **procesador de queries** para ejecutar las queries y otras operaciones que incluyan la transaccion.
+Cuando se produzca algun choque el **manager de recuperacion** se activa. este examina los logs y los utiliza si es necesario. 
+

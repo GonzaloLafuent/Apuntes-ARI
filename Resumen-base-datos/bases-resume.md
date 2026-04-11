@@ -360,3 +360,102 @@ Para hacer esto se suelen mantener **locks** en ciertas partes de la base. Estos
 **FORMA EN LA ACTUA LA TRANSACCION:** El **manager de transacciones** le enviara mensajes al **manager de loggeo**, al **manager de buffer** para preguntar para saber cuando es posible o necesario copiar el buffer al disco y al **procesador de queries** para ejecutar las queries y otras operaciones que incluyan la transaccion.
 Cuando se produzca algun choque el **manager de recuperacion** se activa. este examina los logs y los utiliza si es necesario. 
 
+## FORMA CORRECTA DE EJECUCION DE UNA TRANSACCION ##
+para definir esto asumimos que una base da datos esta formado por elementos, donde cada elemento posee un valor que puede ser modificado o accesido por una transaccion. algunos elementos puede ser:
+- Relaciones
+- Bloques o paginas de disco
+- Tuplas u objetos individuales
+Una base de datos posee un estado, que es un valor para cada unos de sus elementos. Los estados se pueden dividir como:
+- **consistentes:** significa que satisfacen todas las constrains de un esquema de base de datos, como constrins de clave o constrains de valores. A su vez debe satisafec toda constrins implicita por el diseño de la base.
+Un principio fundamental con respecto a esto es el **principio de correctitud**, que especifica que si una transaccion en ausencia de errores, y comienza con un estado consistente, el estado de la base debe ser consistente al terminar la transaccion.
+
+## OPERACIONES PRIMITIVAS DE LAS TRANSACCIONES ##
+Hay 3 epacios de direcciones que interactuan entre ellos:
+- El espacio de bloques de disco sosteniendo los elementos de la base de datos
+- La memoria virtual o principal que es manejada por el **manager de buffer**
+- el espacio de direcciones local utilizado por transacciones
+para que una transaccion pueda leer un elemento de una base de datos, el elemento debe ser traido a los buffers de memoria principal, si no estasn ahi todavia. Luego el contenido puede ser leido por la transacion en su propio espacio de direcciones.Escribir en un elemento sigue el camino inverso.
+El valor no siempre se esrcribe al buffer de forma inmediata, esta decision depende del **buffer manager**.
+La primitivas que usaremos para definir las operaciones seran:
+- $INPUT(X):$ copia el bloque de disco que contiene un elemento de la base X a la memoria del buffer.
+- $READ(X,t):$ copia el elemento X de la base a la variable local t de la transaccion.
+- $WRITE(X,t):$ copia el valor de la variable local t al elemento X de la base en la memoria del buffer.
+- $OUTPUT(X):$ copia el bloque que contiene X desde su buffer al disco.
+para red y write, si el bloque no esta en memoria primero lo traigo a disco por medio de input.
+Las operciones anteriores tienen sentido si el elemento de bases de datos. 
+
+## UNDO LOGGING ##
+El primer estilo de loggeo que tenemos es **undo logging**, realiza reparaciones a la base de datos deshaciendo el efecto de transacciones que pueden no haberse completado antes de la caida del sistema.
+
+### RECORDS DE LOGS ###
+Un bloque de logs a la vez esta compuesto de record de logs, donde cada uno representa los eventos de la transaccion. POr lo general se crean en la memoria principal y luego se los ubica por medio del **buffer manager**.
+Hay varios tipos de records de logs: 
+
+![Texto alternativo](lista-logs-records.png)
+
+El otro tipo de record que sera necesario sera el **record de actualizacion**, que sera una tripla $<T,X,v>$. El significado de esto es que la transaccion **T** modifico el elemento **X** y su valor anterior era **v**.
+Este tipo de record refleja una accion de **WRITE**.
+
+### REGLAS DE UNO LOGGIN ###
+- **U1:** si la transaccion **T** mdifica elemento de la base **X**, luego el log record de la forma $<T,X,v>$ debe ser escrito al disco antes que el valor nuevo de **X** se escrito al disco.
+- **U2:** si una transaccion se comitea, luego si record de commit de beser escrito disco luego de que todos los elementos de la base moficados por la transaccion hayan sido escrito en disco. 
+Esto implica que los logs records deben ser subidos a disco siguiendo este orden:
+- Los logs recorde que indican cambios en los elemntos de la base
+- Los cambios en si de los elementos
+- El record de COMMIT 
+Para poder forzar los logs record al dicos, el **manager de transacciones** posee un comando **flush log** que permite copiar a disco cualquier bloque que todavia no haya sido copiado al mismo. 
+
+### RECUPERACION USANDO UNDO LOGGING ###
+El **mamanager de recuperacion** utilizara los logs para poder restaurar la base de datos a uns esatado consistente por medio de los logs generados. Para este caso nos basaremos en una idea sencilla, donde ser recorrern todos los logs mas haya del largo que este tenga.
+Por la regla **U2** si tenemos un record de **COMMMIT** todos los cambios que realizo la transaccion **T** ya fueron escrito a disco previamente. Por lo tanto esta transaccion **T** no dejo a la base en un estado incosistente.
+En cambio si econtramos un record **START** sin un record de **COMMIT** puede ser que haya habido cambios que no se hayan copiado al disco. En este caso **T** es una transaccion inocmpeta que debe ser deshacida. 
+Por medio de la regla **U1** sabemos que para todo cambio realizado por la transaccion hay un record de la fgorma $<T,X,v>$ que deberia estar en disocoa antes de la caidad del sistema. 
+De esta forma durante la recuperacion, debemos escribir el valor de **v** en **X**, que era el valor anterior al cambio realizado por la transaccion.
+Como a su vez debe haber multiples transacciones que alteraron **X**, se debe seguir un orden en el cual se restauran los valores. 
+Luego de esto se debe guardar un record para cada transaccion **T** incompleta que ha sido abortada.
+
+### CHECKPOINTING ###
+Cuando una transaccion logrea que su record de **COMMIT** llegue a disco, el resto de sus records de operaciones no es necesario.
+se podria pensar que esos logs de deberian borrar, pero no podemos. Esto se debe a que multiples transacciones ejecutan a la vez. 
+La forma de solucionar estos problemas es por medio de **checkpoint** los logs de forma periodica. en esteos puntos de chequeo, se realiza:
+- Se dejan de aceptar nuevas transacciones
+- Se espera a que todos los commits de transacciones activos o abortados escriban su record de commit o abort en el log
+- Se flushea el log al disco
+- se escribe un log de checkpoint y se flushea el mismo a disoc
+- Se vuelven a aceptar transacciones. 
+Todas las transacciones que terminaron en el checkpoint, lograron que todos sus cambios hayan llegado al disco. Por lo tanto no sera necesario restaurar algunos de esas transaciones durante la recuperacion del sistema.
+De esta forma todo log anterior a el chekpoint podra ser eliminado.  
+ 
+### CHEKPOINT ACTIVO ###
+El problema de la tecnica de checkepoint, es que al realizar esto se debe parar el sistema, lo que puede generar una caida en el tiempo de respuesta.
+La solucion a esto sera el **checkpint activo**. 
+En este en caso se escribe lo de la forma $<START CPKPT(T_1, .., T_k)>$ y se flushea el log, donde cada $T_i$ representa uan transaccion que todavia no fue commiteada o escrito sus cambios a disco. Se espera hasta que estas transacciones commitean o abroten pero sin prohibir que entren nuevas transacciones.
+Cuando todas las transaccion activas terminan se envia un nuevo record que indica la finalizacion del checkpoint y se flushea el log. Para resturar los logs veremos los siguiente:
+- Si primero nos cruzamos con $<END CPTK>$, sabemos que todas las transacciones incompletas comenzaron luego de  $<START CPKPT(T_1, .., T_k)>$.  Luego debemos escanear para atras hatsa el proximo $START CKPT$ y luego prara, todos los logs previos no seran utiles y puede ser descartados.
+- Si primero nos cruzamos con $<START CPKPT(T_1, .., T_k)>$ luego la caida ocurrio dentro del checkpoint. pero las unica trasnacciones incompletar seran aquellas antes del $<START CPKPT(T_1, .., T_k)>$, y aquellas $T_i$ que no se completaron. 
+
+## REDO LOGGING ##
+El problema de **UNDO LOGGING** es que no podemos commitear una transaccion sin que antes se escriba toda la data que se modifico a disco. El **REDO LOGGING** nos permite evitar el backup inmediato de los elemento de bases a disco.
+Las difenencia con **UNDO LOGGING** son:
+- mientras que **UNDO LOGGING** cancela el efecto de transacciones incompletar y ignora quellas commiteadas, redo loggin ignora aquella que no fueron completadas y repetir lo cambios de aquellas comiteadas. 
+- Mientras que **UNDO LOGGING** requiere que escribamos a disoc los cambios realizados antes del commit. **REDO LOGGING** requiere que el commit aparezca antes de los cambios. 
+- A diferencia del **UNDO LOGGING** para recuperar en el **REDO LOGGING** necesitamos los nuevos valores, no los viejos. 
+
+### REGLAS DE REDO LOGGIN ###
+Cambia la interpretacion de la tupla, ahora $<T,X,v>$ representa que la transaccion T escribio el valor v en elemento X. cada vez que se modifica un elemento se debe cargar este record.
+Solo tendremos una regla:
+- **R1:** Antes de modificar cualquier elemento de la base es necesario que todos los logs pertenencientes a la modificacion del elemento **X**, incluido el record de modificacion como el de commit, deben estar en el disco. con redo tendremos el siguiente orden:
+- Primero los logs que indica los cambios 
+- Luego el log de commit
+- Luego se realizan los cambios de los elementos. 
+
+### RECUPERACION CON REDO LOGGING
+La ventaja de este modelo es que las transaccion incompletas pueden ser tratada como si nunca ocurrieron. Mas alla de esto, las transacciones commiteadas prensentan el problema, tal que no sabemos cual de sus cambios si llegaron a disco.
+De esta forma para recuperar el sistema por medio de este modelo:
+- se identifican las transacciones que comitearon
+- Se escanean desde el comienzo. Luego por cada tupla $<T,X,v>$:
+  - Si T no es uan transaccion comiteada no se hace nada
+  - si T es una transaccion commiete, escribimos el valor de **v** para el elemento **X**
+- Para cada transaccion no completada **T**, escribimos un record de abort en el log y lo flusheamos. 
+
+### CHEKPOINTS EN REDO LOGGING

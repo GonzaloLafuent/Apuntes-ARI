@@ -459,3 +459,108 @@ De esta forma para recuperar el sistema por medio de este modelo:
 - Para cada transaccion no completada **T**, escribimos un record de abort en el log y lo flusheamos. 
 
 ### CHEKPOINTS EN REDO LOGGING
+Tiene un problema que **UNDO LOGGING** no posee como los cambios hechos por las transacciones puede ser copiados a disco mucho tiempo despues de cuando se commiteo la misma, no nos podemos limitar a transacciones que estan activas a la hora de realizar un chekcpoint.
+Deberemos, al comienzo y fin del checkpoint, escribir a disco todos los elementos que fueron modificados por las transacciones comiteadas. Para esto se llevara un traqueo de que biffers estan **sucios** esto implica que fueron escritos pero no cargados al disco. 
+Para poder llevar a cabo un chekcpoint activo, tendremos los siguientes pasos:
+- Escribir un $<START CKPT (T_1,... ,T_k)>$, donde cada $T_i$ son las transacciones activas pero no comiteadas y luego hacer un flush del log.
+- Escribir al disco todos los elemntos de base que fueron escritos la buffer pero no al disco, para las transacciones que habian comiteado cuando $START CKPT$ se escribio al log.
+- Escribir un $<END CKPT>$ y hacer un flush de log.
+
+### RECUPERACION CON CHECKPOINT EN REDO LOG
+En este caso tenemos varios casos para analizar:
+-  Si el ultimo log antes de la caidad es $<END CKPT>$, ahora sabemos que todo valor escrito por una transaccion que comiteo antes de $<START CKPT (T_i,... ,T_k)>$ posee sus valores en disco. pero toda transaccion que esta entre las $T_i$ y comenzo depues del comienzo del checkpoint puede tener cambios que todavia no fueron a disco, mas alla de que hayan comiteado.
+De esta forma para realizar la recuperacion solo nos tenemos que preocupar por aquellas transaciones entre las $T_i$ y las que arrancaron despues. No hay que analizar nada mas atras de eso.
+- Si ultimo log antes de la caida es $<START CKPT (T_i,... ,T_k)>$ no podemos asegurar que las transacciones que comitearon antes de este log hayan tenido sus cambios en disco. Por lo tanto tenemos que buscar el proximo $<END CKPT>$ y seguir el caso anterior.
+
+## UNDO\REDO LOGGING
+Aprovecha lo mejor de ambos mundos.
+### REGLAS DEL UNDO/REDO LOGGING
+la tupla de record log cuando se actualiza un valor ahora tendra 4 valores, $<T,X,v,w>$ donde significa que las transaccion **T** cambio el valor de **X**, si valor anterior es **v** y su nuevo valor sera **w**.
+Tendremos solo una regla:
+- **UR1:** Antes de moficiar cualquier elemento **X** en el disco por cambios hechos por una transaccion, es necesario que el log aparezca en el disco.
+
+### RECUPERACION CON UNDO/REDO LOGGING
+En este caso tenemos toda la informacion tanto para deshacer como volver a aplicar un cambio. La politica sera:
+- Rehacer todas los transacciones commiteadas siguiendo un orden de erliest-first.
+- Deshacer todas las transacciones incompletas siguiendo un orden de latest first. 
+
+### CHEKPOINTING EN UNDO/REDO 
+Un checkpoint activo es mas sencillo en este modelo:
+- Se escribe un log $<START CKPT (T_i, . . . , T_k)>$ donde $T_i$ son todas las transacciones activas y se flushea el log. 
+- Se escriben al disco todos los buffers que estan sucios. Todos los buffers, no solo aquellos comiteados por transacciones.
+- Escribimos un $<END CKPT>$ y hacemos un flush del log. 
+
+## CONTROL DE CONCURRENCIAS
+El timing de cada paso dentro de transacciones diferentes debe ser regulado de alguna manera. Esta regulacion es llevada a cabo por el **scheduler**. Este control busca asegurar que las transacciones preserver su consistencia cuando se ejecutan de forma simultanea. 
+Cuando la transaccion realiza un escritura o lectura, le pasa la accion al scheduler. El scheduler decidar si esa accion se debe realizar en el momento o esperar un cierto tiempo para realizar la misma, como tambein puede abortar la transaccion. 
+
+### SHEDULES
+un **schedule** es un conjunto de acciones realizadas por una o mas transacciones. Cuando estudiamos esto hay que entender que las acciones de escritura y lectura no se realizan sobre disco, sino que se hacen sobre los buffers de memoria. 
+
+### SERIAL SCHEUDLES
+Un **schedule** sera **serial** si consiste en todas las acciones de una transaccion y luego todas las acciones de la otra transaccion, y asi sucesivamente. 
+
+### SCHEDULES SERIALIZABLES
+El principio de la transaccio9nes deci que toda **schedule** serial, preserva la consistencua del estado de una base de datos. 
+De esta forma podemos decir que un **schedule** $S$ sera serializable si hay un **schedule** serial $S^´$, tal que para cada estado inicial de la base, el efecto de $S$ y $S^´$ es el mismo.
+
+## NOTACION
+para hablar de trasnsaccion nos referimos como $r_i(X)$ o $w_i(X)$ a que una transaccion $T_i$ leyo o escribio en el elemento $X$.
+
+## CONFLICTOS DE SERIALIZACION
+hablamos de **conflicto** cuando: si tengo un par deacciones de un schedule de forma consecutiva, si su orden es intercambiado, luego el comportamiento de al menos una transacion cambia.
+
+Situaciones que no generan conflicto:
+
+![Texto alternativo](situaciones-no-conflicto.png)
+
+Situaciones de conflicto comunes:
+
+![Texto alternativo](situaciones-conflicto-comunes.png)
+
+La conclusion general de esto sera que las transacciones podemos generan cambios, al menos que:
+- Involucren los mismos elementos de bases de datos
+- Al menos uno sea una escritura
+
+Esto genera dos terminos nuevos para schedules:
+- **Conflicto-equivalente:** si uno puede ser convertido en otro por medio de una secuencia de swaps no conflictivos o de acciones ayacentes.
+- **conflicto-serializable:-** si es **confilcto-equivalente** a un sheduler serial.
+
+## TEST PRAR SERIALIZACION CONFLICTIVA
+Las acciones en conflicto ponen constrains sobre el orden de las transacciones. Si estas constrains no se contraiden, podemos encontrar un schedule que sea confilcto equivalente. 
+Dado un **Schedule** $S$, que envuelven a las transacciones $T_1$ y $T_2$, entre las otras transacciones, decimos que $T_1$ toma precedencia sobre $T_2$, escrito como $T_1 <_{S} T_2$, si hay acciones $A_1$ de $T_1$ y acciones $A_2$ de $T_2$ tal que:
+- $A_1$ esta antes que $A_2$ en $S$
+- $A_1$ y $A_2$ involucran el mimso elemento de base
+- al menos $A_1$ o $A_2$ es una accion de estcritura.
+Estas son las condiciones exactas sobres las cuales no podemos hacer swap entre $A_1$ y $A_2$ 
+
+Esta nocion de precedencia se puede resumir en un grafo. Los nodos de precedencia seran las transacciones del schedule. donde cada nodo estara taggeado con $T_i$ para cada transaccion dada, habra un arco para cada para de nodos que cumpla que $T_i <_s T_j$
+
+Para saber si **S** sera **conflicto serializable**, construimos el grafo de precedencia para **S** y nos preguntamos si hay ciclos. Si los hay luego **S** no sera conflicto serializable. 
+A su vez, si calculo el orden topologico del mimso me dara un orden serail **conflicto equivalente**
+
+### GENERACION DE SERIALIZACION POR MEDIO DE LOCKS
+La idea de esto es una transaccion obtiene locks sobre los elementos de la base para poder manipularlos de forma aislada, no permitiendo que otras acciones accedan al mismo si ya es utilizado por otra transaccion.
+
+### LOCKS
+De los capitulos anteriores sabemos que el **scheduler** tedra la responsabilidad de tomar los pedidos de las transacciones y permiterles actuar o bloquearlos por ciertos tiempo.
+
+Cuando tenemos un scheduler con locking, este buscara forzar la conflictiva-serializada. Cuando un scheduler utiliza locks, las transacciones deberan pedir o liberar los locks aparte de las acciones de lectura y escritura. 
+- consistenia de las transaccions:
+  - una transacciones sobre podra leer o escribir un elemento se previamente obtuvo el lokc de ese elemento o todavia nio lo libero
+  - si uan transaccion genera el lokc de un elemento, debe liberarlo en el futuro.
+- Legalidad de schedule: Dos transacciones nos podran bloquear el mimso elemnto. 
+
+Para entender esto generamos dos nuevas acciones: 
+- $L_i(X):$ la transaccion $T_i$ bloquea el elemento $X$
+- $U_i(X):$ la transaccion $T_i$ desbloquea el elemento $X$
+
+## SCHEDULER CON LOCKING
+Si un request no es dado, la transaccion que lo envio se demora y espera hasyta que el sheduler le de permiso. El scheduler tendra lo que se denomina como **lock table** , donde por cada elemento de la base posee si una transaccion mantiene un bloqueo sobre el mismo. 
+
+## LOCKING DE DOS FASES
+Por medio de este podemos garantizar que un schedule legal de transacciones consistentes es conflicto-serializable:
+- En cada transaccion, todas las acciones de lock estan precedidas por una acion de unlock.
+
+### SISTEMA DE LOCKING CON MULTIPLES MODOS DE LOCKS
+Se introducen los tipos de locks, por lo general se habla de locks para escritura y para lectura. 

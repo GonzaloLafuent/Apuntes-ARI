@@ -343,52 +343,51 @@ cuando una relacion es muy larga, es muy caro escanaer todas las tuplas para obt
 la idea es que el indice nos permite tener una estructura de datos auxiliar para acelerar el accesos a registros de una relacion mediante la asociado de valores de atributos con us ubiacion fisicas. 
 
 ## DISEÑO DE BASES DE DATOS
-**TRANSACCIONES:** las transacciones son grupos de queries que deben ser ejecutadas de forma atomica e isolada una de otra. Cada query o modifaicion a su vez puede ser considera como una transaccion a su vez.
-Una transaccion debe ser **Perudurable**, esto implica que el efecto de cualquier transaccion completa debe ser preservado incluso cuando el sistema falla al completar la transaccion
+**TRANSACCIONES:** las transacciones son grupos de queries que deben ser ejecutadas de forma atomica e isolada una de otra. Cada query o modificacion a su vez puede ser considera como una transaccion a su vez.
+Una transaccion debe ser **Perdurable**, esto implica que el efecto de cualquier transaccion completa debe ser preservado incluso cuando el sistema falla al completar la transaccion
 El proceso de una transaccion tiene dos partes:
 - Control de concurrencia o sheduler: se encarga de asegurar atomicidad y aislamiento de las transacciones.
 - manager de loggeo y recuperacion, responsable de la perdurabilidad de las transacciones.
 
-El procesador de transacciones debe ocuparse de que las transacciones se ejeucten de forma correcta, para esto realiza las siguientes tareas.
+El procesador de transacciones debe ocuparse de que las transacciones se ejecuten de forma correcta, para esto realiza las siguientes tareas.
 - **LOGGEO**: para poder asegurar la **durabilidad**, cada cambio se loggea de forma separada en el disco. El **manager de log** sigue varias politicas diseñadas para segurar de que mas alla de que el sistema falla, el **manager de recuperacion** podra examinar los logs de los cambios y restaurar la base a un estado consistente.
 El **manager de log** escribe los logs en un buffer y negocia con el **buffer manager** para que los logs se escriban a disco en un tiempo apropiado.
 - **CONTROL DE CONCURRENCIA:** cada transaccion debe simular que se ejecuta de forma aislada, pero en realidad dentro del sistema habran multiples transacciones ejecutandose. 
 De esta forma el **scheduler** debe asugurarse que las acciones individuales de multiples transacciones son ejecutadas de forma tal que el efecto final es el mismo si se hubieran ejecutado una a la vez.
-Para hacer esto se suelen mantener **locks** en ciertas partes de la base. Estos **locks** preveen que dos transacciones accedan a la misma data de forma que genere errores. Estos se suelen gauardar en memoria principal, en lo que se denomina como **lock table**.
-- **RESOLUCION DE DEADLOCKS:** cuando las transacciones compiten por un recursos por medio de los **locks** que el scheduler garantiza, se peude genera situaciones donde ninguna siga progresando por que cada una necesita algo que la otra transaccion necesita. El **manager de transacciones** tendra el podes intervenir y cancelar una o mas transacciones para que las otras puedas seguir porgresando. 
+Para hacer esto se suelen mantener **locks** en ciertas partes de la base. Estos **locks** preveen que dos transacciones accedan a la misma data de forma que genere errores. Estos se suelen guardar en memoria principal, en lo que se denomina como **lock table**.
+- **RESOLUCION DE DEADLOCKS:** cuando las transacciones compiten por un recursos por medio de los **locks** que el scheduler garantiza, se puede generar situaciones donde ninguna siga progresando por que cada una necesita algo que la otra transaccion necesita. El **manager de transacciones** tendra el podes intervenir y cancelar una o mas transacciones para que las otras puedas seguir porgresando. 
 
 **FORMA EN LA ACTUA LA TRANSACCION:** El **manager de transacciones** le enviara mensajes al **manager de loggeo**, al **manager de buffer** para preguntar para saber cuando es posible o necesario copiar el buffer al disco y al **procesador de queries** para ejecutar las queries y otras operaciones que incluyan la transaccion.
 Cuando se produzca algun choque el **manager de recuperacion** se activa. este examina los logs y los utiliza si es necesario. 
 
 ## FORMA CORRECTA DE EJECUCION DE UNA TRANSACCION ##
-para definir esto asumimos que una base da datos esta formado por elementos, donde cada elemento posee un valor que puede ser modificado o accesido por una transaccion. algunos elementos puede ser:
+para definir esto asumimos que una base da datos esta formado por elementos, donde cada elemento posee un valor que puede ser modificado o accedido por una transaccion. algunos elementos pueden ser:
 - Relaciones
 - Bloques o paginas de disco
 - Tuplas u objetos individuales
 Una base de datos posee un estado, que es un valor para cada unos de sus elementos. Los estados se pueden dividir como:
-- **consistentes:** significa que satisfacen todas las constrains de un esquema de base de datos, como constrins de clave o constrains de valores. A su vez debe satisafec toda constrins implicita por el diseño de la base.
+- **consistentes:** significa que satisfacen todas las constrains de un esquema de base de datos, como constrains de clave o constrains de valores. A su vez debe satisfacer toda constrains implicita por el diseño de la base.
 Un principio fundamental con respecto a esto es el **principio de correctitud**, que especifica que si una transaccion en ausencia de errores, y comienza con un estado consistente, el estado de la base debe ser consistente al terminar la transaccion.
 
 ## OPERACIONES PRIMITIVAS DE LAS TRANSACCIONES ##
 Hay 3 epacios de direcciones que interactuan entre ellos:
 - El espacio de bloques de disco sosteniendo los elementos de la base de datos
 - La memoria virtual o principal que es manejada por el **manager de buffer**
-- el espacio de direcciones local utilizado por transacciones
-para que una transaccion pueda leer un elemento de una base de datos, el elemento debe ser traido a los buffers de memoria principal, si no estasn ahi todavia. Luego el contenido puede ser leido por la transacion en su propio espacio de direcciones.Escribir en un elemento sigue el camino inverso.
-El valor no siempre se esrcribe al buffer de forma inmediata, esta decision depende del **buffer manager**.
+- El espacio de direcciones local utilizado por transacciones
+para que una transaccion pueda leer un elemento de una base de datos, el elemento debe ser traido a los buffers de memoria principal, si no estan ahi todavia. Luego el contenido puede ser leido por la transacion en su propio espacio de direcciones.Escribir en un elemento sigue el camino inverso.
+El valor no siempre se escribe al buffer de forma inmediata, esta decision depende del **buffer manager**.
 La primitivas que usaremos para definir las operaciones seran:
-- $INPUT(X):$ copia el bloque de disco que contiene un elemento de la base X a la memoria del buffer.
-- $READ(X,t):$ copia el elemento X de la base a la variable local t de la transaccion.
-- $WRITE(X,t):$ copia el valor de la variable local t al elemento X de la base en la memoria del buffer.
-- $OUTPUT(X):$ copia el bloque que contiene X desde su buffer al disco.
+- $INPUT(X):$ copia el bloque de disco que contiene un elemento de la base **X** a la memoria del buffer.
+- $READ(X,t):$ copia el elemento **X** de la base a la variable local **t** de la transaccion.
+- $WRITE(X,t):$ copia el valor de la variable local **t** al elemento **X** de la base en la memoria del buffer.
+- $OUTPUT(X):$ copia el bloque que contiene **X** desde su buffer al disco.
 para red y write, si el bloque no esta en memoria primero lo traigo a disco por medio de input.
-Las operciones anteriores tienen sentido si el elemento de bases de datos. 
 
 ## UNDO LOGGING ##
 El primer estilo de loggeo que tenemos es **undo logging**, realiza reparaciones a la base de datos deshaciendo el efecto de transacciones que pueden no haberse completado antes de la caida del sistema.
 
 ### RECORDS DE LOGS ###
-Un bloque de logs a la vez esta compuesto de record de logs, donde cada uno representa los eventos de la transaccion. POr lo general se crean en la memoria principal y luego se los ubica por medio del **buffer manager**.
+Un bloque de logs a la vez esta compuesto de record de logs, donde cada uno representa los eventos de la transaccion. Por lo general se crean en la memoria principal y luego se los ubica por medio del **buffer manager**.
 Hay varios tipos de records de logs: 
 
 ![Texto alternativo](lista-logs-records.png)
@@ -398,47 +397,47 @@ Este tipo de record refleja una accion de **WRITE**.
 
 ### REGLAS DE UNO LOGGIN ###
 - **U1:** si la transaccion **T** mdifica elemento de la base **X**, luego el log record de la forma $<T,X,v>$ debe ser escrito al disco antes que el valor nuevo de **X** se escrito al disco.
-- **U2:** si una transaccion se comitea, luego si record de commit de beser escrito disco luego de que todos los elementos de la base moficados por la transaccion hayan sido escrito en disco. 
+- **U2:** si una transaccion se comitea, luego el record de commit debe ser escrito disco luego de que todos los elementos de la base modificados por la transaccion hayan sido escrito en disco. 
 Esto implica que los logs records deben ser subidos a disco siguiendo este orden:
-- Los logs recorde que indican cambios en los elemntos de la base
+- Los logs record que indican cambios en los elementos de la base
 - Los cambios en si de los elementos
 - El record de COMMIT 
-Para poder forzar los logs record al dicos, el **manager de transacciones** posee un comando **flush log** que permite copiar a disco cualquier bloque que todavia no haya sido copiado al mismo. 
+Para poder forzar los logs record al disco, el **manager de transacciones** posee un comando **flush log** que permite copiar a disco cualquier bloque que todavia no haya sido copiado al mismo. 
 
 ### RECUPERACION USANDO UNDO LOGGING ###
-El **mamanager de recuperacion** utilizara los logs para poder restaurar la base de datos a uns esatado consistente por medio de los logs generados. Para este caso nos basaremos en una idea sencilla, donde ser recorrern todos los logs mas haya del largo que este tenga.
+El **mamanager de recuperacion** utilizara los logs para poder restaurar la base de datos a un estado consistente por medio de los logs generados. Para este caso nos basaremos en una idea sencilla, donde ser recorrer todos los logs mas haya del largo que este tenga.
 Por la regla **U2** si tenemos un record de **COMMMIT** todos los cambios que realizo la transaccion **T** ya fueron escrito a disco previamente. Por lo tanto esta transaccion **T** no dejo a la base en un estado incosistente.
-En cambio si econtramos un record **START** sin un record de **COMMIT** puede ser que haya habido cambios que no se hayan copiado al disco. En este caso **T** es una transaccion inocmpeta que debe ser deshacida. 
-Por medio de la regla **U1** sabemos que para todo cambio realizado por la transaccion hay un record de la fgorma $<T,X,v>$ que deberia estar en disocoa antes de la caidad del sistema. 
+En cambio si econtramos un record **START** sin un record de **COMMIT** puede ser que haya habido cambios que no se hayan copiado al disco. En este caso **T** es una transaccion incompleta que debe ser deshacida. 
+Por medio de la regla **U1** sabemos que para todo cambio realizado por la transaccion hay un record de la forma $<T,X,v>$ que deberia estar en disoco antes de la caidad del sistema. 
 De esta forma durante la recuperacion, debemos escribir el valor de **v** en **X**, que era el valor anterior al cambio realizado por la transaccion.
 Como a su vez debe haber multiples transacciones que alteraron **X**, se debe seguir un orden en el cual se restauran los valores. 
 Luego de esto se debe guardar un record para cada transaccion **T** incompleta que ha sido abortada.
 
 ### CHECKPOINTING ###
-Cuando una transaccion logrea que su record de **COMMIT** llegue a disco, el resto de sus records de operaciones no es necesario.
+Cuando una transaccion logea que su record de **COMMIT** llegue a disco, el resto de sus records de operaciones no es necesario.
 se podria pensar que esos logs de deberian borrar, pero no podemos. Esto se debe a que multiples transacciones ejecutan a la vez. 
 La forma de solucionar estos problemas es por medio de **checkpoint** los logs de forma periodica. en esteos puntos de chequeo, se realiza:
 - Se dejan de aceptar nuevas transacciones
 - Se espera a que todos los commits de transacciones activos o abortados escriban su record de commit o abort en el log
 - Se flushea el log al disco
-- se escribe un log de checkpoint y se flushea el mismo a disoc
+- se escribe un log de checkpoint y se flushea el mismo a disco
 - Se vuelven a aceptar transacciones. 
 Todas las transacciones que terminaron en el checkpoint, lograron que todos sus cambios hayan llegado al disco. Por lo tanto no sera necesario restaurar algunos de esas transaciones durante la recuperacion del sistema.
-De esta forma todo log anterior a el chekpoint podra ser eliminado.  
+De esta forma todo log anterior a el checkpoint podra ser eliminado.  
  
 ### CHEKPOINT ACTIVO ###
-El problema de la tecnica de checkepoint, es que al realizar esto se debe parar el sistema, lo que puede generar una caida en el tiempo de respuesta.
+El problema de la tecnica de checkpoint, es que al realizar esto se debe parar el sistema, lo que puede generar una caida en el tiempo de respuesta.
 La solucion a esto sera el **checkpint activo**. 
-En este en caso se escribe lo de la forma $<START CPKPT(T_1, .., T_k)>$ y se flushea el log, donde cada $T_i$ representa uan transaccion que todavia no fue commiteada o escrito sus cambios a disco. Se espera hasta que estas transacciones commitean o abroten pero sin prohibir que entren nuevas transacciones.
+En este en caso se escribe lo de la forma $<START CPKPT(T_1, .., T_k)>$ y se flushea el log, donde cada $T_i$ representa uan transaccion que todavia no fue commiteada o escrito sus cambios a disco. Se espera hasta que estas transacciones commitean o aborten pero sin prohibir que entren nuevas transacciones.
 Cuando todas las transaccion activas terminan se envia un nuevo record que indica la finalizacion del checkpoint y se flushea el log. Para resturar los logs veremos los siguiente:
-- Si primero nos cruzamos con $<END CPTK>$, sabemos que todas las transacciones incompletas comenzaron luego de  $<START CPKPT(T_1, .., T_k)>$.  Luego debemos escanear para atras hatsa el proximo $START CKPT$ y luego prara, todos los logs previos no seran utiles y puede ser descartados.
-- Si primero nos cruzamos con $<START CPKPT(T_1, .., T_k)>$ luego la caida ocurrio dentro del checkpoint. pero las unica trasnacciones incompletar seran aquellas antes del $<START CPKPT(T_1, .., T_k)>$, y aquellas $T_i$ que no se completaron. 
+- Si primero nos cruzamos con $<END CPTK>$, sabemos que todas las transacciones incompletas comenzaron luego de  $<START CPKPT(T_1, .., T_k)>$.  Luego debemos escanear para atras hasta el proximo $START CKPT$ y luego todos los logs previos no seran utiles y puede ser descartados.
+- Si primero nos cruzamos con $<START CPKPT(T_1, .., T_k)>$ luego la caida ocurrio dentro del checkpoint. pero las unica transacciones incompletar seran aquellas antes del $<START CPKPT(T_1, .., T_k)>$, y aquellas $T_i$ que no se completaron. 
 
 ## REDO LOGGING ##
 El problema de **UNDO LOGGING** es que no podemos commitear una transaccion sin que antes se escriba toda la data que se modifico a disco. El **REDO LOGGING** nos permite evitar el backup inmediato de los elemento de bases a disco.
 Las difenencia con **UNDO LOGGING** son:
-- mientras que **UNDO LOGGING** cancela el efecto de transacciones incompletar y ignora quellas commiteadas, redo loggin ignora aquella que no fueron completadas y repetir lo cambios de aquellas comiteadas. 
-- Mientras que **UNDO LOGGING** requiere que escribamos a disoc los cambios realizados antes del commit. **REDO LOGGING** requiere que el commit aparezca antes de los cambios. 
+- mientras que **UNDO LOGGING** cancela el efecto de transacciones incompletar y ignora aquellas commiteadas, redo loggin ignora aquella que no fueron completadas y repeti lo cambios de aquellas comiteadas. 
+- Mientras que **UNDO LOGGING** requiere que escribamos a disco los cambios realizados antes del commit. **REDO LOGGING** requiere que el commit aparezca antes de los cambios. 
 - A diferencia del **UNDO LOGGING** para recuperar en el **REDO LOGGING** necesitamos los nuevos valores, no los viejos. 
 
 ### REGLAS DE REDO LOGGIN ###
@@ -454,16 +453,16 @@ La ventaja de este modelo es que las transaccion incompletas pueden ser tratada 
 De esta forma para recuperar el sistema por medio de este modelo:
 - se identifican las transacciones que comitearon
 - Se escanean desde el comienzo. Luego por cada tupla $<T,X,v>$:
-  - Si T no es uan transaccion comiteada no se hace nada
-  - si T es una transaccion commiete, escribimos el valor de **v** para el elemento **X**
+  - Si T no es una transaccion comiteada no se hace nada
+  - si T es una transaccion commiteada, escribimos el valor de **v** para el elemento **X**
 - Para cada transaccion no completada **T**, escribimos un record de abort en el log y lo flusheamos. 
 
 ### CHEKPOINTS EN REDO LOGGING
 Tiene un problema que **UNDO LOGGING** no posee como los cambios hechos por las transacciones puede ser copiados a disco mucho tiempo despues de cuando se commiteo la misma, no nos podemos limitar a transacciones que estan activas a la hora de realizar un chekcpoint.
-Deberemos, al comienzo y fin del checkpoint, escribir a disco todos los elementos que fueron modificados por las transacciones comiteadas. Para esto se llevara un traqueo de que biffers estan **sucios** esto implica que fueron escritos pero no cargados al disco. 
+Deberemos, al comienzo y fin del checkpoint, escribir a disco todos los elementos que fueron modificados por las transacciones comiteadas. Para esto se llevara un traqueo de que buffers estan **sucios** esto implica que fueron escritos pero no cargados al disco. 
 Para poder llevar a cabo un chekcpoint activo, tendremos los siguientes pasos:
 - Escribir un $<START CKPT (T_1,... ,T_k)>$, donde cada $T_i$ son las transacciones activas pero no comiteadas y luego hacer un flush del log.
-- Escribir al disco todos los elemntos de base que fueron escritos la buffer pero no al disco, para las transacciones que habian comiteado cuando $START CKPT$ se escribio al log.
+- Escribir al disco todos los elementos de base que fueron escritos la buffer pero no al disco, para las transacciones que habian comiteado cuando $START CKPT$ se escribio al log.
 - Escribir un $<END CKPT>$ y hacer un flush de log.
 
 ### RECUPERACION CON CHECKPOINT EN REDO LOG
@@ -477,7 +476,7 @@ Aprovecha lo mejor de ambos mundos.
 ### REGLAS DEL UNDO/REDO LOGGING
 la tupla de record log cuando se actualiza un valor ahora tendra 4 valores, $<T,X,v,w>$ donde significa que las transaccion **T** cambio el valor de **X**, si valor anterior es **v** y su nuevo valor sera **w**.
 Tendremos solo una regla:
-- **UR1:** Antes de moficiar cualquier elemento **X** en el disco por cambios hechos por una transaccion, es necesario que el log aparezca en el disco.
+- **UR1:** Antes de modificar cualquier elemento **X** en el disco por cambios hechos por una transaccion, es necesario que el log aparezca en el disco.
 
 ### RECUPERACION CON UNDO/REDO LOGGING
 En este caso tenemos toda la informacion tanto para deshacer como volver a aplicar un cambio. La politica sera:
@@ -501,14 +500,14 @@ un **schedule** es un conjunto de acciones realizadas por una o mas transaccione
 Un **schedule** sera **serial** si consiste en todas las acciones de una transaccion y luego todas las acciones de la otra transaccion, y asi sucesivamente. 
 
 ### SCHEDULES SERIALIZABLES
-El principio de la transaccio9nes deci que toda **schedule** serial, preserva la consistencua del estado de una base de datos. 
+El principio de la transacciones dice que toda **schedule** serial, preserva la consistencua del estado de una base de datos. 
 De esta forma podemos decir que un **schedule** $S$ sera serializable si hay un **schedule** serial $S^´$, tal que para cada estado inicial de la base, el efecto de $S$ y $S^´$ es el mismo.
 
 ## NOTACION
 para hablar de trasnsaccion nos referimos como $r_i(X)$ o $w_i(X)$ a que una transaccion $T_i$ leyo o escribio en el elemento $X$.
 
 ## CONFLICTOS DE SERIALIZACION
-hablamos de **conflicto** cuando: si tengo un par deacciones de un schedule de forma consecutiva, si su orden es intercambiado, luego el comportamiento de al menos una transacion cambia.
+hablamos de **conflicto** cuando: si tengo un par de acciones de un schedule de forma consecutiva, si su orden es intercambiado, luego el comportamiento de al menos una transacion cambia.
 
 Situaciones que no generan conflicto:
 
@@ -527,36 +526,36 @@ Esto genera dos terminos nuevos para schedules:
 - **conflicto-serializable:-** si es **confilcto-equivalente** a un sheduler serial.
 
 ## TEST PRAR SERIALIZACION CONFLICTIVA
-Las acciones en conflicto ponen constrains sobre el orden de las transacciones. Si estas constrains no se contraiden, podemos encontrar un schedule que sea confilcto equivalente. 
+Las acciones en conflicto ponen constrains sobre el orden de las transacciones. Si estas constrains no se contradicen, podemos encontrar un schedule que sea conflicto equivalente. 
 Dado un **Schedule** $S$, que envuelven a las transacciones $T_1$ y $T_2$, entre las otras transacciones, decimos que $T_1$ toma precedencia sobre $T_2$, escrito como $T_1 <_{S} T_2$, si hay acciones $A_1$ de $T_1$ y acciones $A_2$ de $T_2$ tal que:
 - $A_1$ esta antes que $A_2$ en $S$
-- $A_1$ y $A_2$ involucran el mimso elemento de base
+- $A_1$ y $A_2$ involucran el mismo elemento de base
 - al menos $A_1$ o $A_2$ es una accion de estcritura.
 Estas son las condiciones exactas sobres las cuales no podemos hacer swap entre $A_1$ y $A_2$ 
 
 Esta nocion de precedencia se puede resumir en un grafo. Los nodos de precedencia seran las transacciones del schedule. donde cada nodo estara taggeado con $T_i$ para cada transaccion dada, habra un arco para cada para de nodos que cumpla que $T_i <_s T_j$
 
 Para saber si **S** sera **conflicto serializable**, construimos el grafo de precedencia para **S** y nos preguntamos si hay ciclos. Si los hay luego **S** no sera conflicto serializable. 
-A su vez, si calculo el orden topologico del mimso me dara un orden serail **conflicto equivalente**
+A su vez, si calculo el orden topologico del mismo me dara un orden serial **conflicto equivalente**
 
 ### GENERACION DE SERIALIZACION POR MEDIO DE LOCKS
 La idea de esto es una transaccion obtiene locks sobre los elementos de la base para poder manipularlos de forma aislada, no permitiendo que otras acciones accedan al mismo si ya es utilizado por otra transaccion.
 
 ### LOCKS
-De los capitulos anteriores sabemos que el **scheduler** tedra la responsabilidad de tomar los pedidos de las transacciones y permiterles actuar o bloquearlos por ciertos tiempo.
+De los capitulos anteriores sabemos que el **scheduler** tendra la responsabilidad de tomar los pedidos de las transacciones y permiterles actuar o bloquearlos por ciertos tiempo.
 
 Cuando tenemos un scheduler con locking, este buscara forzar la conflictiva-serializada. Cuando un scheduler utiliza locks, las transacciones deberan pedir o liberar los locks aparte de las acciones de lectura y escritura. 
 - consistenia de las transaccions:
-  - una transacciones sobre podra leer o escribir un elemento se previamente obtuvo el lokc de ese elemento o todavia nio lo libero
-  - si uan transaccion genera el lokc de un elemento, debe liberarlo en el futuro.
-- Legalidad de schedule: Dos transacciones nos podran bloquear el mimso elemnto. 
+  - una transacciones sobre podra leer o escribir un elemento se previamente obtuvo el lock de ese elemento o todavia no lo libero
+  - si una transaccion genera el lock de un elemento, debe liberarlo en el futuro.
+- Legalidad de schedule: Dos transacciones nos podran bloquear el mismo elemento. 
 
 Para entender esto generamos dos nuevas acciones: 
 - $L_i(X):$ la transaccion $T_i$ bloquea el elemento $X$
 - $U_i(X):$ la transaccion $T_i$ desbloquea el elemento $X$
 
 ## SCHEDULER CON LOCKING
-Si un request no es dado, la transaccion que lo envio se demora y espera hasyta que el sheduler le de permiso. El scheduler tendra lo que se denomina como **lock table** , donde por cada elemento de la base posee si una transaccion mantiene un bloqueo sobre el mismo. 
+Si un request no es dado, la transaccion que lo envio se demora y espera hasta que el sheduler le de permiso. El scheduler tendra lo que se denomina como **lock table** , donde por cada elemento de la base posee si una transaccion mantiene un bloqueo sobre el mismo. 
 
 ## LOCKING DE DOS FASES
 Por medio de este podemos garantizar que un schedule legal de transacciones consistentes es conflicto-serializable:

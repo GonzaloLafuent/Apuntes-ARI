@@ -355,10 +355,13 @@ El **manager de log** escribe los logs en un buffer y negocia con el **buffer ma
 - **CONTROL DE CONCURRENCIA:** cada transaccion debe simular que se ejecuta de forma aislada, pero en realidad dentro del sistema habran multiples transacciones ejecutandose. 
 De esta forma el **scheduler** debe asugurarse que las acciones individuales de multiples transacciones son ejecutadas de forma tal que el efecto final es el mismo si se hubieran ejecutado una a la vez.
 Para hacer esto se suelen mantener **locks** en ciertas partes de la base. Estos **locks** preveen que dos transacciones accedan a la misma data de forma que genere errores. Estos se suelen guardar en memoria principal, en lo que se denomina como **lock table**.
-- **RESOLUCION DE DEADLOCKS:** cuando las transacciones compiten por un recursos por medio de los **locks** que el scheduler garantiza, se puede generar situaciones donde ninguna siga progresando por que cada una necesita algo que la otra transaccion necesita. El **manager de transacciones** tendra el podes intervenir y cancelar una o mas transacciones para que las otras puedas seguir porgresando. 
+- **RESOLUCION DE DEADLOCKS:** cuando las transacciones compiten por un recursos por medio de los **locks** que el scheduler garantiza, se puede generar situaciones donde ninguna siga progresando por que cada una necesita algo que la otra transaccion necesita. El **manager de transacciones** tendra el podes intervenir y cancelar una o mas transacciones para que las otras puedas seguir porgresando. Este manager se encargara de establecer el fin e inicio de las transacciones. se encarga de preprocesar y ejecutar las transacciones.
 
 **FORMA EN LA ACTUA LA TRANSACCION:** El **manager de transacciones** le enviara mensajes al **manager de loggeo**, al **manager de buffer** para preguntar para saber cuando es posible o necesario copiar el buffer al disco y al **procesador de queries** para ejecutar las queries y otras operaciones que incluyan la transaccion.
 Cuando se produzca algun choque el **manager de recuperacion** se activa. este examina los logs y los utiliza si es necesario. 
+Se encarga de mantener la durabilidad y atomicidad de las transacciones. 
+
+Dentro de este esquema el **scheduler** controlara el orden de ejecucion de las transacciones, decidiendo sin son demoradas o abortadas por problemas de concurrencia. tomara decisiones sobre el orden de ejecucionde las mismas. 
 
 ## FORMA CORRECTA DE EJECUCION DE UNA TRANSACCION ##
 para definir esto asumimos que una base da datos esta formado por elementos, donde cada elemento posee un valor que puede ser modificado o accedido por una transaccion. algunos elementos pueden ser:
@@ -387,7 +390,7 @@ para red y write, si el bloque no esta en memoria primero lo traigo a disco por 
 El primer estilo de loggeo que tenemos es **undo logging**, realiza reparaciones a la base de datos deshaciendo el efecto de transacciones que pueden no haberse completado antes de la caida del sistema.
 
 ### RECORDS DE LOGS ###
-Un bloque de logs a la vez esta compuesto de record de logs, donde cada uno representa los eventos de la transaccion. Por lo general se crean en la memoria principal y luego se los ubica por medio del **buffer manager**.
+Un bloque de logs a la vez esta compuesto de record de logs, donde cada uno representa los eventos de la transaccion. Por lo general se crean en la memoria principal y luego se los ubica por medio del **buffer manager**. Los bloques de logs seranm escritos en disco tan rapido como sea posible, de acuerdo a la politica que se lleve a cabo. 
 Hay varios tipos de records de logs: 
 
 ![Texto alternativo](lista-logs-records.png)
@@ -559,7 +562,41 @@ Si un request no es dado, la transaccion que lo envio se demora y espera hasta q
 
 ## LOCKING DE DOS FASES
 Por medio de este podemos garantizar que un schedule legal de transacciones consistentes es conflicto-serializable:
-- En cada transaccion, todas las acciones de lock estan precedidas por una acion de unlock.
+
+- En cada transaccion, todas las acciones de lock estan 
+precedidas por una accion de unlock.
+
+Esto modelo implica dos fases, la primera donde obtengo el bloque de los recursos y la segunda donde devuelvo el acceso a los mismos.
+
+Dentro de este modelo tenemos que siempre habra por lo menos un **schedule serial conflicto equivalente** **S** de las transacciones de dos fases. Podremos llevar de una forma a la otra por medio de induccion.
+
+Un problema de este modelo sera el riesgo de que halla deadlocks, prouciendose cuando una transaccion no libera un recurso y otra debe acceder al mismo.
 
 ### SISTEMA DE LOCKING CON MULTIPLES MODOS DE LOCKS
-Se introducen los tipos de locks, por lo general se habla de locks para escritura y para lectura. 
+Se introducen los tipos de locks, por lo general se habla de locks para escritura y para lectura.
+
+### LOCKS COMPARTIDOS Y EXLUSIVOS
+Este es un modelo de **scheduler** que usa dos tipos de locks:
+- locks compartidos
+- locks exclusivos
+Para todo elemento **X** o bien puede tener un lock exclusivo, o bien no tenerlo y tener varios locks compartridos. 
+
+Este modelo posee distintas condiciones:
+- **CONSISTENCIA DE LAS TRANSACCIONES:** una transaccion no puede escribir sin sostener un lock exclusivo, no podra leer sin poseer algun tipo de lock sobre el elemento. Se puede pesar como que para toda transaccion $T_i$ una lectura debe esta precedida para algun tipo de lock sobre el elemento que se quiere leer, y una escritura debes ser precedida por un lock exlusivo.
+
+- **LOCKING DE DOS FASES DE LA TRANSACION:** todo lock debe preceder un unlock.
+
+- **LEGALIDAD DE LOS SCHEDULES:** un elemento puede ser bloqueado exclusvamente por una transaccion o por muchas en modo compartido, pero no las dos al mismo tiempo. 
+
+### MATRICES DE COMPATIBILIDAD
+si usamos distintos modos de locks, el scheduler necesita algun tipo de politica para determinar cuando puede garantizar un pedido de lock. Una **Matriz de compatibilidad** sera una forma de describir porlitica de locks. Tendra una fila y columna por cada modo de lock. 
+Las filas corresponden a un lock que se sostiene sobre un elemento **X** para otra transasccion, y la columna corresponde al modo del lcokm que se pide sobre **X**.
+
+### UPGRADING LOCKS
+La idea de esto nos permite actualizar el modelo de lock de forma dinamica. Si estoy en un lock compartido, los otras transacciones pueden leer. de esta forma la posibilidad e actuzlaiar el lock, nos permite camcabiarlo a exclusivo solo cuando vamos escribir en la variable compartida. 
+
+### UPDATE LOCKS
+Algunos problemas de deadlock se peude evitar con un tercer modo denominado **update lock**. El update lock le da a una traccions un lock de lectura sobre un elemento X, solo este lock podra sera a modo de escritura. Se podra genera un update lock sobre X, si este estaba en modo shared, pero una vez que esta en modo update se bloquea todo tipo de modo de lock sobre ese elemento. 
+
+### LOCKS INCREMENTALES
+Muchas transacciones operan en bases de datos solo incrementando o decrementando valores almacenados. 

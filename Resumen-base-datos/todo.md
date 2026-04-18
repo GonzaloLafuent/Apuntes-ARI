@@ -13,3 +13,6 @@ por lo tanto va a estar en 3FN, pero no es FNBC.
 Toda base de datos se puede normalizar hasta la 3FN con garantias y seguridad, sin perder datos. Este ejemplo no se puede normalizar a FNBC, se puede pero perdes informacion.
 
 - Estudiar: ver el concepto de acid, acid atomico, consistente, aislado (isolated) y durable . concepto fundamental de las bases de datos. permite que exitan bases de datos transaccionlaes, hay probelmas que son transacionales y otros que no. 
+
+- ver esto trasaccion manager: sheduderl y data manager, el ultimo separad en dos, el transaccion manager hasta que graba el disco.
+  

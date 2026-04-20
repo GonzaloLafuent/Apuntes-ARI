@@ -411,7 +411,7 @@ Para poder forzar los logs record al disco, el **manager de transacciones** pose
 El **mamanager de recuperacion** utilizara los logs para poder restaurar la base de datos a un estado consistente por medio de los logs generados. Para este caso nos basaremos en una idea sencilla, donde ser recorrer todos los logs mas haya del largo que este tenga.
 Por la regla **U2** si tenemos un record de **COMMMIT** todos los cambios que realizo la transaccion **T** ya fueron escrito a disco previamente. Por lo tanto esta transaccion **T** no dejo a la base en un estado incosistente.
 En cambio si econtramos un record **START** sin un record de **COMMIT** puede ser que haya habido cambios que no se hayan copiado al disco. En este caso **T** es una transaccion incompleta que debe ser deshacida. 
-Por medio de la regla **U1** sabemos que para todo cambio realizado por la transaccion hay un record de la forma $<T,X,v>$ que deberia estar en disoco antes de la caidad del sistema. 
+Por medio de la regla **U1** sabemos que para todo cambio realizado por la transaccion hay un record de la forma $<T,X,v>$ que deberia estar en disco antes de la caida del sistema. 
 De esta forma durante la recuperacion, debemos escribir el valor de **v** en **X**, que era el valor anterior al cambio realizado por la transaccion.
 Como a su vez debe haber multiples transacciones que alteraron **X**, se debe seguir un orden en el cual se restauran los valores. 
 Luego de esto se debe guardar un record para cada transaccion **T** incompleta que ha sido abortada.

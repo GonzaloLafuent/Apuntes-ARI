@@ -15,4 +15,6 @@ Toda base de datos se puede normalizar hasta la 3FN con garantias y seguridad, s
 - Estudiar: ver el concepto de acid, acid atomico, consistente, aislado (isolated) y durable . concepto fundamental de las bases de datos. permite que exitan bases de datos transaccionlaes, hay probelmas que son transacionales y otros que no. 
 
 - ver esto trasaccion manager: sheduderl y data manager, el ultimo separad en dos, el transaccion manager hasta que graba el disco.
-  
+
+- clase que viene: plan de ejecucion, como se dirige y se ejecuta un plan de ejecucion, y como se decide cual es el plan de ejecucion.
+pista: si hacemos un select con un join o con un case de otro, la pregunta es como ejecuto eso en orden. eso se divide en microtareas que forman el plan de ejecucion. quien habla con el transaccion maagner? quien habla con este, este senecrag del plan

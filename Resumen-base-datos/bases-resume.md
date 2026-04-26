@@ -600,3 +600,54 @@ Algunos problemas de deadlock se peude evitar con un tercer modo denominado **up
 
 ### LOCKS INCREMENTALES
 Muchas transacciones operan en bases de datos solo incrementando o decrementando valores almacenados. 
+
+## EJECUCION DE QUERIES
+el procesador de queries, sera un grupo de componentes de las DBMS que convierten cualquier query del usuar y modificaciones de informacion en una secuncia de operaciones que luego seran ejecutadas. 
+
+Cuando una query se compila, se tiene 3 pasos muy grandes:
+- **Parseo**: se construye un arbol de la query
+- **Reesctritura de query**: el arbol de parseo se convierte en un plan de query incial, que suele sera una representacion algebraica de la query. Este luego se reescribe en un plan equivalente que se suele ejecutar en menor tiempo.
+- **Generacion del plan fisico**: El plan logico del paso 2, se convierte en un plan fisico al seleccionar el algoritmo que se utiliza para implementar cada operador logico. 
+
+### PLANES FISICO DE QUERIES
+**PLAN FISICO:** esta construido en base a operadorres, donde cada uno implementa un paso del plan. En geneal, los operadores fisico son implementacion de cada una de las operaciones del algebra relacional. 
+El plan fisico esta construido por algunos bloques basicos. 
+
+### ESCANEO DE TABLAS
+lo mas basico que se puede hacer dentro de un plan fisico sera leer el contenido entero de una relacion **R**. A su vez se puede agregar un predicado que me permite leer aquellas tuplas de **R** que lo satisfacen. 
+
+### ORDENAMIENTO DURANTE ESCANEO
+Una mutiples razones por las cuales queremos ordenar mientas estamos realizar un escaneo de las tablas, como por ejemplo si hacemos un ORDER BY. 
+El operador de plan fisico **sort-scan** nos permite esto, tomando como parametros una relacion y una funcion que determina el orden. 
+
+### MODELO COMPUTACIONAL PARA OPERADORES FISICOS
+Dado una query con multiples operaciones, su plan fisico esta compuersto por diferentes operaciones fisicas. Para poder ejeuctar de forma performante una query, sera fundamental estimar de forma correcta el costo de cada operaciones fisica. 
+Por lo general se usara como metrica de costo la cantidad de operacion de I/O en disco que se realizan. 
+Al comprara algoritmos para la misma operacion, se asume lo siguiente:
+- Los argumentos de todo tipo de operador son encontrados en disco, pero el resutlado de la operacion se deja en memoria. 
+
+### ITERADORES PARA IMPLEMENTAR OPERADORES FISICOS
+Muchos operadores fisicos pueden ser implementados como iteradores, que es un grupo de operadores que permiten al consumidor del resultado del operador fisico obtener el resultado una tupla a la vez. Se forma por las siguientes operaciones:
+- **open()**: Comienza el proceso de obtener tuplas. 
+- **getNext()**: obtiene la proxima tupla en el resultado yb ajusta la estructuras de datos como sea necesario para que se peuden obtener las tuplas siguientes. si no hay mas tuplas devuelve not found.
+- **close()**: termina la iteracion luego de que todas las tuplas que se necesitaban ver fueron consumidas. 
+
+
+### ONE PASS ALGORITHMS
+Debemoe discutir como se ejecuta cada paso individual dentro de un plan. Hya 3 categorias de algoritmos para operadores:
+- Basados en ordenamiento
+- Basado de hash
+- Basados en indexes
+
+A su cez se puede dividir en otros 3 grados de acuerdo a dificultad y costo: 
+- **one-pass algoritmos**: implican leer la data una vez sola del disco.
+- **two-pass algoritmos**: implican leerla primero en disco, realizar un procesamiento sobre la misma, reescribirla y luego realizar una segunda lectura de la misma. 
+
+para one pass podemos calsificar los operadores de la siguiente manera: 
+- **Una tupla a la vez, operadores unarios**: Estas operaciones (seleccion y proyeccion) no requieren la relacion entera, o una parte grande de la misma en memoria. Podemos leer un bloque a la vez, usar un buffer de memoria principal y luego generar le output.
+
+- **relacion completa, operadores unarios**: estos requieren que muchas de las tuplas esten en memoria al mismo tiempo, por lo tatno es limitado para relacion que tienen el tamaño del buffer.
+
+- **relacion completa, operadores binarios**: 
+
+

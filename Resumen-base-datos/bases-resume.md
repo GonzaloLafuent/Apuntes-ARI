@@ -646,8 +646,41 @@ A su cez se puede dividir en otros 3 grados de acuerdo a dificultad y costo:
 para one pass podemos calsificar los operadores de la siguiente manera: 
 - **Una tupla a la vez, operadores unarios**: Estas operaciones (seleccion y proyeccion) no requieren la relacion entera, o una parte grande de la misma en memoria. Podemos leer un bloque a la vez, usar un buffer de memoria principal y luego generar le output.
 
+**OPERACIONES:** Este caso solo incluye las operaciones de seleecion y proyeccion. La forma de realizarlas sera sencilla. leemos los bloques de la relacion uno a la vez y luego mueven las tuplas seleccionadas o proyectadas al buffer de output
+
 - **relacion completa, operadores unarios**: estos requieren que muchas de las tuplas esten en memoria al mismo tiempo, por lo tatno es limitado para relacion que tienen el tamaño del buffer.
+
+**OPERACIONES:**
+
+
 
 - **relacion completa, operadores binarios**: 
 
 
+
+## NESTED LOOP JOIN
+Hay un cojunto de algoritmos distintos para operar joins. estos se los denomia como **nested loop join** Se puede considerar como **one half pass**.
+
+### TUPLE BASED NEDTED LOOP JOIN
+la idea para generar el join, en este caso, para dos relaciones **S** y **R** ese iterar por cada una de las tuplas, generando un doble bucle. 
+Este tipo de algoritmo encaja bien con el patron de iterador.
+
+### BLOCK-BASED NESTED JOIN ALGORITHM
+se puede mejorar la eficiencia del algoritmo anterior si: 
+- Se organiza el acceso a ambos argumentos por bloques.
+- se usa tanta memoria principal como se pueda para guradar las tuplas que pertenecen a la relacion **S**, las tuplas del loop de mas afuera.
+
+## TWO PASS ALGORITHMS
+Por lo general esto se puede extender a multiples pasos por la memoria pirncipal pero nos vamos a concentrar en solo dos. 
+
+### TWO PHASE, MULTIWAY MERG-SORT
+Este algoritmo ordena las tuplas de la sigueinte manera:
+- Repetidamente llena los M buffers con nuevas tuplas de R y las ordena, usando un algoritmo de ordenamiento en memoria principal. Luego guarda cada una de las sublistas en un almacenamiento secundario.
+- Mergee y ordenar las sublistas. 
+
+### TWO PASS ALGORITHMS BASE ON HASHING
+buscan resolver los mismos problemas que los anteriores. En este caso, si la data es muy grande para ser guardada en la memoria principal, se hashea toda las tuplas del arguemtno o los argumento usando un hash key adecuado.
+Luego realizamos la operaciones trabajando con un bucket a la vez. 
+
+### INDEX BASES ALGORITHMS
+la cosntruccion de indices sobre ciertos atributos nos permiten cosntruir mejoras en ciertos algoritmos. Se puede mejorar algoritmos de seleccion, de join o otros operadores bianrios. 

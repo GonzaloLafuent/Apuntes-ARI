@@ -684,3 +684,68 @@ Luego realizamos la operaciones trabajando con un bucket a la vez.
 
 ### INDEX BASES ALGORITHMS
 la cosntruccion de indices sobre ciertos atributos nos permiten cosntruir mejoras en ciertos algoritmos. Se puede mejorar algoritmos de seleccion, de join o otros operadores bianrios. 
+
+## COMPILADOR DE QUERIES
+### PARSEO Y PREPROCESAMIENTO 
+una vez que llega la query esta pasa por las sigueintes fases:
+- Parseo
+- Preprocesamiento
+- Generacion del plan logico
+- Reescritura
+
+### ANALISIS DE SINTAXIS Y PARSEO EN ARBOLES
+El trabajo del parser sera tomar cuqlueir texto escritor en SQL y covertilo en un arbol de parseo. cada nodo corresponde a:
+- Atoms, que seran elementos lexicos, como palabras especiales, nombres, atributos de una relacion, etc.
+- Categorias sinctaticas, que son nombres para familia de subpartes de queries que tiene roles similares en la query. 
+
+### PREPROCESADOR
+Este tine distintas funciones fundamentales:
+- Si una relacion que se usa en una query en realidad es una virtual view, luego cada una de las realciones en el from-list deben ser reemplazadas por el arbol de parseo que describe la view.
+- Se responsabiliza de chequear semantica. este chequea que:
+  - Que las relaciones en uan clausa FROM son realciones o views
+  - que todo atributo mencionado existe.
+  - chequeo de tipos
+
+### FROM PARSE TREES TO LOGICAL QUERY PLANS
+Dado el arbol, queremos pasar a un plan logico. Esto lleva dos pasos:
+- reemplazar los nodos y estructuras en grupo apropiados de acuerdo a operadores del algebra relaciones.
+- Luego tomamos la primer expresion y la convertimos en algo que experamos sea el el plan fisico mas eficiente.
+
+### IMPROVING THE LOGICAL QUERY PLAN
+Cuando nuestra uery pasa a ser algebra relacional, obtenemos un posible plna logico para la query.
+Por lo general se pueden escribir mutiples planes y luego compararlos, pero en este caso consideramos que cuando se reescribe se elige el mejor, que significa que va a ser el mas barato para ejecutarse. 
+Un problema por ejemplo que puede tener un efecto importante es la forma en la que ordenamos los joins. 
+Los optimizadores suelen usar las siguientes reglas de algebra relacional:
+- Seleccciones puse ser llevadas lo mas abajo del arbol de la expresion. si una seleccion tiene una condicion con ANDS, podemos separar cada parte y enviarla al fondo del arbol.
+- Las proyecciones tambien deben ser enviadas al fondo del arbol
+- La duplicacion de duplicado puede ser removida o movida a la posicion mas conveniente.
+- Algunas selecciones pueden ser combinadas con el producto paragenera algun tipo de join, que suele ser mas eficiente que la operacion original.
+
+### ESTIMACION DEL COSTO DE LAS OPERACIONES
+Al pasar a un pla fisico, lo hacemos considerando diferentes opciones. Por lo general se realiza un estimacion o evaluacion del costo, denominada **cost based enumeration**, donde se selecciona el plan fisico de menor costo y este se le envia al ejecutor de queries.
+para cada plan fisico se selecciona:
+- Un ordenamiento o agrupacion para operaciones conmutativas-asociativas como joins, unions e intersecciones.
+- Un algoritmo para cada operador en el plan logico.
+- Operadores adicionales, que se nesitan para el plan fisico pero no se expresa de forma explicita en el plan logico.
+- La forma en la que se pasan los argumentos de un operador a otro, usando almacenamiento intermedio o disoc, o usnado iteradores.
+
+Para poder estimar el costo, no queremos ejecutar cada uno de los planes y comparar. Por lo tanto se realizar algun tipo de dato mediante la informacion que nos da la query. 
+
+### COST BASED PLAN SELECTION
+el costo de evaluar una expresion es aproximada por le numero de operaciones de entrada y salida realizadas en disco. El numero de estas operaciones esta influenciado por:
+- Los operadores logicos elegido para implementar la query, algo que se decide cuando se seleccion el plan logico.
+- El tamaño de los resultados intermedios.
+-  Los operadores fisicos utilizados para implementar la logica de los operadores. Como por ejemplo la eleccion de one-pass, two-pass, sort o no-sort. 
+- El orden de operaciones similares, especialmente para joins.
+- El metodo de pasar argumentos de un operador fisico al proximo.
+
+## APPROCHES TO ENUMERATING PHYSICAL PLANS
+El primer approach es el exhaustivo, se consideran todas las opciones y cada posibilidad se le asigna un costo, seleccionando aquel de menor valor. 
+A la hora de explorar el espacio de posibles planes, tenemos dos enfoques.
+- top down: trabajos enm plan para abajo desde la raiz.
+- bottom up: para cada subexpression de plan logico, computamos el costo de todas las posibles cosoto de computar esa subexpresion.
+
+Por lo general no hay diferencia en estos casos, pero para el modelo de bottom up se suele usar progrmacion dinamica con el fin ahorrar pasos, tomando solo el mejor plan de cada subexpresion.
+
+
+

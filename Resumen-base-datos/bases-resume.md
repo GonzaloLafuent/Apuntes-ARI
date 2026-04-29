@@ -747,5 +747,94 @@ A la hora de explorar el espacio de posibles planes, tenemos dos enfoques.
 
 Por lo general no hay diferencia en estos casos, pero para el modelo de bottom up se suele usar progrmacion dinamica con el fin ahorrar pasos, tomando solo el mejor plan de cada subexpresion.
 
+**SELECCION POR HEURISTCA:** la primer opcion es usar la misma idea que para la eleccion del plan logico, realizar una secuencia de decicisiones basadas en heuriticas. Hay distintas heuristicas que se pueden aplicar:
 
+![Alt text](/Resumen-base-datos/heuristicas-comunes.png)
 
+**BRANCH-AND-BOUND PLAN ENUMERATION:** comienza usando heusristicas para encontrar un buen plan fisico para el plan logico completo. Esto tendra un costo **C**. Luego, considerando las subqueries, podemos eliminar todo plan para ellas que tenga un costo mayor  a **C**.
+La ventaja de esto es que podemos elegir cuando cortar la busquedad y elegir el mejor plan.
+
+**HILL CLIMBING:** Se comienza primera eligienod en base a heuristicas un pla fisico. Luego se realizan pequeños cambios al mismo, y aplicando distintas reglas se buca llegar al plan de menos costo mas cercano. Luego cuando no podemos hacer mas cambios para obtener un mejor plan, nos quedamos con ese.
+
+**DYNAMIC PROGRAMMING:** Es una variacion de bottom up, guardamos por cada subexpresion aquella de menor costo. mientras vamos subiendo, nos quedamos con el mejor plan de cada nodo. 
+
+**SELINGER-STYLE OPTIMIZATION:** Es una mejora de la estrategia anterior, donde no solo se guarda el plan de menor costo, sino algunos que si bien son mas caros pueden servir mas arriba si se cambia el orden. 
+
+## CHOOSING AN ORDER FOR JOINS
+Uno de los problemas fundamentales en optimizacion es el de elegir el orden de natural joins para 3 o mas de ellos. Estas ideas tambien puede ser aplicadas a muchas otras operaciones.
+
+### SIGNIFICANCE OF LEFT AND RIGHT JOIN ARGUMENTS
+Los algoritmos que vimos de joins sos asimetricos, esto implica que los roles que toma cada relacion sera distinto y el costo dependera de que relacion toma cada rol. 
+Por ejemplo, si queremos usar un one pass algorithm, nos conviene que el argumento de la izquierda sea el mas chico.
+Esto tambien impacta el algoritmo como nested-loop join o index-join.
+
+### JOIN TREES
+Cuando tenemos un join de dos relaciones, necesitamos ordenar los argumentos. Por lo general buscaremos que a la izquierda se encuentre el de menor tamaño. 
+
+### LEFT DEEP JOIN TREES
+Se suele decir que un arbol es left-deep tree si todas si todas sus hijos a la derecha son hojas. En el caso contrario se dice right-deep tree. En el caso de no ser ninguno de los dos, se lo denomia como brushy. 
+Por lo general suele tener una ventaja consisderar solo left-deep trees como orden posible para los joins:
+- El numero de arboles posibles de la forma left-deep es largo, pero no tanto largo como todos los numeros posibles de arboles. 
+- Left-deep tress para joins interactual con todos algoritmo comunes que propusimos para joins. Estos algopritmos siguiendo esta estructura, hace que sea mas eficiente. 
+
+### DYNAMIC PROGRAMMING TO SELECT A JOIN ORDER AND GROUPING
+Hya 3 opciones para elegir un orden en los joins:
+- Considerarlos a todos
+- Considerar un subcojunto de lo mismo
+- Usar heuristicas para elegir un orden
+
+La programacion dinamica sera util tanto para considerar a todos o tambien para solo considerar un subcojunto de ellos. Estos ordenes se limitan solo a arboles de la forma **left deep**.
+Suponiendo que queremos hacer un join de las relaciones $R_1, ... , R_n$, lo que hacemos es contruir una tabla con una entrada por cada subconjunto de uno mas de las $n$ relaciones. en esa tabla se pone:
+- El costo estimado de unir ese subcojunto de relaciones.
+- El menor costo de computar el join de esas realcioens
+- La expresion que determina el menor costo. 
+
+Para poder simplificar el calculo de costo en programacion dinamica se puede usar el tamaño de las ralaciones para estimar el costo. La desventaja de esto es que no involucra el costo real de calcular los joins.
+
+### GREEDY ALGORITHM FOR SELECTING A JOIN ORDER
+Cuando la cantidad de join crece, no sera util usar una busquedad exahustiva. De esta forma conviene usar una heuristica pra elegir esete orden.
+La mas utilizada suele ser un algoritmo greedy, donde vamos tomando una decision a la vez y nunca volvemos atras en el arbol de decisiones para reconsiderar otras opciones. 
+
+## COMPLETING THE PSHYSICAL QUERY PLAN
+Los pasos que todavia nos faltan seran: 
+- Seleccionar un algoritmo para implementar las operaciones de la plan de la query cuando la seleccion de estos no esta dada por un paso previo, como el de seleccionar el orden de los joins
+- Si los resultados seran materializados o habra un pipeline
+- Notacion para las operaciones del plan fisico, que debe tener notaciones sobre acceso a los metodos para relaciones guardadas y algoritmos para la implementacion de algebra relacional. 
+
+### CHOOSING A SELECTION METHOD
+Hay multiples maneras en las que se puede construir la seleccion de un conjunto de tuplas. Cada plan fisico utiliza algun numero de atributos que:
+- Tiene un indice
+- Son comparados con una constante en terminos de la seleccion
+En estos casos usamos la construccion de indices para identificar el cojunto de tuplas que satisfacen cada condicion.
+A su vez se deben considerar aquellos planes fisicos donde no hay indices y por lo tanto hay que aplicar el filtro a cada tupla. 
+Decidimos sobre la forma en la que se realiza la seleccion estimando el costo de leer la data en cada plan. 
+
+### CHOOSING A JOIN METHOD
+En capitulos anteriores vimos forma de decidir como hacer el join, que se basaban por ejemplo en la cantidad de buffers disponibles o otras metricas. el problemas es que si no estamos seguros de esos numeros, no tenemos forma de elegir. 
+Para esto se puede usar otra iniciativa que aplica a su vez a otras operaciones. entre estos tenemos:
+- La primer idea es utilizar el algoritmo de **one-pass** join, esperando que el buffer nos pueda dar la cantidad de buffers necesarios para realizar las operacion. otra opcion es elegir el **nestede loop** join esperando que el argumento de que el argumento de la izquierda no genere inconvenientes, logrando una ejecucion eficiente. 
+- Sort join sera una buena elelcion si:
+  - Uno o mas atributos ya fueron ordenados en su atributo de union
+  - Hya dos o mas joins con el mismo atributo
+- Hay una opprtunidad de un indice por medio de un join, por loq ue podemos utiliza un **index join**
+- Si no hay oportunidad de usar relaciones que ya estan ordenadas o indices, luego se necesita un join de multiples fases, por lo que hashing suele ser la mejor opcion. 
+
+### PIPELINING VS MATERIALIZATION
+Hay dos forma de ejecutar le plan fisico:
+- **MATERIALIZACION:**: se acomodan las operaciones de forma adeacuada, para que una operacion no se ejecute hasta que todos sus arguementos tengan valor, y luego se guarda el valor de su resultado en disco. Cada relacion intermedia se materializa en disco.
+- **PIPELINING:** Se entralaza la ejecucion de multiples operaciones. las tuplas producidas por una operacion pasan directamente a la otra operacion que las va a utilizar.
+Los operaciones unarias son perfectas para este modelo, dado que estas operaciones se realizan una tupla a la vez. 
+Las operaciones bianrias tambien puede seguir este modelo, se usa un buffer para pasar el resultado al consumidor, un bloque a la vez. 
+
+### NOTATION FOR PHYSICAL QUERYB PLANS
+Por lo general un operador del plan logico se convierte en uno o mas del plan fisico. La idea ahora se catalogr los distitnos operadores que se pueden encontrar en un plan fisico. Por lo genral cada DBMS tendra su modelo de notacion y no sera tan estandar como con el algebra relacional.
+
+- Ver operadores del libro
+
+### ORDERING PHYSICAL OPERATIONS
+Lo ultimos sera el orden de las operaciones. El plan fisico por lo general esta representado por un arbol, y esto implica un orden, tal que la data debe fluir hacia arriba del mismo.
+Para arboles brushy el orden de evaluacion no siempre estara claro. Habra muchas cosas que determinaran como se ejcutan las operaciones.
+En resumen, el orden de los eventos del arbol seguiran las siguientes reglas:
+- Separar el arbol en distintos subarboles en cada edge que representa materializacion. cada subarbol se ejcutara uno a la vez.
+- Ordenar la ejecucion de los arboles de forma bottom-up, de izquierda a derecha. esto corresponde con un preorder del arbol. 
+- Ejecutar todos los nodos de cada subarbol usando la red de iteradores. de esta forma todos los nodos de un subarbol son ejecutados de forma simultanea.

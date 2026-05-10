@@ -687,32 +687,41 @@ la cosntruccion de indices sobre ciertos atributos nos permiten cosntruir mejora
 
 ## COMPILADOR DE QUERIES
 ### PARSEO Y PREPROCESAMIENTO 
-una vez que llega la query esta pasa por las sigueintes fases:
-- Parseo
+una vez que llega la query esta pasa por las siguientes fases:
+- Parseo: la query escrita en sql se convierte en arbol que representa la estructura de la misma. 
 - Preprocesamiento
-- Generacion del plan logico
-- Reescritura
+- Generacion del plan logico: el arbol pasa a una expresion del algebra relacional
+- Reescritura, se pasa a un plan fisico donde se dice no solo que operaciones se ejecutan sino en que orden.
 
+### PARSEO Y PREPROCESAMIENTO
 ### ANALISIS DE SINTAXIS Y PARSEO EN ARBOLES
-El trabajo del parser sera tomar cuqlueir texto escritor en SQL y covertilo en un arbol de parseo. cada nodo corresponde a:
-- Atoms, que seran elementos lexicos, como palabras especiales, nombres, atributos de una relacion, etc.
-- Categorias sinctaticas, que son nombres para familia de subpartes de queries que tiene roles similares en la query. 
+El trabajo del parser sera tomar cualquier texto escritor en SQL y covertirlo en un arbol de parseo. cada nodo corresponde a:
+- Atoms, que seran elementos lexicos, como palabras especiales, nombres, atributos de una relacion, constantes, parentesis, operadores y otros elementos del esquema.
+- Categorias sintacticas, que son nombres para familia de subpartes de queries que tiene roles similares en la query. Algunas categorias puede ser, <QUERY > que representa un cojunto de queries, <CONDITION> que representa toda expresion que es una condicion
+
+Si un nodo es un atom, no posee hijos. si el nodo es una categotia sintactica luego el hijo se describe por alguna regla gramatica del lenguaje. 
+
+Reglas gramaticas para la construccion de expresiones:
+
+![Texto alternativo](parseo-reglas-1.png)
+![Texto alternativo](parseo-reglas-2.png)
 
 ### PREPROCESADOR
-Este tine distintas funciones fundamentales:
+Este tiene distintas funciones fundamentales:
 - Si una relacion que se usa en una query en realidad es una virtual view, luego cada una de las realciones en el from-list deben ser reemplazadas por el arbol de parseo que describe la view.
-- Se responsabiliza de chequear semantica. este chequea que:
-  - Que las relaciones en uan clausa FROM son realciones o views
-  - que todo atributo mencionado existe.
-  - chequeo de tipos
+- Se responsabiliza de chequear semantica. este realiza:
+  - **chequeo de uso de relaciones:** Que las relaciones en una clausa FROM son relaciones o views
+  - **chequea y resuelve atributos usados:**que todo atributo mencionado existe.
+  - **chequeo de tipos:** todos los atributos deben serl tipo especifico para el que se los va a usar.
 
 ### FROM PARSE TREES TO LOGICAL QUERY PLANS
 Dado el arbol, queremos pasar a un plan logico. Esto lleva dos pasos:
-- reemplazar los nodos y estructuras en grupo apropiados de acuerdo a operadores del algebra relaciones.
+- reemplazar los nodos y estructuras en grupo apropiados de acuerdo a operadores del algebra relacional.
 - Luego tomamos la primer expresion y la convertimos en algo que experamos sea el el plan fisico mas eficiente.
 
+### REGLAS ALGEBRAICAS QUE PERMITEN MEJORAR QUERY PLANS
 ### IMPROVING THE LOGICAL QUERY PLAN
-Cuando nuestra uery pasa a ser algebra relacional, obtenemos un posible plna logico para la query.
+Cuando nuestra query pasa a ser algebra relacional, obtenemos un posible plaa logico para la query.
 Por lo general se pueden escribir mutiples planes y luego compararlos, pero en este caso consideramos que cuando se reescribe se elige el mejor, que significa que va a ser el mas barato para ejecutarse. 
 Un problema por ejemplo que puede tener un efecto importante es la forma en la que ordenamos los joins. 
 Los optimizadores suelen usar las siguientes reglas de algebra relacional:
@@ -722,14 +731,19 @@ Los optimizadores suelen usar las siguientes reglas de algebra relacional:
 - Algunas selecciones pueden ser combinadas con el producto paragenera algun tipo de join, que suele ser mas eficiente que la operacion original.
 
 ### ESTIMACION DEL COSTO DE LAS OPERACIONES
-Al pasar a un pla fisico, lo hacemos considerando diferentes opciones. Por lo general se realiza un estimacion o evaluacion del costo, denominada **cost based enumeration**, donde se selecciona el plan fisico de menor costo y este se le envia al ejecutor de queries.
+Al pasar a un plan fisico, lo hacemos considerando diferentes opciones. Por lo general se realiza un estimacion o evaluacion del costo, denominada **cost based enumeration**, donde se selecciona el plan fisico de menor costo y este se le envia al ejecutor de queries.
 para cada plan fisico se selecciona:
 - Un ordenamiento o agrupacion para operaciones conmutativas-asociativas como joins, unions e intersecciones.
 - Un algoritmo para cada operador en el plan logico.
-- Operadores adicionales, que se nesitan para el plan fisico pero no se expresa de forma explicita en el plan logico.
+- Operadores adicionales, que se necesitan para el plan fisico pero no se expresa de forma explicita en el plan logico.
 - La forma en la que se pasan los argumentos de un operador a otro, usando almacenamiento intermedio o disoc, o usnado iteradores.
 
 Para poder estimar el costo, no queremos ejecutar cada uno de los planes y comparar. Por lo tanto se realizar algun tipo de dato mediante la informacion que nos da la query. 
+
+### ESTIMANDO COSTO DE RELACIONES INTERMEDIAS
+el costo de las relaciones intermedias tiene una influencia profunda en el costo total de la ejecucion. buscamos estimar el numero de tuplas de la relacion intermedia. 
+
+para ver mas sobre el costo de las operciones y su estimacion ver capitulo 16.4
 
 ### COST BASED PLAN SELECTION
 el costo de evaluar una expresion es aproximada por le numero de operaciones de entrada y salida realizadas en disco. El numero de estas operaciones esta influenciado por:
@@ -738,6 +752,16 @@ el costo de evaluar una expresion es aproximada por le numero de operaciones de 
 -  Los operadores fisicos utilizados para implementar la logica de los operadores. Como por ejemplo la eleccion de one-pass, two-pass, sort o no-sort. 
 - El orden de operaciones similares, especialmente para joins.
 - El metodo de pasar argumentos de un operador fisico al proximo.
+
+Hay varias porblemas a resolver a la hora de realizar un seleccion de plan basada en el costo de forma efectiva. 
+
+### OBTENIENDO TAMAÑOS ESTIMADOS DE PARAMETROS
+Para definir el costo de ciertas operaciones, hacemos usos de un cojunto de metricas sobre las relaciones como el numero de tuplas de una relacion, o el numero de diferentes valores de una columna en una relacion. Por lo general las DBMS permiten obtener estas estadisticas. 
+Por lo gneral las DBMS computan histogramas de los valores para un cierto atributo, estableciendo cistintso tipos de estos para poder computar ciertos valores. 
+por lo general este tipo de estaidistcas no se computan todo el tiempo, con el fin de no afectar a la performance del sistema. a su vez muchas de estas s contruyen con solo una fraccion de la data. 
+
+### HEURISTICAS PARA REDUCIR EL COSTO DE PLANES LOGICOS
+se suelen usar heuristicas para trasnformar las queries. cuando se esta cosntruyendo el plan logico, debemos considerar un numero de tranformaciones opcionles y el costo antes y depues de aplicarlas. 
 
 ## APPROCHES TO ENUMERATING PHYSICAL PLANS
 El primer approach es el exhaustivo, se consideran todas las opciones y cada posibilidad se le asigna un costo, seleccionando aquel de menor valor. 
@@ -767,6 +791,7 @@ Uno de los problemas fundamentales en optimizacion es el de elegir el orden de n
 Los algoritmos que vimos de joins sos asimetricos, esto implica que los roles que toma cada relacion sera distinto y el costo dependera de que relacion toma cada rol. 
 Por ejemplo, si queremos usar un one pass algorithm, nos conviene que el argumento de la izquierda sea el mas chico.
 Esto tambien impacta el algoritmo como nested-loop join o index-join.
+el argumento de la izquierda se lo determina como el contructor de la relacion, mientras que el de la derecha se lo llama la pueba de la relacion. 
 
 ### JOIN TREES
 Cuando tenemos un join de dos relaciones, necesitamos ordenar los argumentos. Por lo general buscaremos que a la izquierda se encuentre el de menor tamaño. 

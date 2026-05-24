@@ -18,3 +18,14 @@ Toda base de datos se puede normalizar hasta la 3FN con garantias y seguridad, s
 
 - clase que viene: plan de ejecucion, como se dirige y se ejecuta un plan de ejecucion, y como se decide cual es el plan de ejecucion.
 pista: si hacemos un select con un join o con un case de otro, la pregunta es como ejecuto eso en orden. eso se divide en microtareas que forman el plan de ejecucion. quien habla con el transaccion maagner? quien habla con este, este senecrag del plan
+
+- clase que viene: popurri de temas relacionados, buscar distintas fuentes. uno de los temas es la legislacion, vamos a leer la ley de datos personales de la republica argentina y vamos a averigura a en que se parece a la ley de la union eorepoe de datos personales. las reglas de argentina estan alineadas con esto. 
+un tema es ley de datos perosnales y compracion con la ley europea.
+luego ver que es big data, walter sosa escudero divulgador, ver su filosofia en terminos a big data. 
+y despues investigar sobre bases de datos no sql. tipos de bases no sql, por ejemplo mongo, cansadra, etc. bases de datos de grafos, etc. 
+
+- ley argentina de protección de datos personales
+- comparación con la europea
+- que es big data
+- filosofía walter sosa escudero
+- investiguen sobre bases de datos no SQL ,mw cassadras ,redix, graph sql, cql

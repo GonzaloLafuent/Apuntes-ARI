@@ -12,3 +12,17 @@ undo logging: la velocidad de lectura tiene que ver con la cache, donde muy prob
 si el bloque de logs se lleno lo guardo a disco, y dps recine de guardar el log se le da el okey al cliente. esto para segurar primero tener el contexto y luego los cambios. 
 la idea es que com tengo un buffer gaurdo todo en losg ahi, y luego mando todos juntos. mejoro el troughput. para la escirtura el log ayuda a mejorar la veloidad, para la lectura la cache. la ventaja es que el log puedo escribir todo junto
 
+### Notas clase 5
+el plan de ejecucion se ve como un grafo que se lee de izquierda a derecha, donde cada uno representa una operacion.
+el query compiler recibe una query y genera un arbol de parseo. a esto se llama parsero compiler.
+luego lo recibe el preproseamiento que hace un chequeo semmantico.
+el plan de ejcucion termina de ser elegido por el optimizer
+luego el que lo ejeucta es el query executor.
+cada operacion del grafo habla con el transaction managaer. 
+
+el plan logico no es lo mismo que el fisico.
+
+por que usario un sacn usanod un indice? no siempre es mas rapido. si es clusterin es mejor porque e mas eficnete la tener todas las cosas juntas
+
+programacion dinamica: la ventaja es la memorizacion. 
+

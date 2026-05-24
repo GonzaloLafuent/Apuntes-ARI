@@ -610,20 +610,22 @@ Cuando una query se compila, se tiene 3 pasos muy grandes:
 - **Generacion del plan fisico**: El plan logico del paso 2, se convierte en un plan fisico al seleccionar el algoritmo que se utiliza para implementar cada operador logico. 
 
 ### PLANES FISICO DE QUERIES
-**PLAN FISICO:** esta construido en base a operadorres, donde cada uno implementa un paso del plan. En geneal, los operadores fisico son implementacion de cada una de las operaciones del algebra relacional. 
+**PLAN FISICO:** esta construido en base a operadores, donde cada uno implementa un paso del plan. En general, los operadores fisico son implementacion de cada una de las operaciones del algebra relacional. 
 El plan fisico esta construido por algunos bloques basicos. 
 
 ### ESCANEO DE TABLAS
-lo mas basico que se puede hacer dentro de un plan fisico sera leer el contenido entero de una relacion **R**. A su vez se puede agregar un predicado que me permite leer aquellas tuplas de **R** que lo satisfacen. 
+lo mas basico que se puede hacer dentro de un plan fisico sera leer el contenido entero de una relacion **R**. A su vez se puede agregar un predicado que me permite leer aquellas tuplas de **R** que lo satisfacen. Por lom general hay dos formas basicas de ubicar las tuplas de un realcion:
+- Muchas veces se suelen ubicar en una memoria secundaria, donde se dividen en bloques.
+- Si tenemos un indice en algun atributo, solemos usar ese para poder obtener todas las tuplas de la relacion.
 
 ### ORDENAMIENTO DURANTE ESCANEO
 Una mutiples razones por las cuales queremos ordenar mientas estamos realizar un escaneo de las tablas, como por ejemplo si hacemos un ORDER BY. 
 El operador de plan fisico **sort-scan** nos permite esto, tomando como parametros una relacion y una funcion que determina el orden. 
 
 ### MODELO COMPUTACIONAL PARA OPERADORES FISICOS
-Dado una query con multiples operaciones, su plan fisico esta compuersto por diferentes operaciones fisicas. Para poder ejeuctar de forma performante una query, sera fundamental estimar de forma correcta el costo de cada operaciones fisica. 
+Dado una query con multiples operaciones, su plan fisico esta compuersto por diferentes operaciones fisicas. Para poder ejecutar de forma performante una query, sera fundamental estimar de forma correcta el costo de cada operaciones fisica. 
 Por lo general se usara como metrica de costo la cantidad de operacion de I/O en disco que se realizan. 
-Al comprara algoritmos para la misma operacion, se asume lo siguiente:
+Al comparar algoritmos para la misma operacion, se asume lo siguiente:
 - Los argumentos de todo tipo de operador son encontrados en disco, pero el resutlado de la operacion se deja en memoria. 
 
 ### ITERADORES PARA IMPLEMENTAR OPERADORES FISICOS
@@ -644,18 +646,16 @@ A su cez se puede dividir en otros 3 grados de acuerdo a dificultad y costo:
 - **two-pass algoritmos**: implican leerla primero en disco, realizar un procesamiento sobre la misma, reescribirla y luego realizar una segunda lectura de la misma. 
 
 para one pass podemos calsificar los operadores de la siguiente manera: 
-- **Una tupla a la vez, operadores unarios**: Estas operaciones (seleccion y proyeccion) no requieren la relacion entera, o una parte grande de la misma en memoria. Podemos leer un bloque a la vez, usar un buffer de memoria principal y luego generar le output.
+- **Una tupla a la vez, operadores unarios**: Estas operaciones (seleccion y proyeccion) no requieren la relacion entera, o una parte grande de la misma en memoria. Podemos leer un bloque a la vez, usar un buffer de memoria principal y luego generar el
+output.
 
 **OPERACIONES:** Este caso solo incluye las operaciones de seleecion y proyeccion. La forma de realizarlas sera sencilla. leemos los bloques de la relacion uno a la vez y luego mueven las tuplas seleccionadas o proyectadas al buffer de output
 
 - **relacion completa, operadores unarios**: estos requieren que muchas de las tuplas esten en memoria al mismo tiempo, por lo tatno es limitado para relacion que tienen el tamaño del buffer.
 
-**OPERACIONES:**
-
-
-
-- **relacion completa, operadores binarios**: 
-
+**ONE PASS ALGORITMOS PARA OPERADORES BINARIOS:**
+Para la uncion de bags, se puede computar de forma sencilla usando estos algoritmos por medio de: si realizar $R \in_{B} S$, copiamos todas las tuplas de $R$ al output y luego copiamos toda las tuplas de $S$.
+Para otras operaciones binarias requerimos que leer el operando mas chico entre $R$ y $S$ dentro de la memoria y cosntruit una estructura de datos acorde de forma que las tuplas puedan ser insertadas y encotradas de forma rapida. 
 
 
 ## NESTED LOOP JOIN
@@ -863,3 +863,187 @@ En resumen, el orden de los eventos del arbol seguiran las siguientes reglas:
 - Separar el arbol en distintos subarboles en cada edge que representa materializacion. cada subarbol se ejcutara uno a la vez.
 - Ordenar la ejecucion de los arboles de forma bottom-up, de izquierda a derecha. esto corresponde con un preorder del arbol. 
 - Ejecutar todos los nodos de cada subarbol usando la red de iteradores. de esta forma todos los nodos de un subarbol son ejecutados de forma simultanea.
+
+### TIPO DE OPERACIONES SQL
+DML, DCL, TCL. esto esta dentro del esatndar, define de que esa cada operaciones, sin son para relizar transaciones, controlar seguirdad, de moficacion de datos, ect. 
+Saber que instruccion pertenece a cada categoria, nos permite definir la idea minima de atomicidad. lo que necesito para poder genera el dbms
+
+trunccate: si bein toca datos, se la considera ddl
+
+## LEY DE PROTECCION DE DATOS 25.326, LEY ARGENTINA
+La ley 25326 fue promulgada el 30 de ocrube deñ año 2000. Teniendo como objetivo la proteccion integral de los datos personales asentados en archivos, registro o bancos de datos, entre otros, tanto para entes publicos como privados. La misma esta vinculada al derecho constitucional habes data, por lo tanto la ley intenta desarrollar un derecho constitucional. 
+
+se establecen algunas definiciones pertinentes para el tratado de la ley:
+- **Datos personales:** informacion de cualquier tipo referida a personas fisica o de existencia ideal determinadas o determinables. 
+- **Datos sensibles:** datos personales que revelan origen racial y etnico, opiniones politicas, convicciones religiosas, filosoficas o morales, afiliacion sindical e informacion referente a la salud o la vida sexual.
+- **Archivo, registro, base o banco de datos:** indistintamente, desiganse al conjunto organizado de datos personales que sean objeto de tratamiento o procesamiento electronico o no, cualquiera fuere la modalidad de su formacion, almacenamiento, organizacion o acceso. 
+- **Tratamiento de datos:** Operaciones y procedimientos sistemativos, electronicos o no, que permiten de forma general el procesamiento de datos. 
+- **Responsable de archivo, registro, base o banco de datos:** Persona fisica que es titular de el archivo resgitro, etc.
+- **Datos informatizados:** los datos personales sometidos al tratamiento o procesamiento electronido o automatizado. 
+- **Tiltular de datos:** toda persona cuyos datos sean objeto del tratamiento al que se refiere la ley. 
+- **Usuario de datos:** toda persona publica o privda que realice el tratamiento de datos. 
+- **Disociacion de datos:** todo tratamiento de datos personales de manera que la informacion obtenieda no pueda asociarse a persona determinada o determinable. 
+
+- **ARTICULO 3**
+los archivos de datos no puede tener finalidades contrarias a las leyes o a la moral publica. 
+- **ARTICULO 4**
+Busca sostener la calidad de los datos, resaltando que los mismos no debens ser obtenidos por medios fraudulentos ni de manera excesiva sobre el objetivo al que se le van a dar. 
+Los datos a su vez no puede ser usados para fines distintos al que motivaron su obtencion, esto genera que solo deben ser utilizados para el fin para el que fueron recolectados. Se deben mantener actualizados para su uso
+todo dato inexacto debe ser comprimido, debido, a us vez, ser destruidos si ya no se los utiliza. 
+Se busca evitar recopilacion excesiva y el amacenmaiento incesario de la informacion, como tambien la acumulacion masiva de la informacion.
+- **ARTICULO 5**
+Se concentra en el concentimento sobre el uso de los datos. El usuario debe dar consenso para la ultilizacion de sus datos y esto debe ser expresado de forma clara por alguno medio.
+Hay casos donde no se necesita concentmiento:
+- Si se obtiene de fuente publicas. 
+- Se realiza su obtencion para funciones del estado.
+- se trata de datos como nombres, DNI, identificacion tributatira, etc.
+- Dereivan de una relacion contractual cientifca o profesional del titular de los datos.
+- **ARTICULO 6**
+Al ahora de obtener los datos personales se deben informaar la finalidad para la que seran tratdos y quienes seran sus destinatarios, la exitencia del arhvio donde se almacenaran y su responsable, el caracter obligatorio de ciertos datos, la consecuencia de proporcionar los datos, la posibilidad de poder rectificar los mismos.
+- **ARTICULO 7**
+Los datos sesibles posee un caracter especial, no se puede obligar a proporcionarlos y tampoco se debera llevar registros de los mismos. los datos de antecentes solo puede ser tratados por autoridades publicas
+- **ARTICULO 8**
+Solo los establcimienos medicos o vinculados a salud puedene recolectra y tratar o recolectar datos correspondiente a la salud de una persona. 
+- **ARTICULO 9**
+Se debe garantizar la seguridad de los datos almacenados, tanto para evitar su acceso como perdida y adulteracion. No se podran almacenar en soportes que no poseen la seguridad necesaria.
+- **ARTICULO 10**
+El responsable dentro del tratmiento de los datos debe guardar secreto profesional respecto a los mismos
+- **ARTICULO 11**
+La datos se podran ceder bajos ciertas normativas. el concentimiento para la cesion puede ser revocable y no puede no ser exigido en ciertos casos como: si realiza entre organismos del estados, estan vicnulados a la salud y se necesitan por razones de salud publica o emergencia epidemiologicas, entre otras. 
+El que recibe la cesion tendra las mismas responsabilidades que el que cedio la informacion. 
+- **ARTICULO 12**
+Se porhibe la transferencia de datos de manera internacionla, excepto cuando: se realiza para la colaboracion de un juicio internacional, tratamiento medicos o epidemiologicos, tranferencias bancarias.
+aregntina solo permitera trasnferencia de daots hacia paises con niveles adecuados de porteccion o bajo garantias especiales.
+- **ARTICULO 13**
+Toda persona puede solicitar a los organismos de control informacvion sobre la existencia de ciertos archivos o bases de datos. 
+- **ARTICULO 14 (Derecho al acceso)**
+El titular de los datos podra solicita acceso a ellos bajos ciertas restricciones. EL responsable de la informacion debe cumplir con la respuesta en un laspo de 10 dias. 
+- **ARTICULO 15 (Contenido de la informacion)**
+La informacion solicitada debe ser experesa de forma calra y sin ningun tipo de codificaciones, escrita en un lengauje claro. El medio sobre el que se la expersa dependera del titular
+- **ARTICULO 16 (Derecho de rectificacion, actualizacion o supresion)**
+Toda persona puede pedir la rectifiacion y eliminacion de sus datos, donde el responsable debe responder con la operaciones realizadas dentro de un plazo de  dias. 
+La supresion no se puede realizar si hya una obligacion legal para tener esos datos. 
+- **ARTICULO 17 (Excepciones)**
+Los responsables de bancos de datos publicos puede denegegar la supresion de datos en funcion de una decision clara y fundada. 
+Tambien se podra denegar el acces a informacion por parte de titular de bases publicas si esto obatuzuliza procesos judiciales. 
+- **ARTICULO 18 (Comisiones legislativas)**
+
+- **ARTICULO 19 (Gratuidad)**
+la rectifiacion,actaulizacion o supresion de datos se realizara de manera gratuita. 
+- **ARTICULO 20 (Impuganacion de valoraiones tradicionales)**
+
+Usuario y responsables de archivos, registros y bancos de datos
+- **ARTICULO 21 (Registro de archivos de datos. Inscripcion)**
+Todo archivo, resgistro o base da datos publico y /o privado detinado a ifnromacion debe inscribirse en el resgirto que al efecto habilite el organismo de control.
+Se debe proporcionar: el titular, su finalidad, la naturaleza de los datos, entre otros.
+- **ARTICULO 22 (Archivos, registros o bancos de datos publicos)**
+
+- **ARTICULO 23 (Supuestos especiales)**
+
+- **ARTICULO 24 (Archivos, registros o bancos de datos privados)**
+los particulares que formen archvios o bancos de datos que no sean de uso personal deberan resgitrarse.
+- **ARTICULO 25 (Prestación de servicios informatizados de datos personales)**
+
+- **ARTICULO 26(Prestación de servicios de información crediticia)**
+
+- **ARTICULO 27 (Archivos, registros o bancos de datos con fines de publicidad)**
+Para fines publicitarios o vebtas, donde se busca construir un perfil de consumidor, podran ser utilizados si estos se obtiene de bancos publicos o se obtinen bajo consentimiento o suministrados por los titulares de los datos. 
+El titular podra accede sin costo y retirarlos cuando los desee. 
+
+- **ARTICULO 28 (Archivos, registros o bancos de datos relativos a encuestas)**
+Las nomras vigentes no aplican encuetas de opinion, mediciones y estadisticas, investigaciones cientificas o medicas. Se debera mantener un proceso de anonimato para aquellos que dan la informacion.
+
+Control:
+El organo que se encarga de eso sera denominado como la AAIP, agencia de acceso a la informacion publica. 
+
+- **ARTICULO 29 (Organo de Control)**
+El organo de control debera realizar las acciones necesarias para poder sostener esta ley y sus aplicaciones. Este tendra facultdades para: asistir a personas con respecto a sus derechos frente a esta leye, dicta rnomars dentro de este amrco, llevar un ceso de los bancos de datos, imponer sanciones ante incumplimientos por parte de instituciones, entre otras. 
+El mismo organo sera autonomo.
+- **ARTICULO 30 (Códigos de conducta)**
+
+Sanciones:
+- **ARTICULO 31 (Sanciones administrativas)**
+Frente a el incumplimento de lo pautado, aquellos responsables de los bancos de datos podran recibir multas desde los mil a la cien mil pesos, clausura de los organismo o la eliminacion de los bancos de datos que poseean.
+- **ARTICULO 32 (Sanciones penales)**
+La insercion de data que se considera falsa tendra como pena sño de prision. Donde si el que lo realiza es un funcionario publico, se lo deshabilitara para poder llevar a cabo su rol.
+A su vez habra penas para el acceso ilegal a bancos de datos y que revelara dicga informacion. 
+
+Acción de protección de los datos personales
+- **ARTICULO 33 (Procedencia)**
+Esta ley procedera: Para poder tener conocimiento sobre los bacos de datos existententes y su finalidad, o frente a la presencia de informacion incorrecta o utilizada de forma ilegal. 
+- **ARTICULO 34 (Legitimación activa)**
+Esta ley podra ser ejercida por aquel que se consiedere afectado o sus tutores y sucesores de la persona fisica. 
+- **ARTICULO 35 (Legitimación pasiva)**
+
+- **ARTICULO 36 (Competencia)**
+
+- **ARTICULO 37 (Procedimiento aplicable)**
+
+- **ARTICULO 38 (Requisitos de la demanda)**
+
+- **ARTICULO 39 (Trámite)**
+
+- **ARTICULO 40 (Confidencialidad de la información)**
+
+Conclusiones:
+- las ideas pricipales son:
+  - proteger la intimidad de las personas con repsecto a la informacion que es solicitada por ciertos organismos
+  - Establcer sanciones para aquellos organismo que no establezcan mecanimos de seguridad para la informacion de sus usuarios
+  - Regular los procesos sobre los cuales se trata la informacion, buscando poder llevar un censo de los distintos bancos de datos y sus finalidades
+  - Establecer responsabilidades para aquellos considerdos como dueños de los bancos de datos
+  - Brindar al ciudadadono la posibilidad de rectificar, actualizar o eliminar sus datos personales dentro de los distintos bancos de datos.
+- Se ecuentra descatualizada, no posee regulaciones sobre cuestiones digitales, como redes sociales. 
+
+## LEY EUROPEA SOBRE LA PROTECCION DE DATOS, RGPD
+Se considera como la ley de datos mas restrictiva del mundo. Este le da un mayor poder a las personas con respceto al control de su informacion, y controla empresas alrededor del mundo. 
+Esta ley busca porteger las libertadades de los usuarios con respecto a su informacion personal. 
+
+Al ser considerada como un reglamento y no una directiva, es directamente vinculante y aplicable, por lo que no ofrece flexibilidad para que los estados miembros ajusten la ley. Por ejmplo, españa antes de la sancion de esta ley tenia su propia regulacion, pero la sancion de esta la dejo sin poder. Reino unido por su parte, sigue aplicando dicha ley pese a no pertenecer mas dentro de la union europea. 
+
+Las multas son mucho mas fuertes que los de la ley argentina, mientras que en la ley anterio lo maximo eran 10000 pesos, dentro de la normativa europea puede llegar a los 20 millones de euros o mas. Hay que tener en cuenta que la gprd fue sancionada en 2018 mientras que la ley argenitna fue sancionada en el año 2000.
+
+El alcance de esta ley tendra vigencia para: 
+- Los encargados o responsbales del tratamiento de los datos estan dentro del suelo eruopeo.
+- Organizacion sin sede dentro de la union pero que manejan informacion de ciudadanos europeos. 
+
+La idea de dato personal es mas amplia con respecto a la ley argentina, teniendo a su vez concepciones mas actualizadas, considerando como datos personales los datos biometricos, informacion genetica o la ip de la computadora personal, como tambein  publicaciones dentro de redes sociales. 
+
+cada miembro de la union europea establecera una autoridad de supervision (SA) independeitne para poder escuchar e investigar denuncias. Cada SA podra cooperar con otras presentes en otra sede de la union europea. 
+
+Se debera incluir un tiempo en la retencion de datos pesonales y la informacion de contacto para el controlador de datos. A su vez se debe proporcionar un delegado de proteccion de datos. Este ultimo sera el enercagado de que la organizacion aplique las leyes que protegen los datos personales de los usuarios. Este debera realizar auditorias para garantizar el cumplimienot de esta lye, como tambine tebner acces al consejo de altos cargos frente a la toma de decisiones sobre el tratamiento de datos personales. 
+
+Los datos solo se pueden tratar si existe al menos una base legal para hacerlo.se establece que los fines lícitos son:
+- El interesado ha dado su consentimiento para el tratamiento de sus datos personales con uno o más propósitos específicos.
+- El tratamiento es necesario para la ejecución de un contrato del que el interesado es parte o para tomar medidas precontractuales a petición del interesado antes de celebrar un contrato.
+- El tratamiento es necesario para cumplir con una obligación legal a la cual el controlador, responsable del tratamiento, está sujeto.
+- El tratamiento es necesario para proteger los intereses vitales del interesado o de otra persona física.
+- El tratamiento es necesario para la realización de una tarea llevada a cabo en interés público o en el ejercicio de poderes públicos conferida al controlador.
+- El tratamiento es necesario para la satisfacción de intereses legítimos perseguidos por el responsable del tratamiento o por un tercero, salvo cuando dichos intereses sean anulados por los intereses o los derechos y libertades fundamentales del interesado que requieren protección de datos personales, en particular cuando el interesado es un niño.
+
+La ley establece un cojunto de derechos para las personas cuyos datos son tratados. Los interesados tienen derecho de acceso a sus datos y como es que estos estan siendo procesados. Se debe poder entregar una copia de estos datos al interesado como tambien los fines de utilizacion de los mismos. 
+A su vez el intersado tendra el derecho a la portabilidad, que le permite transferir los datos personales de un sistema electronico a otro sin que el responsable se lo impida. 
+Tambien se posee el derecho a la supresion, que permite susprimir sus datos personales dentro de alguna banco. 
+
+A la hora de usar el consentimiento como base legal para el tratemitno, ese debe ser explicito, tanto para los datos que se van a pedir como el proceso que se va a realizar sobre los mismos. En el caso de los niños, debe ser firmado por padres o turores. 
+El cosentimiento debe ser uan afrimacion especifica, libre, calra e inequivoca. 
+A su vez no se podran especiifcar ditsintos tipos de tratamientos para cada dato, tal que el concentimento no podra especiifcar esto. 
+Los interesados pueden retirar este concentimioento en cualquier momento. 
+El concentimiento sera muchas mas restrctivo y expicito que otro tipo de regulaciones. 
+
+Para cada orgnizacion se necesiar un DPO, que sera experto en la legislacion y la practica de proteccion de datos, que buscara ayudar al controlador o procesador a suepervisar el cumplimiento interno del reglamento. La eleccion de este sera una decicion importante. El mismo podra crear su propio equipo de soporte y tambien sera responsable de su propio desarrollo profesional continuo. La idea es que los sistemas deben ser diseañdos desde el principio pensando en la privacidad. 
+No solo se sxige el cumplimineot de la ley por parte de los responsbales sino que se puede desmostrar la misma, a partir de la evalcuion de reisgos, la decumentacion de porcesos y el resgistro frente a auditorias. 
+
+El RGPD habla del cifrado o encriptacion de los datos como la formula mas segura para su proteccion. De hecho si la ifnromacion se encuentra en ese estado y se produce su fuga, no es necesaria la notifcacion a los afectados ni autoridades correspondientes. 
+Esto es lo que se denomica como seudonimizacion, es un porceso en la gestion de datos mediante la cual los campos de ifnroamcion personalmente indentidicables dentro de una registro de datos se sustituyen por uno o mas indentificadores artificiales. 
+
+El controlador de datos destara bajo la obligacion legal de notificar a la horitdad de supervision sin demora indebida. LA filtracion de datos debera notificarse en un marco de 72 horas luego de que se noto la filtracion. 
+La notifacion a los usuario no es necesaris si es que se implementaron mecanismo de proteccion de dicha informacion. 
+
+A su vez posee carateriticas especialses sobre datos realacionados con: biometrica, genetica, oritenacions sexual, salud e ideologia. Establece que cierta informacion es mas sensible que otra. 
+
+## DIFERENCIAS ENTRE AMBAS LEYES
+La ley argentina posee un sentido mas adiministrativo, entinede que exiten un cojunto de bases de datos y busca realizar un control sobre eso. intenta establcer un resgistros de los ditsintos bancos de datos del pais. 
+Por el otro lado la ley europea al ser uan ley mas reciente posee un sentido mas amplio, no busca solo esteblcer un resgitro sobre banco de datos, sino que busca establecer una legislacion sobre entorno digitales y flujos de informacaion.
+la ley europea busca evitar porblemas, realizando un control desde la genesis del sistema, buscando genera privcidad dede el diseño. Por el otro lado, argentina busca establecer un marco legal para que si un uusario se ve afectado por sus datos, pueda realizar la queja. 
+Frente a esto la gdpr le da mayor responsbilidad a las empresas sobre la posesion de adatosm buscando documentar los porecesos de los mimsos, tener mayor auditorias sobre las misma y una evaluacion mayor sobre los riesgos. 
+El conccentimiento es impornte en ambas, pero en la gpdr es muchos mas estricta y clara. 

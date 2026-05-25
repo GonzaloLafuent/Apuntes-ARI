@@ -1080,3 +1080,20 @@ Entiende que la idea de que Big Data tenga todos los datos se sostiene sobre una
 Entiende que el de Big Data para politicas publicas es limitado, mientras que las empresas pirvadas solo bsucan maximizar beneficios, las politicas publicas tienen un compromiso etico y moral que no es sencillo de cuantificar. 
 
 ## BASES DE DATOS NO RELACIONALES
+Permiten diesñar y adminsitrar datos que no encajan con esquemas fijos como tablas. Estos modelos no garantizar completamente el concepto de **ACID**. Estos modelos de abase priorizan la felixbilidad, la escalabilidad y rendimiento, lo que las hacen mejor para grandes volumenes de datos. 
+La no posee un modelo fijo de datos, favorece a la felixbilida de la misma. Favorece a las bases de datos distribuidas, lo que permite que se copie y almacenen en varios servidores. 
+
+Diferencias con las bases de datos realcinales:
+- Mientrass que la bases realaciones almacenan datos de forma estrcturada, los no relaciones incorporan modelos de datos mas flexibles permitiendo que cambien facilmente con el tiempo.
+- En las relaciones necesitamos definir los esquemas de ante mano, en las no relaciones permiten que los esquemas evolucionen reduciendo la nesidad de cambios estrcucturales. 
+- Las relaciones suelen escalar agregando mas recursos a uno unico servidor, las no relaciones se diseñan para escalar en varios servidores lo que admite vargas mas distribudas y grandes. 
+- Las realciones enfatizan mas en transaccion seguras con uan meyor precision de datos, mientras que las relaciones priorizan la escabilidad y la velocidad.
+
+Tipos de bases de datos no relacionales:
+- **BASES DE DATOS CLAVE/VALOR:** se organiza como un diccionario calvbe-valor, donde cada elemento tiene una clave y un valor. se utiliza habitualmente para almacenar en cache la informacion de las sesion del usuario, pero no es ideal cuando se quieren extraer varios regristros a la vez. Una de sus ejemplos son:
+  - **REDIS:** es extremadamente rapida, posee baja latencia y cache distribuido. Es ideal para tiempo real dada su alta velocidad. Es mas costosa y no es buena para relaciones complejas. Por lo general guarda informacion en memoria RAM. 
+- **BASADAS EN DOCUMENTOS:** alamacenan datos como documentos. son utiles para datos semiestructurados y se suelen almacenar como JSON. Posee una gran felxibilidad donde no es necesario que el esquema coincida entre documentos, lo cual tambien puede ocasionar errores. El ejemplo claro de esto sera:
+  - **MONGO DB:** permite trasnacciones. se pueden indexar los documentos con indices primarias y secundarios. Permite la replicacion, teniendo replicas de un cojunto de data, donde la replica secudnaria permite mantener un copia de la primara. Permite escalar horizontamente por medio de **sharding**, donde se posee un shard key que determina como la data esta distrbuida, de esta forma la data esta dividida sobre multiples shards, permitiendo usar la shard key para indexar el shard. Se puede usar como fyle system.
+- **BASADAS EN COLUMNAS:** almacenan informacion el columnas, lo que les permite a los usuario acceder solo a loas columnas que necesitan sin asignas memoria adicional a datos irrelevantes. Un ejmplo de esto sera:
+  - **CASSANDRA:** Posee una arquitectura distribuida usando un modelo peer to peer donde toos los nodos son iguales ,escalabilida horizontal y una alta tolerancia  a fallos. Esta diseña para una alta disponibilidad. funciona con multiples nodos, donde cada uno es una instancia de cassandra. estos se comunican medainte un protocolo llamado gossip.  cada nodo tendra la misma funcionalidad y capacidades que los demas. 
+- **BASADAS EN GRAFOS:** suele alojar datos en forma de grafos de conocimiento, Los elemntos de datos se almacenan como nados, aritas y propiedades.  Caulquier objeto pueden ser un nodo. Una arista define uan relacion entre dos nodos. Permiten adminsitrar y almacenar redes de conexiones entre elementos. En este casos las relaciones que se modelan son mas fueretes que los datos en si, por ejemplo si quiero modelar redes sociales, recomendaciones, mapas, etc.

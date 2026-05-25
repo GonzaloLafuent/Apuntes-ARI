@@ -1047,3 +1047,36 @@ Por el otro lado la ley europea al ser uan ley mas reciente posee un sentido mas
 la ley europea busca evitar porblemas, realizando un control desde la genesis del sistema, buscando genera privcidad dede el diseño. Por el otro lado, argentina busca establecer un marco legal para que si un uusario se ve afectado por sus datos, pueda realizar la queja. 
 Frente a esto la gdpr le da mayor responsbilidad a las empresas sobre la posesion de adatosm buscando documentar los porecesos de los mimsos, tener mayor auditorias sobre las misma y una evaluacion mayor sobre los riesgos. 
 El conccentimiento es impornte en ambas, pero en la gpdr es muchos mas estricta y clara. 
+
+## BIG DATA
+Se refiere a conjuntos de datos masivos y complejos que los sistemas de gestion de datos tradicionales no pueden manejar. Ayuda a organizacion descubrir nuevas ideas.
+Este concepto surge con el aumento de las fuentes de informacion, principalmente al internet, que permitio el acceso a informacion muy diversa. Tuvo un rol fundamental en el crecimiento e innovacion de la empresas en el ultimo tiempo. 
+No solo se refeire a un aumento de la cantidad de datos, sino tambien en los procesos utilizados para poder gestionar, capturar y analizar estos grandes volumenes. 
+
+En las utlimas decadas el avance en IA, hizo que se generar un mayor foco en big data. Para poder extraer lo mejor de estas fuentes se aplicaron tecnicas a de aprendizaje automatico.
+
+A diferencia de los datos tradicionales, **big data** involucra un volumen de datos mayor. Mientras que las **bases de datos tradicionales** se contruian por medio de bases SQL, donde su tamaño era pequeño y se utilizaban metodos estadisticos para poder extrear informacion de ellos, **big data** incluye datos estrcturados, no estrcturados y semiestructurados. Esto provoca que se requieren otros metodos de analisis y visualiozacion de los datos, como tambien sistemas de porcesamiento deistribuido para poder tratar grandes volumenes de data. 
+
+Big data posee 5 caracteristicas claras:
+- **VOLUMEN:** Hay muchas mas cantidad, un mayor volumen. Para poder manejar este aumento de volumen se utiliza almacenamiento en la nube. 
+- **VELOCIDAD:** El flujo de datos es mayor. Los datos se mueven en un ritmo muy acelerado, tenidno actualizacion en tiempo real, permitiendo la toma de decision agiles.
+- **VARIEDAD:** Los macrodatos puede adoptar distintos formatos.  
+- **VERACIDAD:** Al tener un mayor volumen de ifnromacion, se deben establecer procesos que garanticen la calidad y presicion de los datos, con el fin de no tomar de decision erroneas en base a esa informacion. 
+- **VALOR:** Se obtiene un beneficio real en base al analisis de **big data**.
+
+Una de las caracteristicas mas importantes sobre big data es donde almacenar esta gran cantidad de datos. se proponen la siguinete soluciones:
+- **DATA LAKES:** etorno de almacenmaiento de bajo costo para poder gestionar volumnes de datos estructurados y no estrctucturados. Genralmente no validan, limpian ni normalizan los datos. Son utiles cuando el volumen, la variedad y la velocidad son elevados , y no es necesario rendimiento en tiempo real. 
+- **DATA WAREHOUSE:** agregan informacion de multiples fuentes en un respositorio centralizado y coherente. Ademas realizan procesos de sanatizacion para utilizar la informacion. Suelen ser mas costosos al tener un esquema estricto. 
+- **DATA LAKES WAREHOUSES:** es una combinacion entre la flexibilidad de los **data lakes** con la estcrtura y las capacidades de consultas de los almacenes de datos. 
+La eleccion entre cada concepto depende muchop del tipo y el proposito de los datos. 
+
+### FILOSOFIA WALTER ESCUDERO
+Entiende que el aumento de la cantidad de datos no implica algo mejor. Mientras que los modelos tradicionales tenian una estructura fija donde era relativamente facil encontrar una correspondencia con una poblacion relevante, las datos en Big Data son anarquicos y espontaneso. Por lo tanto entiende que la calidad de la obtension de datos tradicionales es mejor pese a ser menores en volumen. Mas alla de esto la obtension de Big Data nos puede dar la posibilidad de aislar un subcojunto de datos que se asemeje a un experimento natural.
+
+Mas alla del volumen que implca Big data, entiende que estamos lejos de tener todos los datos. Los datos de esta fislofia son observacionales, por lo tanto nos faltan aquellos contra facticos, que no se pueden ver, los cuales se deben construir. 
+
+Entiende que la idea de que Big Data tenga todos los datos se sostiene sobre una mala interpretacion de la ley de grandes numeros, donde esta opera frente cuando los datos se obtienen de pobalciones homogeneas y de un ejercicio experimental. En cambio Big data se obtiene de poblacion heterogeneas y dependiente. 
+
+Entiende que el de Big Data para politicas publicas es limitado, mientras que las empresas pirvadas solo bsucan maximizar beneficios, las politicas publicas tienen un compromiso etico y moral que no es sencillo de cuantificar. 
+
+## BASES DE DATOS NO RELACIONALES

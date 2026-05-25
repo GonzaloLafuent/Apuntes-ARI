@@ -871,83 +871,83 @@ Saber que instruccion pertenece a cada categoria, nos permite definir la idea mi
 trunccate: si bein toca datos, se la considera ddl
 
 ## LEY DE PROTECCION DE DATOS 25.326, LEY ARGENTINA
-La ley 25326 fue promulgada el 30 de ocrube deñ año 2000. Teniendo como objetivo la proteccion integral de los datos personales asentados en archivos, registro o bancos de datos, entre otros, tanto para entes publicos como privados. La misma esta vinculada al derecho constitucional habes data, por lo tanto la ley intenta desarrollar un derecho constitucional. 
+La ley 25326 fue promulgada el 30 de octubre del año 2000. Teniendo como objetivo la proteccion integral de los datos personales asentados en archivos, registro o bancos de datos, entre otros, tanto para entes publicos como privados. La misma esta vinculada al derecho constitucional habes data, por lo tanto la ley intenta desarrollar un derecho constitucional. 
 
 se establecen algunas definiciones pertinentes para el tratado de la ley:
 - **Datos personales:** informacion de cualquier tipo referida a personas fisica o de existencia ideal determinadas o determinables. 
 - **Datos sensibles:** datos personales que revelan origen racial y etnico, opiniones politicas, convicciones religiosas, filosoficas o morales, afiliacion sindical e informacion referente a la salud o la vida sexual.
-- **Archivo, registro, base o banco de datos:** indistintamente, desiganse al conjunto organizado de datos personales que sean objeto de tratamiento o procesamiento electronico o no, cualquiera fuere la modalidad de su formacion, almacenamiento, organizacion o acceso. 
+- **Archivo, registro, base o banco de datos:** indistintamente, diganse al conjunto organizado de datos personales que sean objeto de tratamiento o procesamiento electronico o no, cualquiera fuere la modalidad de su formacion, almacenamiento, organizacion o acceso. 
 - **Tratamiento de datos:** Operaciones y procedimientos sistemativos, electronicos o no, que permiten de forma general el procesamiento de datos. 
 - **Responsable de archivo, registro, base o banco de datos:** Persona fisica que es titular de el archivo resgitro, etc.
 - **Datos informatizados:** los datos personales sometidos al tratamiento o procesamiento electronido o automatizado. 
 - **Tiltular de datos:** toda persona cuyos datos sean objeto del tratamiento al que se refiere la ley. 
 - **Usuario de datos:** toda persona publica o privda que realice el tratamiento de datos. 
-- **Disociacion de datos:** todo tratamiento de datos personales de manera que la informacion obtenieda no pueda asociarse a persona determinada o determinable. 
+- **Disociacion de datos:** todo tratamiento de datos personales de manera que la informacion obtenida no pueda asociarse a persona determinada o determinable. 
 
-- **ARTICULO 3**
-los archivos de datos no puede tener finalidades contrarias a las leyes o a la moral publica. 
-- **ARTICULO 4**
+- **ARTICULO 3 - (Archivos de datos)**
+los archivos de datos no puede tener finalidades contrarias a las leyes o a la moral publica. Estos deberan ser debidamente inscriptos
+- **ARTICULO 4 - (Calidad de datos)**
 Busca sostener la calidad de los datos, resaltando que los mismos no debens ser obtenidos por medios fraudulentos ni de manera excesiva sobre el objetivo al que se le van a dar. 
 Los datos a su vez no puede ser usados para fines distintos al que motivaron su obtencion, esto genera que solo deben ser utilizados para el fin para el que fueron recolectados. Se deben mantener actualizados para su uso
-todo dato inexacto debe ser comprimido, debido, a us vez, ser destruidos si ya no se los utiliza. 
-Se busca evitar recopilacion excesiva y el amacenmaiento incesario de la informacion, como tambien la acumulacion masiva de la informacion.
-- **ARTICULO 5**
-Se concentra en el concentimento sobre el uso de los datos. El usuario debe dar consenso para la ultilizacion de sus datos y esto debe ser expresado de forma clara por alguno medio.
-Hay casos donde no se necesita concentmiento:
+todo dato inexacto debe ser comprimido, debido, o su vez, ser destruidos si ya no se los utiliza. 
+Se busca evitar recopilacion excesiva y el almacenmaiento incesario de la informacion, como tambien la acumulacion masiva de la informacion.
+- **ARTICULO 5 - (Cosentimiento)**
+Se concentra en el concentimento sobre el uso de los datos. El usuario debe dar consenso para la utilizacion de sus datos y esto debe ser expresado de forma clara por alguno medio.
+Hay casos donde no se necesita consentimiento:
 - Si se obtiene de fuente publicas. 
 - Se realiza su obtencion para funciones del estado.
-- se trata de datos como nombres, DNI, identificacion tributatira, etc.
-- Dereivan de una relacion contractual cientifca o profesional del titular de los datos.
-- **ARTICULO 6**
-Al ahora de obtener los datos personales se deben informaar la finalidad para la que seran tratdos y quienes seran sus destinatarios, la exitencia del arhvio donde se almacenaran y su responsable, el caracter obligatorio de ciertos datos, la consecuencia de proporcionar los datos, la posibilidad de poder rectificar los mismos.
-- **ARTICULO 7**
+- se trata de datos como nombres, DNI, identificacion tributatria, etc.
+- Derivan de una relacion contractual cientifca o profesional del titular de los datos.
+- **ARTICULO 6 - (Informacion)**
+Al ahora de obtener los datos personales se deben informar la finalidad para la que seran tratdos y quienes seran sus destinatarios, la exitencia del archivo donde se almacenaran y su responsable, el caracter obligatorio de ciertos datos, la consecuencia de proporcionar los datos, la posibilidad de poder rectificar y acceder a los mismos.
+- **ARTICULO 7 - (Categoria de datos)**
 Los datos sesibles posee un caracter especial, no se puede obligar a proporcionarlos y tampoco se debera llevar registros de los mismos. los datos de antecentes solo puede ser tratados por autoridades publicas
-- **ARTICULO 8**
-Solo los establcimienos medicos o vinculados a salud puedene recolectra y tratar o recolectar datos correspondiente a la salud de una persona. 
-- **ARTICULO 9**
+- **ARTICULO 8 - (Datos relativos a salud)**
+Solo los establecimienos medicos o vinculados a salud pueden recolectar y tratar o recolectar datos correspondiente a la salud de una persona. 
+- **ARTICULO 9 - (Seguridad de los datos)**
 Se debe garantizar la seguridad de los datos almacenados, tanto para evitar su acceso como perdida y adulteracion. No se podran almacenar en soportes que no poseen la seguridad necesaria.
-- **ARTICULO 10**
-El responsable dentro del tratmiento de los datos debe guardar secreto profesional respecto a los mismos
-- **ARTICULO 11**
-La datos se podran ceder bajos ciertas normativas. el concentimiento para la cesion puede ser revocable y no puede no ser exigido en ciertos casos como: si realiza entre organismos del estados, estan vicnulados a la salud y se necesitan por razones de salud publica o emergencia epidemiologicas, entre otras. 
+- **ARTICULO 10 - (Deber de confidencialidad)**
+El responsable dentro del tratmiento de los datos debe guardar secreto profesional respecto a los mismos. Solo podran ser revelados frente a una resolucion judicial.
+- **ARTICULO 11 - (Cesion)**
+La datos se podran ceder bajos ciertas normativas. el concentimiento para la cesion puede ser revocable y no puede no ser exigido en ciertos casos como: si realiza entre organismos del estados, estan vicnulados a la salud y se necesitan por razones de salud publica o emergencia epidemiologicas o si se produjo un porceso de disociacion de la informacion de forma tal que no se puede reconocer al individuo en base a sus datos. 
 El que recibe la cesion tendra las mismas responsabilidades que el que cedio la informacion. 
-- **ARTICULO 12**
-Se porhibe la transferencia de datos de manera internacionla, excepto cuando: se realiza para la colaboracion de un juicio internacional, tratamiento medicos o epidemiologicos, tranferencias bancarias.
-aregntina solo permitera trasnferencia de daots hacia paises con niveles adecuados de porteccion o bajo garantias especiales.
-- **ARTICULO 13**
-Toda persona puede solicitar a los organismos de control informacvion sobre la existencia de ciertos archivos o bases de datos. 
+- **ARTICULO 12 - (Transferencia Internacional)**
+Se prohibe la transferencia de datos de manera internacional, excepto cuando: se realiza para la colaboracion de un juicio internacional, tratamiento medicos o epidemiologicos, tranferencias bancarias o trabajos de inteligencia contra lucha de narcotrafico o crimen organizado.
+argentina solo permitera trasnferencia de datos hacia paises con niveles adecuados de proteccion o bajo garantias especiales.
+- **ARTICULO 13 - (Derecho de informacion)**
+Toda persona puede solicitar a los organismos de control informacion sobre la existencia de ciertos archivos o bases de datos. 
 - **ARTICULO 14 (Derecho al acceso)**
 El titular de los datos podra solicita acceso a ellos bajos ciertas restricciones. EL responsable de la informacion debe cumplir con la respuesta en un laspo de 10 dias. 
 - **ARTICULO 15 (Contenido de la informacion)**
-La informacion solicitada debe ser experesa de forma calra y sin ningun tipo de codificaciones, escrita en un lengauje claro. El medio sobre el que se la expersa dependera del titular
+La informacion solicitada debe ser expresa de forma clara y sin ningun tipo de codificaciones, escrita en un lenguaje claro. El medio sobre el que se la expresa dependera del titular
 - **ARTICULO 16 (Derecho de rectificacion, actualizacion o supresion)**
-Toda persona puede pedir la rectifiacion y eliminacion de sus datos, donde el responsable debe responder con la operaciones realizadas dentro de un plazo de  dias. 
-La supresion no se puede realizar si hya una obligacion legal para tener esos datos. 
+Toda persona puede pedir la rectifiacion y eliminacion de sus datos, donde el responsable debe responder con la operaciones realizadas dentro de un plazo de 5 dias habiles. 
+La supresion no se puede realizar si hay una obligacion legal para tener esos datos. 
 - **ARTICULO 17 (Excepciones)**
-Los responsables de bancos de datos publicos puede denegegar la supresion de datos en funcion de una decision clara y fundada. 
-Tambien se podra denegar el acces a informacion por parte de titular de bases publicas si esto obatuzuliza procesos judiciales. 
+Los responsables de bancos de datos publicos puede denegar la supresion de datos en funcion de una decision clara y fundada. 
+Tambien se podra denegar el acceso a informacion por parte de titular de bases publicas si esto obstaculiza procesos judiciales. 
 - **ARTICULO 18 (Comisiones legislativas)**
 
 - **ARTICULO 19 (Gratuidad)**
 la rectifiacion,actaulizacion o supresion de datos se realizara de manera gratuita. 
-- **ARTICULO 20 (Impuganacion de valoraiones tradicionales)**
+- **ARTICULO 20 (Impugnacion de valoraiones tradicionales)**
 
 Usuario y responsables de archivos, registros y bancos de datos
 - **ARTICULO 21 (Registro de archivos de datos. Inscripcion)**
-Todo archivo, resgistro o base da datos publico y /o privado detinado a ifnromacion debe inscribirse en el resgirto que al efecto habilite el organismo de control.
-Se debe proporcionar: el titular, su finalidad, la naturaleza de los datos, entre otros.
+Todo archivo, resgistro o base da datos publico y /o privado detinado a informacion debe inscribirse en el registro que al efecto habilite el organismo de control.
+Se debe proporcionar: el titular, su finalidad, la naturaleza de los datos, entre otros. El incumplimiento de esto puede generar sanciones
 - **ARTICULO 22 (Archivos, registros o bancos de datos publicos)**
-
+Las normas sobre creación, modificación o supresión de archivos, registros o bancos de datos pertenecientes a organismos públicos deben hacerse por medio de disposición general publicada en el Boletín Oficial de la Nación o diario oficial.
 - **ARTICULO 23 (Supuestos especiales)**
 
 - **ARTICULO 24 (Archivos, registros o bancos de datos privados)**
-los particulares que formen archvios o bancos de datos que no sean de uso personal deberan resgitrarse.
+los particulares que formen archivos o bancos de datos que no sean de uso personal deberan registrarse.
 - **ARTICULO 25 (Prestación de servicios informatizados de datos personales)**
-
+Cuando por cuenta de terceros se presten servicios de tratamiento de datos personales, éstos no podrán aplicarse o utilizarse con un fin distinto al que figure en el contrato de servicios, ni cederlos a otras personas, ni aun para su conservación.
 - **ARTICULO 26(Prestación de servicios de información crediticia)**
-
+En la prestación de servicios de información crediticia sólo pueden tratarse datos personales de carácter patrimonial relativos a la solvencia económica y al crédito, obtenidos de fuentes accesibles al público o procedentes de informaciones facilitadas por el interesado o con su consentimiento.
 - **ARTICULO 27 (Archivos, registros o bancos de datos con fines de publicidad)**
-Para fines publicitarios o vebtas, donde se busca construir un perfil de consumidor, podran ser utilizados si estos se obtiene de bancos publicos o se obtinen bajo consentimiento o suministrados por los titulares de los datos. 
+Para fines publicitarios o ventas, donde se busca construir un perfil de consumidor, podran ser utilizados si estos se obtiene de bancos publicos o se obtinen bajo consentimiento o suministrados por los titulares de los datos. 
 El titular podra accede sin costo y retirarlos cuando los desee. 
 
 - **ARTICULO 28 (Archivos, registros o bancos de datos relativos a encuestas)**
@@ -955,11 +955,11 @@ Las nomras vigentes no aplican encuetas de opinion, mediciones y estadisticas, i
 
 Control:
 El organo que se encarga de eso sera denominado como la AAIP, agencia de acceso a la informacion publica. 
-
 - **ARTICULO 29 (Organo de Control)**
-El organo de control debera realizar las acciones necesarias para poder sostener esta ley y sus aplicaciones. Este tendra facultdades para: asistir a personas con respecto a sus derechos frente a esta leye, dicta rnomars dentro de este amrco, llevar un ceso de los bancos de datos, imponer sanciones ante incumplimientos por parte de instituciones, entre otras. 
+El organo de control debera realizar las acciones necesarias para poder sostener esta ley y sus aplicaciones. Este tendra facultdades para: asistir a personas con respecto a sus derechos frente a esta ley, dicta normas dentro de este marco, llevar un censo de los bancos de datos, imponer sanciones ante incumplimientos por parte de instituciones, entre otras. 
 El mismo organo sera autonomo.
 - **ARTICULO 30 (Códigos de conducta)**
+Las asociaciones o entidades representativas de responsables o usuarios de bancos de datos de titularidad privada podrán elaborar códigos de conducta de práctica profesional, que establezcan normas para el tratamiento de datos personales que tiendan a asegurar y mejorar las condiciones de operación de los sistemas de información en función de los principios establecidos en la presente ley.
 
 Sanciones:
 - **ARTICULO 31 (Sanciones administrativas)**
@@ -970,11 +970,11 @@ A su vez habra penas para el acceso ilegal a bancos de datos y que revelara dicg
 
 Acción de protección de los datos personales
 - **ARTICULO 33 (Procedencia)**
-Esta ley procedera: Para poder tener conocimiento sobre los bacos de datos existententes y su finalidad, o frente a la presencia de informacion incorrecta o utilizada de forma ilegal. 
+Esta ley procedera: Para poder tener conocimiento sobre los bancos de datos existententes y su finalidad, o frente a la presencia de informacion incorrecta o utilizada de forma ilegal. 
 - **ARTICULO 34 (Legitimación activa)**
 Esta ley podra ser ejercida por aquel que se consiedere afectado o sus tutores y sucesores de la persona fisica. 
 - **ARTICULO 35 (Legitimación pasiva)**
-
+La acción procederá respecto de los responsables y usuarios de bancos de datos públicos, y de los privados destinados a proveer informes.
 - **ARTICULO 36 (Competencia)**
 
 - **ARTICULO 37 (Procedimiento aplicable)**
@@ -987,20 +987,20 @@ Esta ley podra ser ejercida por aquel que se consiedere afectado o sus tutores y
 
 Conclusiones:
 - las ideas pricipales son:
-  - proteger la intimidad de las personas con repsecto a la informacion que es solicitada por ciertos organismos
+  - proteger la intimidad de las personas con respecto a la informacion que es solicitada por ciertos organismos
   - Establcer sanciones para aquellos organismo que no establezcan mecanimos de seguridad para la informacion de sus usuarios
   - Regular los procesos sobre los cuales se trata la informacion, buscando poder llevar un censo de los distintos bancos de datos y sus finalidades
   - Establecer responsabilidades para aquellos considerdos como dueños de los bancos de datos
-  - Brindar al ciudadadono la posibilidad de rectificar, actualizar o eliminar sus datos personales dentro de los distintos bancos de datos.
-- Se ecuentra descatualizada, no posee regulaciones sobre cuestiones digitales, como redes sociales. 
+  - Brindar al ciudadano la posibilidad de rectificar, actualizar o eliminar sus datos personales dentro de los distintos bancos de datos.
+- Se ecuentra desactualizada, no posee regulaciones sobre cuestiones digitales, como redes sociales. 
 
 ## LEY EUROPEA SOBRE LA PROTECCION DE DATOS, RGPD
 Se considera como la ley de datos mas restrictiva del mundo. Este le da un mayor poder a las personas con respceto al control de su informacion, y controla empresas alrededor del mundo. 
-Esta ley busca porteger las libertadades de los usuarios con respecto a su informacion personal. 
+Esta ley busca proteger las libertadades de los usuarios con respecto a su informacion personal. 
 
-Al ser considerada como un reglamento y no una directiva, es directamente vinculante y aplicable, por lo que no ofrece flexibilidad para que los estados miembros ajusten la ley. Por ejmplo, españa antes de la sancion de esta ley tenia su propia regulacion, pero la sancion de esta la dejo sin poder. Reino unido por su parte, sigue aplicando dicha ley pese a no pertenecer mas dentro de la union europea. 
+Al ser considerada como un reglamento y no una directiva, es directamente vinculante y aplicable, por lo que no ofrece flexibilidad para que los estados miembros ajusten la ley. Por ejemplo, españa antes de la sancion de esta ley tenia su propia regulacion, pero la sancion de esta la dejo sin poder. Reino unido por su parte, sigue aplicando dicha ley pese a no pertenecer mas dentro de la union europea. 
 
-Las multas son mucho mas fuertes que los de la ley argentina, mientras que en la ley anterio lo maximo eran 10000 pesos, dentro de la normativa europea puede llegar a los 20 millones de euros o mas. Hay que tener en cuenta que la gprd fue sancionada en 2018 mientras que la ley argenitna fue sancionada en el año 2000.
+Las multas son mucho mas fuertes que los de la ley argentina, mientras que en la ley anterior lo maximo eran 100000 pesos, dentro de la normativa europea puede llegar a los 20 millones de euros o mas. Hay que tener en cuenta que la **gprd** fue sancionada en 2018 mientras que la ley argentina fue sancionada en el año 2000.
 
 El alcance de esta ley tendra vigencia para: 
 - Los encargados o responsbales del tratamiento de los datos estan dentro del suelo eruopeo.
@@ -1008,9 +1008,9 @@ El alcance de esta ley tendra vigencia para:
 
 La idea de dato personal es mas amplia con respecto a la ley argentina, teniendo a su vez concepciones mas actualizadas, considerando como datos personales los datos biometricos, informacion genetica o la ip de la computadora personal, como tambein  publicaciones dentro de redes sociales. 
 
-cada miembro de la union europea establecera una autoridad de supervision (SA) independeitne para poder escuchar e investigar denuncias. Cada SA podra cooperar con otras presentes en otra sede de la union europea. 
+cada miembro de la union europea establecera una autoridad de supervision (SA) independiente para poder escuchar e investigar denuncias. Cada SA podra cooperar con otras presentes en otra sede de la union europea. 
 
-Se debera incluir un tiempo en la retencion de datos pesonales y la informacion de contacto para el controlador de datos. A su vez se debe proporcionar un delegado de proteccion de datos. Este ultimo sera el enercagado de que la organizacion aplique las leyes que protegen los datos personales de los usuarios. Este debera realizar auditorias para garantizar el cumplimienot de esta lye, como tambine tebner acces al consejo de altos cargos frente a la toma de decisiones sobre el tratamiento de datos personales. 
+Se debera incluir un tiempo en la retencion de datos pesonales y la informacion de contacto para el controlador de datos. A su vez se debe proporcionar un delegado de proteccion de datos. Este ultimo sera el enercagado de que la organizacion aplique las leyes que protegen los datos personales de los usuarios. Este debera realizar auditorias para garantizar el cumplimienot de esta ley, como tambien tener acceso al consejo de altos cargos frente a la toma de decisiones sobre el tratamiento de datos personales. 
 
 Los datos solo se pueden tratar si existe al menos una base legal para hacerlo.se establece que los fines lícitos son:
 - El interesado ha dado su consentimiento para el tratamiento de sus datos personales con uno o más propósitos específicos.
@@ -1021,79 +1021,65 @@ Los datos solo se pueden tratar si existe al menos una base legal para hacerlo.s
 - El tratamiento es necesario para la satisfacción de intereses legítimos perseguidos por el responsable del tratamiento o por un tercero, salvo cuando dichos intereses sean anulados por los intereses o los derechos y libertades fundamentales del interesado que requieren protección de datos personales, en particular cuando el interesado es un niño.
 
 La ley establece un cojunto de derechos para las personas cuyos datos son tratados. Los interesados tienen derecho de acceso a sus datos y como es que estos estan siendo procesados. Se debe poder entregar una copia de estos datos al interesado como tambien los fines de utilizacion de los mismos. 
-A su vez el intersado tendra el derecho a la portabilidad, que le permite transferir los datos personales de un sistema electronico a otro sin que el responsable se lo impida. 
-Tambien se posee el derecho a la supresion, que permite susprimir sus datos personales dentro de alguna banco. 
+A su vez el intersado tendra el derecho a la portabilidad, que le permite transferir los datos personales de un sistema electronico a otro sin que el responsable se lo impida. Tambien se posee el derecho a la supresion, que permite susprimir sus datos personales dentro de alguna banco. 
 
-A la hora de usar el consentimiento como base legal para el tratemitno, ese debe ser explicito, tanto para los datos que se van a pedir como el proceso que se va a realizar sobre los mismos. En el caso de los niños, debe ser firmado por padres o turores. 
-El cosentimiento debe ser uan afrimacion especifica, libre, calra e inequivoca. 
-A su vez no se podran especiifcar ditsintos tipos de tratamientos para cada dato, tal que el concentimento no podra especiifcar esto. 
-Los interesados pueden retirar este concentimioento en cualquier momento. 
-El concentimiento sera muchas mas restrctivo y expicito que otro tipo de regulaciones. 
+A la hora de usar el consentimiento como base legal para el tratemitno, ese debe ser explicito, tanto para los datos que se van a pedir como el proceso que se va a realizar sobre los mismos. En el caso de los niños, debe ser firmado por padres o turores. El cosentimiento debe ser una afrimacion especifica, libre, calra e inequivoca. A su vez no se podran especificar ditsintos tipos de tratamientos para cada dato, tal que el concentimento no podra especifcar esto. 
+Los interesados pueden retirar este concentimioento en cualquier momento. El concentimiento sera muchas mas restrictivo y explicito que en otro tipo de regulaciones. 
 
-Para cada orgnizacion se necesiar un DPO, que sera experto en la legislacion y la practica de proteccion de datos, que buscara ayudar al controlador o procesador a suepervisar el cumplimiento interno del reglamento. La eleccion de este sera una decicion importante. El mismo podra crear su propio equipo de soporte y tambien sera responsable de su propio desarrollo profesional continuo. La idea es que los sistemas deben ser diseañdos desde el principio pensando en la privacidad. 
-No solo se sxige el cumplimineot de la ley por parte de los responsbales sino que se puede desmostrar la misma, a partir de la evalcuion de reisgos, la decumentacion de porcesos y el resgistro frente a auditorias. 
+Para cada orgnizacion se necesiar un DPO, que sera experto en la legislacion y la practica de proteccion de datos, que buscara ayudar al controlador o procesador a supervisar el cumplimiento interno del reglamento. La eleccion de este sera una decicion importante. El mismo podra crear su propio equipo de soporte y tambien sera responsable de su propio desarrollo profesional continuo. La idea es que los sistemas deben ser diseañados desde el principio pensando en la privacidad. No solo se exige el cumplimiento de la ley por parte de los responsbales sino que se puede desmostrar la misma, a partir de la evaluacion de riesgos, la decumentacion de procesos y el registro frente a auditorias. 
 
-El RGPD habla del cifrado o encriptacion de los datos como la formula mas segura para su proteccion. De hecho si la ifnromacion se encuentra en ese estado y se produce su fuga, no es necesaria la notifcacion a los afectados ni autoridades correspondientes. 
-Esto es lo que se denomica como seudonimizacion, es un porceso en la gestion de datos mediante la cual los campos de ifnroamcion personalmente indentidicables dentro de una registro de datos se sustituyen por uno o mas indentificadores artificiales. 
+El RGPD habla del cifrado o encriptacion de los datos como la formula mas segura para su proteccion. De hecho si la informacion se encuentra en ese estado y se produce su fuga, no es necesaria la notificacion a los afectados ni autoridades correspondientes. Esto es lo que se denomina como seudonimizacion, es un proceso en la gestion de datos mediante la cual los campos de informacion personalmente indentificables dentro de una registro de datos se sustituyen por uno o mas indentificadores artificiales. 
 
-El controlador de datos destara bajo la obligacion legal de notificar a la horitdad de supervision sin demora indebida. LA filtracion de datos debera notificarse en un marco de 72 horas luego de que se noto la filtracion. 
-La notifacion a los usuario no es necesaris si es que se implementaron mecanismo de proteccion de dicha informacion. 
+El controlador de datos destara bajo la obligacion legal de notificar a la horitdad de supervision sin demora indebida. La filtracion de datos debera notificarse en un marco de 72 horas luego de que se noto la filtracion. La notifacion a los usuario no es necesaris si es que se implementaron mecanismo de proteccion de dicha informacion. 
 
-A su vez posee carateriticas especialses sobre datos realacionados con: biometrica, genetica, oritenacions sexual, salud e ideologia. Establece que cierta informacion es mas sensible que otra. 
+A su vez posee carateristicas especiales sobre datos realacionados con: biometrica, genetica, orietaciones sexual, salud e ideologia. Establece que cierta informacion es mas sensible que otra. Estos tipos de datos estaran prohibidos para su tratamiento
 
 ## DIFERENCIAS ENTRE AMBAS LEYES
-La ley argentina posee un sentido mas adiministrativo, entinede que exiten un cojunto de bases de datos y busca realizar un control sobre eso. intenta establcer un resgistros de los ditsintos bancos de datos del pais. 
-Por el otro lado la ley europea al ser uan ley mas reciente posee un sentido mas amplio, no busca solo esteblcer un resgitro sobre banco de datos, sino que busca establecer una legislacion sobre entorno digitales y flujos de informacaion.
-la ley europea busca evitar porblemas, realizando un control desde la genesis del sistema, buscando genera privcidad dede el diseño. Por el otro lado, argentina busca establecer un marco legal para que si un uusario se ve afectado por sus datos, pueda realizar la queja. 
-Frente a esto la gdpr le da mayor responsbilidad a las empresas sobre la posesion de adatosm buscando documentar los porecesos de los mimsos, tener mayor auditorias sobre las misma y una evaluacion mayor sobre los riesgos. 
-El conccentimiento es impornte en ambas, pero en la gpdr es muchos mas estricta y clara. 
+La ley argentina posee un sentido mas adiministrativo, entinede que existen un cojunto de bases de datos y busca realizar un control sobre eso. intenta establecer un registros de los distintos bancos de datos del pais. 
+Por el otro lado la ley europea al ser una ley mas reciente posee un sentido mas amplio, no busca solo establecer un registro sobre banco de datos, sino que busca establecer una legislacion sobre entorno digitales y flujos de informacion.
+la ley europea busca evitar porblemas, realizando un control desde la genesis del sistema, buscando genera privacidad dede el diseño. Por el otro lado, argentina busca establecer un marco legal para que si un usuario se ve afectado por sus datos, pueda realizar la queja. 
+Frente a esto la gdpr le da mayor responsbilidad a las empresas sobre la posesion de datos, buscando documentar los procesos de los mismos, tener mayor auditorias sobre las misma y una evaluacion mayor sobre los riesgos. 
+El concentimiento es importante en ambas, pero en la gpdr es muchos mas estricta y clara. 
 
 ## BIG DATA
-Se refiere a conjuntos de datos masivos y complejos que los sistemas de gestion de datos tradicionales no pueden manejar. Ayuda a organizacion descubrir nuevas ideas.
-Este concepto surge con el aumento de las fuentes de informacion, principalmente al internet, que permitio el acceso a informacion muy diversa. Tuvo un rol fundamental en el crecimiento e innovacion de la empresas en el ultimo tiempo. 
-No solo se refeire a un aumento de la cantidad de datos, sino tambien en los procesos utilizados para poder gestionar, capturar y analizar estos grandes volumenes. 
+Se refiere a conjuntos de datos masivos y complejos que los sistemas de gestion de datos tradicionales no pueden manejar. Ayuda a organizacion descubrir nuevas ideas.Este concepto surge con el aumento de las fuentes de informacion, principalmente al internet, que permitio el acceso a informacion muy diversa. Tuvo un rol fundamental en el crecimiento e innovacion de la empresas en el ultimo tiempo. No solo se refiere a un aumento de la cantidad de datos, sino tambien en los procesos utilizados para poder gestionar, capturar y analizar estos grandes volumenes. En las ultimas decadas el avance en IA, hizo que se generar un mayor foco en big data. Para poder extraer lo mejor de estas fuentes se aplicaron tecnicas de aprendizaje automatico.
 
-En las utlimas decadas el avance en IA, hizo que se generar un mayor foco en big data. Para poder extraer lo mejor de estas fuentes se aplicaron tecnicas a de aprendizaje automatico.
-
-A diferencia de los datos tradicionales, **big data** involucra un volumen de datos mayor. Mientras que las **bases de datos tradicionales** se contruian por medio de bases SQL, donde su tamaño era pequeño y se utilizaban metodos estadisticos para poder extrear informacion de ellos, **big data** incluye datos estrcturados, no estrcturados y semiestructurados. Esto provoca que se requieren otros metodos de analisis y visualiozacion de los datos, como tambien sistemas de porcesamiento deistribuido para poder tratar grandes volumenes de data. 
+A diferencia de los datos tradicionales, **big data** involucra un volumen de datos mayor. Mientras que las **bases de datos tradicionales** se contruian por medio de bases SQL, donde su tamaño era pequeño y se utilizaban metodos estadisticos para poder extrear informacion de ellos, **big data** incluye datos estructurados, no estructurados y semi-estructurados. Esto provoca que se requieran otros metodos de analisis y visualizacion de los datos, como tambien sistemas de procesamiento distribuidos para poder tratar grandes volumenes de data. 
 
 Big data posee 5 caracteristicas claras:
 - **VOLUMEN:** Hay muchas mas cantidad, un mayor volumen. Para poder manejar este aumento de volumen se utiliza almacenamiento en la nube. 
-- **VELOCIDAD:** El flujo de datos es mayor. Los datos se mueven en un ritmo muy acelerado, tenidno actualizacion en tiempo real, permitiendo la toma de decision agiles.
-- **VARIEDAD:** Los macrodatos puede adoptar distintos formatos.  
-- **VERACIDAD:** Al tener un mayor volumen de ifnromacion, se deben establecer procesos que garanticen la calidad y presicion de los datos, con el fin de no tomar de decision erroneas en base a esa informacion. 
+- **VELOCIDAD:** El flujo de datos es mayor. Los datos se mueven en un ritmo muy acelerado, teniendo actualizacion en tiempo real, permitiendo la toma de decision agiles.
+- **VARIEDAD:** Los macrodatos pueden adoptar distintos formatos.  
+- **VERACIDAD:** Al tener un mayor volumen de informacion, se deben establecer procesos que garanticen la calidad y presicion de los datos, con el fin de no tomar de decision erroneas en base a esa informacion. 
 - **VALOR:** Se obtiene un beneficio real en base al analisis de **big data**.
 
-Una de las caracteristicas mas importantes sobre big data es donde almacenar esta gran cantidad de datos. se proponen la siguinete soluciones:
-- **DATA LAKES:** etorno de almacenmaiento de bajo costo para poder gestionar volumnes de datos estructurados y no estrctucturados. Genralmente no validan, limpian ni normalizan los datos. Son utiles cuando el volumen, la variedad y la velocidad son elevados , y no es necesario rendimiento en tiempo real. 
+Una de las caracteristicas mas importantes sobre big data es donde almacenar esta gran cantidad de datos. se proponen la siguientes soluciones:
+- **DATA LAKES:** netornos de almacenmaiento de bajo costo para poder gestionar volumnes de datos estructurados y no estrctucturados. Genralmente no validan, limpian ni normalizan los datos. Son utiles cuando el volumen, la variedad y la velocidad son elevados, y no es necesario rendimiento en tiempo real. 
 - **DATA WAREHOUSE:** agregan informacion de multiples fuentes en un respositorio centralizado y coherente. Ademas realizan procesos de sanatizacion para utilizar la informacion. Suelen ser mas costosos al tener un esquema estricto. 
-- **DATA LAKES WAREHOUSES:** es una combinacion entre la flexibilidad de los **data lakes** con la estcrtura y las capacidades de consultas de los almacenes de datos. 
-La eleccion entre cada concepto depende muchop del tipo y el proposito de los datos. 
+- **DATA LAKES WAREHOUSES:** es una combinacion entre la flexibilidad de los **data lakes** con la estructura y las capacidades de consultas de los almacenes de datos. La eleccion entre cada concepto depende mucho del tipo y el proposito de los datos. 
 
 ### FILOSOFIA WALTER ESCUDERO
-Entiende que el aumento de la cantidad de datos no implica algo mejor. Mientras que los modelos tradicionales tenian una estructura fija donde era relativamente facil encontrar una correspondencia con una poblacion relevante, las datos en Big Data son anarquicos y espontaneso. Por lo tanto entiende que la calidad de la obtension de datos tradicionales es mejor pese a ser menores en volumen. Mas alla de esto la obtension de Big Data nos puede dar la posibilidad de aislar un subcojunto de datos que se asemeje a un experimento natural.
+Entiende que el aumento de la cantidad de datos no implica algo mejor. Mientras que los modelos tradicionales tenian una estructura fija donde era relativamente facil encontrar una correspondencia con una poblacion relevante, las datos en Big Data son anarquicos y espontaneso. Por lo tanto entiende que la calidad de la obtension de datos tradicionales es mejor pese a ser menores en volumen. Mas alla de esto la obtension de Big Data nos puede dar la posibilidad de aislar un subconjunto de datos que se asemeje a un experimento natural.
 
-Mas alla del volumen que implca Big data, entiende que estamos lejos de tener todos los datos. Los datos de esta fislofia son observacionales, por lo tanto nos faltan aquellos contra facticos, que no se pueden ver, los cuales se deben construir. 
+Mas alla del volumen que implica Big data, entiende que estamos lejos de tener todos los datos. Los datos de esta filosofia son observacionales, por lo tanto nos faltan aquellos contra facticos, que no se pueden ver, los cuales se deben construir. Entiende que la idea de que Big Data tenga todos los datos se sostiene sobre una mala interpretacion de la ley de grandes numeros, donde esta opera frente a cuando los datos se obtienen de poblaciones homogeneas y de un ejercicio experimental. En cambio Big data se obtiene de poblacion heterogeneas y dependiente. 
 
-Entiende que la idea de que Big Data tenga todos los datos se sostiene sobre una mala interpretacion de la ley de grandes numeros, donde esta opera frente cuando los datos se obtienen de pobalciones homogeneas y de un ejercicio experimental. En cambio Big data se obtiene de poblacion heterogeneas y dependiente. 
-
-Entiende que el de Big Data para politicas publicas es limitado, mientras que las empresas pirvadas solo bsucan maximizar beneficios, las politicas publicas tienen un compromiso etico y moral que no es sencillo de cuantificar. 
+Entiende que el de Big Data para politicas publicas es limitado, mientras que las empresas privadas solo buscan maximizar beneficios, las politicas publicas tienen un compromiso etico y moral que no es sencillo de cuantificar. 
 
 ## BASES DE DATOS NO RELACIONALES
-Permiten diesñar y adminsitrar datos que no encajan con esquemas fijos como tablas. Estos modelos no garantizar completamente el concepto de **ACID**. Estos modelos de abase priorizan la felixbilidad, la escalabilidad y rendimiento, lo que las hacen mejor para grandes volumenes de datos. 
-La no posee un modelo fijo de datos, favorece a la felixbilida de la misma. Favorece a las bases de datos distribuidas, lo que permite que se copie y almacenen en varios servidores. 
+Permiten diseñar y administrar datos que no encajan con esquemas fijos como tablas. Estos modelos no garantizar completamente el concepto de **ACID**. Estos modelos de bases priorizan la flexibilidad, la escalabilidad y rendimiento, lo que las hacen mejor para grandes volumenes de datos. 
+La no posee un modelo fijo de datos, favorece a la felxibilidad de la misma. Favorece a las bases de datos distribuidas, lo que permite que se copie y almacenen en varios servidores. 
 
-Diferencias con las bases de datos realcinales:
-- Mientrass que la bases realaciones almacenan datos de forma estrcturada, los no relaciones incorporan modelos de datos mas flexibles permitiendo que cambien facilmente con el tiempo.
-- En las relaciones necesitamos definir los esquemas de ante mano, en las no relaciones permiten que los esquemas evolucionen reduciendo la nesidad de cambios estrcucturales. 
-- Las relaciones suelen escalar agregando mas recursos a uno unico servidor, las no relaciones se diseñan para escalar en varios servidores lo que admite vargas mas distribudas y grandes. 
-- Las realciones enfatizan mas en transaccion seguras con uan meyor precision de datos, mientras que las relaciones priorizan la escabilidad y la velocidad.
+Diferencias con las bases de datos relacionales:
+- Mientras que la bases relacionales almacenan datos de forma estructurada, las no relaciones incorporan modelos de datos mas flexibles permitiendo que cambien facilmente con el tiempo.
+- En las relacinales necesitamos definir los esquemas de ante mano, en las no relacionales permiten que los esquemas evolucionen reduciendo la necesidad de cambios estructurales. 
+- Las relacionales suelen escalar agregando mas recursos a un unico servidor, las no relacionales se diseñan para escalar en varios servidores lo que admite bases mas distribudas y grandes. 
+- Las relaciones enfatizan mas en transaccion seguras con una mayor precision de datos, mientras que las no relacionales priorizan la escabilidad y la velocidad.
 
 Tipos de bases de datos no relacionales:
-- **BASES DE DATOS CLAVE/VALOR:** se organiza como un diccionario calvbe-valor, donde cada elemento tiene una clave y un valor. se utiliza habitualmente para almacenar en cache la informacion de las sesion del usuario, pero no es ideal cuando se quieren extraer varios regristros a la vez. Una de sus ejemplos son:
+- **BASES DE DATOS CLAVE/VALOR:** se organiza como un diccionario calvbe-valor, donde cada elemento tiene una clave y un valor. se utiliza habitualmente para almacenar en cache la informacion de las sesion del usuario, pero no es ideal cuando se quieren extraer varios registros a la vez. Una de sus ejemplos son:
   - **REDIS:** es extremadamente rapida, posee baja latencia y cache distribuido. Es ideal para tiempo real dada su alta velocidad. Es mas costosa y no es buena para relaciones complejas. Por lo general guarda informacion en memoria RAM. 
-- **BASADAS EN DOCUMENTOS:** alamacenan datos como documentos. son utiles para datos semiestructurados y se suelen almacenar como JSON. Posee una gran felxibilidad donde no es necesario que el esquema coincida entre documentos, lo cual tambien puede ocasionar errores. El ejemplo claro de esto sera:
-  - **MONGO DB:** permite trasnacciones. se pueden indexar los documentos con indices primarias y secundarios. Permite la replicacion, teniendo replicas de un cojunto de data, donde la replica secudnaria permite mantener un copia de la primara. Permite escalar horizontamente por medio de **sharding**, donde se posee un shard key que determina como la data esta distrbuida, de esta forma la data esta dividida sobre multiples shards, permitiendo usar la shard key para indexar el shard. Se puede usar como fyle system.
-- **BASADAS EN COLUMNAS:** almacenan informacion el columnas, lo que les permite a los usuario acceder solo a loas columnas que necesitan sin asignas memoria adicional a datos irrelevantes. Un ejmplo de esto sera:
-  - **CASSANDRA:** Posee una arquitectura distribuida usando un modelo peer to peer donde toos los nodos son iguales ,escalabilida horizontal y una alta tolerancia  a fallos. Esta diseña para una alta disponibilidad. funciona con multiples nodos, donde cada uno es una instancia de cassandra. estos se comunican medainte un protocolo llamado gossip.  cada nodo tendra la misma funcionalidad y capacidades que los demas. 
-- **BASADAS EN GRAFOS:** suele alojar datos en forma de grafos de conocimiento, Los elemntos de datos se almacenan como nados, aritas y propiedades.  Caulquier objeto pueden ser un nodo. Una arista define uan relacion entre dos nodos. Permiten adminsitrar y almacenar redes de conexiones entre elementos. En este casos las relaciones que se modelan son mas fueretes que los datos en si, por ejemplo si quiero modelar redes sociales, recomendaciones, mapas, etc.
+- **BASADAS EN DOCUMENTOS:** almacenan datos como documentos. son utiles para datos semiestructurados y se suelen almacenar como JSON. Posee una gran  flexibilidad donde no es necesario que el esquema coincida entre documentos, lo cual tambien puede ocasionar errores. El ejemplo claro de esto sera:
+  - **MONGO DB:** permite trasnacciones. se pueden indexar los documentos con indices primarias y secundarios. Permite la replicacion, teniendo replicas de un conjunto de data, donde la replica secundaria permite mantener un copia de la primara. Permite escalar horizontamente por medio de **sharding**, donde se posee un shard key que determina como la data esta distrbuida, de esta forma la data esta dividida sobre multiples shards, permitiendo usar la shard key para indexar el shard. Se puede usar como fyle system.
+- **BASADAS EN COLUMNAS:** almacenan informacion en columnas, lo que les permite a los usuario acceder solo a laas columnas que necesitan sin asignas memoria adicional a datos irrelevantes. Un ejmplo de esto sera:
+  - **CASSANDRA:** Posee una arquitectura distribuida usando un modelo peer to peer donde todos los nodos son iguales escalabilida horizontal y una alta tolerancia  a fallos. Esta diseña para una alta disponibilidad. funciona con multiples nodos, donde cada uno es una instancia de cassandra. estos se comunican mediante un protocolo llamado gossip. Cada nodo tendra la misma funcionalidad y capacidades que los demas. 
+- **BASADAS EN GRAFOS:** suele alojar datos en forma de grafos de conocimiento, Los elemntos de datos se almacenan como nodos, aristas y propiedades.  Caulquier objeto puede ser un nodo. Una arista define una relacion entre dos nodos. Permiten adminsitrar y almacenar redes de conexiones entre elementos. En este casos las relaciones que se modelan son mas fueretes que los datos en si, por ejemplo si quiero modelar redes sociales, recomendaciones, mapas, etc.

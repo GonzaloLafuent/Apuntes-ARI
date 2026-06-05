@@ -1083,3 +1083,35 @@ Tipos de bases de datos no relacionales:
 - **BASADAS EN COLUMNAS:** almacenan informacion en columnas, lo que les permite a los usuario acceder solo a laas columnas que necesitan sin asignas memoria adicional a datos irrelevantes. Un ejmplo de esto sera:
   - **CASSANDRA:** Posee una arquitectura distribuida usando un modelo peer to peer donde todos los nodos son iguales escalabilida horizontal y una alta tolerancia  a fallos. Esta diseña para una alta disponibilidad. funciona con multiples nodos, donde cada uno es una instancia de cassandra. estos se comunican mediante un protocolo llamado gossip. Cada nodo tendra la misma funcionalidad y capacidades que los demas. 
 - **BASADAS EN GRAFOS:** suele alojar datos en forma de grafos de conocimiento, Los elemntos de datos se almacenan como nodos, aristas y propiedades.  Caulquier objeto puede ser un nodo. Una arista define una relacion entre dos nodos. Permiten adminsitrar y almacenar redes de conexiones entre elementos. En este casos las relaciones que se modelan son mas fueretes que los datos en si, por ejemplo si quiero modelar redes sociales, recomendaciones, mapas, etc.
+
+A diferencia del acrónimo ACID, el mundo no relacional suele regirse por los principios **BASE:**
+- **Basically Available (Disponibilidad Básica):** El sistema garantiza la disponibilidad de los datos incluso si hay fallos parciales.
+- **Soft state (Estado flexible):** Los datos pueden cambiar con el tiempo sin que la acción sea inmediata en todos los nodos.
+- **Eventual consistency (Consistencia eventual):** Los datos terminarán sincronizándose y siendo consistentes en todo el sistema, pero no en el mismo milisegundo de la escritura
+
+## USABILIDAD EN UX
+La **usabilidad** sera una medida en la que un producto digital es facil de usar y se adpata a las personas y sus necesidades. Los sistemas necesitan de esta para poder prolongar su vida. 
+El hecho de que sea dificl de usar implica que se generan fricciones durante su uso, esto provocara malestar en la persona que lo usa, generando que se aleja de la solucion. Por lo general las personas no pierden mucho tiempo intentando entender una pagina web, se necesita que sea facil descubrir como interactua al interfaz. 
+
+La definicion formal sera: la medida en que un produco puede ser utilizado por usuario especificos para lograr los objetivos espepecificos, con efectividad, eficiencia y satuisfaccion en un contexto de uso especifico. 
+
+Dentro de esa defincion podemos encontrar los siguientes terminos: 
+- **Efectividad:** Es hacer las cosas de forma correcta, el producto funciona
+- **Eficiencia:** Es hacer las cosas con el mínimo esfuerzo, con el menor número de información requerida.
+- **Satisfacción:** El producto te hace sentir bien y mejor aún te hace sentir feliz.
+
+Normal y Nielsen presentan las siguientes 10 heuristicas sobre usabilidad:
+- **VISIBILIDAD DEL ESTADO DEL SISTEMA:** El diseño debe mantener a los usuarios informados de lo que esta sucediendo, mediante una retroalimentacion adecuada y en un plazo rezonable. Si el usuario conoce el estado, puede entender el resultado de sus interacciones.
+- **CORRESPONDENCIA ENTRE EL SISTEMA Y EL MUNDO REAL:** El sistema debe hablar el idioma de los usuarios. Debe utilizar conceptos familiares para ellos. Se debe presentar informacion de forma natural.
+La forma de diseñar esto dependera siempre del usuario al que se esta dirigiendo. Los controles de un diseño deben serguir convenciones del mundo real y corresponderse con el resultado deseado, esto se determinado mapeo natural.
+- **CONTROL Y LIBERTAD DE USUARIO:** Si el usuario cometer una accion por error debe tener una salida de emergencia claramente identificada. Esto genera sensacion de libertad y confianza. Les piermite a los usuario sentir control sobre el sistema. 
+- **COHERENCIA Y ESTANDARES:** Los usuarios no debe tener que preguntarse si diferentes palabras, situaciones o acciones significan lo mismo. No repsetart la coherencia aumenta la carga cognitiva, obligando a los usuarios a aprender algo nuevo. 
+- **PREVENCION DE ERRORES:** Se neceistan mensajes de error claros, como tambien poder prevenir que los problemas ocurran .
+Existen dos tipos de errores: 
+  - Descuidos: son errores inconcientes causados por la falta de atencion
+  - Equivocaciones: son errores conscientes basados en una discrepancia entre el modelo mental del usuario y el diseño.
+- **RECONOCIMIENTO EN LUGAR DE RECUERDO:** Minimice la carga de memoria del usuario, haciendo visibles los elementos para la utlizacion del sistema. EL usuario no debe recordar formacion de una parte de la interfaz a otra.
+- **FLEIXBILIDAD Y EFICIENCIA DE USO:** Hay que permitir que los usuarios personalicen las acciones frecuentes. El ssistema debe adaptarse a usuario principantes y expertos. Proveer atajos, acceso directos, u otro tipo de caminos agiles.
+- **DISEÑO ESTETICO Y MINIMALISTAS:** Las interfces no deben contener informadion irrelevante. Esto influye  a la visibildad de la informacion relevante. Esto no implica un diseño plano, sino asegurarse que el diseño se centre en lo esencial.
+- **AYUDAR A LOS USUARIOS A RECONOCER, DIAGNOSTICAS Y RECUPERARSE DE ERRORES:** Los mensjaes de error deben especificarse en lengauje sencillo., indicar con precision el problema y sugerir una solucion de forma construcitiva. 
+- **AYUDA Y DOCUMENTACION:** Puede ser necesario proporcionar documentacion para ayudar a los usuarios a comprender como completar sus tareas.Ests debe ser facil de entender y enfocadao a las tareas del usuario. 

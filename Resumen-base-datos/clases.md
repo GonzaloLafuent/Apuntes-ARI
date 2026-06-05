@@ -26,3 +26,12 @@ por que usario un sacn usanod un indice? no siempre es mas rapido. si es cluster
 
 programacion dinamica: la ventaja es la memorizacion. 
 
+siguiente clase: desde que recibe el comnado, comando sql principlaes, que se puede escirbir, el join. Vemoas unn pooc sql ycomo fnciona el aprser y etc
+
+### Nota clase 7
+tener un problema de big data no esta determinado por si tengo variedad de formatos de la informacion. cuando un sujeto tiene un problema de big data, tiene acceso a un flujod de datos muy grande que no lo puede almacenar. En alguno lado estan, pero el sujeto no los puede almacenar. 
+Si los datos tienen variedad de formato y los puedo almacenar, y tengo una variedad razonable, no es big data. la variedad no es condicion sufiente para hablar de big data. Solo con la caracteristica de volumen ya es big data.
+
+Fundamentla en no SQL, ya que vale en todas, no obliga a definir el esquema de la base de datos.
+
+si la base soporta json entonces se resuelven dentro del motor de la base de datos. si tengo que leer los daots en json, y aplicar los filtros en el bekcned eso no es una base de json.los docuemntos tiene un indice que se peude index por fuera de la base. Se puedne crear objetos distitnos a los almacenados, se puede devoler lista u otras cosas. 

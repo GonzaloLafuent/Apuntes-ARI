@@ -29,3 +29,6 @@ y despues investigar sobre bases de datos no sql. tipos de bases no sql, por eje
 - que es big data
 - filosofía walter sosa escudero
 - investiguen sobre bases de datos no SQL ,mw cassadras ,redix, graph sql, cql
+
+LEER:
+- estudiar sobre usabilidad UX, los fundadores de esto son norman y nielsen. COnsultora NyN, aca hay un monton de resumens de pocas paginas sobre el tema. Recomiendo: diseño de las cosas de todos los dias. Hay que saber las 10 heuritsicas de nielsen y normna y que significan en lo concreto. 

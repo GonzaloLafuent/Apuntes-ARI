@@ -1090,18 +1090,42 @@ A diferencia del acrónimo ACID, el mundo no relacional suele regirse por los pr
 - **Eventual consistency (Consistencia eventual):** Los datos terminarán sincronizándose y siendo consistentes en todo el sistema, pero no en el mismo milisegundo de la escritura
 
 ## USABILIDAD EN UX
-La **usabilidad** sera una medida en la que un producto digital es facil de usar y se adpata a las personas y sus necesidades. Los sistemas necesitan de esta para poder prolongar su vida. 
+La **usabilidad** sera una medida en la que un producto digital es facil de usar y se adapta a las personas y sus necesidades. Los sistemas necesitan de esta para poder prolongar su vida. 
 El hecho de que sea dificl de usar implica que se generan fricciones durante su uso, esto provocara malestar en la persona que lo usa, generando que se aleja de la solucion. Por lo general las personas no pierden mucho tiempo intentando entender una pagina web, se necesita que sea facil descubrir como interactua al interfaz. 
 
-La definicion formal sera: la medida en que un produco puede ser utilizado por usuario especificos para lograr los objetivos espepecificos, con efectividad, eficiencia y satisfaccion en un contexto de uso especifico. 
+La definicion formal sera: la medida en que un produco puede ser utilizado por usuario especificos para lograr los objetivos especificos, con efectividad, eficiencia y satisfaccion en un contexto de uso especifico. 
 
 Dentro de esa defincion podemos encontrar los siguientes terminos: 
 - **Efectividad:** Es hacer las cosas de forma correcta, el producto funciona
 - **Eficiencia:** Es hacer las cosas con el mínimo esfuerzo, con el menor número de información requerida.
 - **Satisfacción:** El producto te hace sentir bien y mejor aún te hace sentir feliz.
 
+La usabilidad es una parte de la experiencia de usuario (UX). Un producto puede ser usable pero ofrecer una mala experiencia general, y también puede ser atractivo visualmente pero poco usable.
+
+Algunos conceptos importantes dentro de esta teoria seran:
+- **Feedback:** es la respuesta que brinda el sistema luego de una acción realizada por el usuario. Permite comprender el estado actual del sistema y confirmar que la acción fue recibida correctamente.
+Ejemplos:
+  - Mensaje de "Guardado exitosamente".
+  - Barra de progreso.
+  - Indicador de carga.
+
+- **affordances:** son las posibles acciones que un objeto o elemento de una interfaz permite realizar. Un buen diseño hace evidente qué acciones pueden ejecutarse sobre cada elemento.
+Ejemplos:
+  - Un botón sugiere que puede presionarse.
+  - Una barra de desplazamiento sugiere que puede arrastrarse.
+  - Un campo de texto sugiere que puede escribirse en él.
+
+- **signifiers:** son señales visuales, auditivas o textuales que indican cómo utilizar un elemento de la interfaz. Ayudan a que las affordances sean percibidas correctamente por los usuarios.
+Ejemplos:
+  - Un texto "Haga clic aquí".
+  - Un botón con relieve.
+  - Un ícono acompañado por una etiqueta descriptiva.
+
+- **Modelo mental:** es la representación que una persona construye sobre cómo funciona un sistema. Un buen diseño busca que el modelo mental del usuario coincida con el funcionamiento real del producto.
+
+
 Normal y Nielsen presentan las siguientes 10 heuristicas sobre usabilidad:
-- **VISIBILIDAD DEL ESTADO DEL SISTEMA:** El diseño debe mantener a los usuarios informados de lo que esta sucediendo, mediante una retroalimentacion adecuada y en un plazo rezonable. Si el usuario conoce el estado, puede entender el resultado de sus interacciones.
+- **VISIBILIDAD DEL ESTADO DEL SISTEMA:** El diseño debe mantener a los usuarios informados de lo que esta sucediendo, mediante una retroalimentacion adecuada y en un plazo razonable. Si el usuario conoce el estado, puede entender el resultado de sus interacciones.
 - **CORRESPONDENCIA ENTRE EL SISTEMA Y EL MUNDO REAL:** El sistema debe hablar el idioma de los usuarios. Debe utilizar conceptos familiares para ellos. Se debe presentar informacion de forma natural.
 La forma de diseñar esto dependera siempre del usuario al que se esta dirigiendo. Los controles de un diseño deben serguir convenciones del mundo real y corresponderse con el resultado deseado, esto se determinado mapeo natural.
 - **CONTROL Y LIBERTAD DE USUARIO:** Si el usuario cometer una accion por error debe tener una salida de emergencia claramente identificada. Esto genera sensacion de libertad y confianza. Les permite a los usuario sentir control sobre el sistema. 
@@ -1110,8 +1134,8 @@ La forma de diseñar esto dependera siempre del usuario al que se esta dirigiend
 Existen dos tipos de errores: 
   - Descuidos: son errores inconcientes causados por la falta de atencion
   - Equivocaciones: son errores conscientes basados en una discrepancia entre el modelo mental del usuario y el diseño.
-- **RECONOCIMIENTO EN LUGAR DE RECUERDO:** Minimice la carga de memoria del usuario, haciendo visibles los elementos para la utolizacion del sistema. EL usuario no debe recordar formacion de una parte de la interfaz a otra.
+- **RECONOCIMIENTO EN LUGAR DE RECUERDO:** Minimice la carga de memoria del usuario, haciendo visibles los elementos para la utilizacion del sistema. EL usuario no debe recordar formacion de una parte de la interfaz a otra.
 - **FLEXIBILIDAD Y EFICIENCIA DE USO:** Hay que permitir que los usuarios personalicen las acciones frecuentes. El sistema debe adaptarse a usuario principiantes y expertos. Proveer atajos, acceso directos, u otro tipo de caminos agiles.
 - **DISEÑO ESTETICO Y MINIMALISTAS:** Las interfaces no deben contener informacion irrelevante. Esto influye a la visibildad de la informacion relevante. Esto no implica un diseño plano, sino asegurarse que el diseño se centre en lo esencial.
-- **AYUDAR A LOS USUARIOS A RECONOCER, DIAGNOSTICAS Y RECUPERARSE DE ERRORES:** Los mensjaes de error deben especificarse en lenguaje sencillo, indicar con precision el problema y sugerir una solucion de forma construcitiva. 
+- **AYUDAR A LOS USUARIOS A RECONOCER, DIAGNOSTICAS Y RECUPERARSE DE ERRORES:** Los mensajes de error deben especificarse en lenguaje sencillo, indicar con precision el problema y sugerir una solucion de forma construcitiva. 
 - **AYUDA Y DOCUMENTACION:** Puede ser necesario proporcionar documentacion para ayudar a los usuarios a comprender como completar sus tareas. Esta debe ser facil de entender y enfocadao a las tareas del usuario. 

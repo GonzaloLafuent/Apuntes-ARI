@@ -1122,7 +1122,7 @@ Ejemplos:
   - Un ícono acompañado por una etiqueta descriptiva.
 
 - **Modelo mental:** es la representación que una persona construye sobre cómo funciona un sistema. Un buen diseño busca que el modelo mental del usuario coincida con el funcionamiento real del producto.
-
+- **Mapping:** Es la relación espacial entre los botones que tocás y lo que pasa en el mundo real o en la pantalla. Cuando el mapping es natural no necesitás pensar.Por ejemplo, el mapping de las perillas de las hornallas al estar en linea recta es malo, si estuviera en forma de cuadrado seria mejor.
 
 Normal y Nielsen presentan las siguientes 10 heuristicas sobre usabilidad:
 - **VISIBILIDAD DEL ESTADO DEL SISTEMA:** El diseño debe mantener a los usuarios informados de lo que esta sucediendo, mediante una retroalimentacion adecuada y en un plazo razonable. Si el usuario conoce el estado, puede entender el resultado de sus interacciones.
@@ -1139,3 +1139,20 @@ Existen dos tipos de errores:
 - **DISEÑO ESTETICO Y MINIMALISTAS:** Las interfaces no deben contener informacion irrelevante. Esto influye a la visibildad de la informacion relevante. Esto no implica un diseño plano, sino asegurarse que el diseño se centre en lo esencial.
 - **AYUDAR A LOS USUARIOS A RECONOCER, DIAGNOSTICAS Y RECUPERARSE DE ERRORES:** Los mensajes de error deben especificarse en lenguaje sencillo, indicar con precision el problema y sugerir una solucion de forma construcitiva. 
 - **AYUDA Y DOCUMENTACION:** Puede ser necesario proporcionar documentacion para ayudar a los usuarios a comprender como completar sus tareas. Esta debe ser facil de entender y enfocadao a las tareas del usuario. 
+
+### Los Golfos de la Interacción
+Norman dice que entre una persona y una máquina hay un "abismo" (golfo). El diseño tiene que construir los puentes para cruzarlo. Dentro de estos podemos mencionar:
+
+- **Golfo de Ejecución: ¿Cómo sé qué hacer?:** Es la distancia entre lo que el usuario quiere lograr y lo que el sistema le permite hacer.
+Por ejemplo si entrás a una web para comprar una remera, si ves un botón gigante que dice "Comprar ahora" (un *Signifier* que aprovecha el *Affordance* de clickear) cruzaste el golfo al toque. Si el botón está oculto o parece un texto común, te quedaste varado en el golfo.
+
+- **Golfo de Evaluación: ¿Qué pasó? ¿Salió bien?:** Es el esfuerzo que hace el usuario para entender en qué estado quedó el sistema después de hacer algo.
+Por ejemplo, si le das click a Comprar y la pantalla se queda en blanco por 5 segundos y no pasa nada, tu Golfo de Evaluación es enorme (¿Se cobró?¿?Hago click de nuevo?). Si aparece un circulito girando y un cartel de "Procesando pago" (*Feedback*), el golfo se cierra el instante.
+
+El diseño se puede dividir en **3 niveles**:
+- **Visceral:** Es el "wow", es puramente estétitco, subconsciente e inmediato. Es la atracción física.En lo concreto: abrís la app de Airbnb y las fotos son hermosas, la tipografía es limpia y los colores transmiten calma. Te dan ganas de usarla solo por cómo se ve.
+
+- **Conductual:**Che, esto funciona bien... Es la experiencia de uso, el placer de que las cosas sean fáciles y eficientes. Acá domina la usabilidad.
+De nuevo, en la app de Airbnb, deslizás el mapa y carga al toque, ponés los filtros y encontrás lo que queres en 2 clicks. Es placentero porque funciona sin fricción.
+
+- **Reflexivo:**Esto me representa...Es el nivel más alto. Tiene que ver con el estatus, el orgullo, la nostalgia y los valores. Lo que el objeto dice de vos.Por ejemplo, sentirte un "viajero inteliente" por usar Airbnb en vez de un hotel tradicional. O lo que te hace senir Apple por tener un iPhone.

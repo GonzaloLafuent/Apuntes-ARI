@@ -1092,7 +1092,6 @@ A diferencia del acrónimo ACID, el mundo no relacional suele regirse por los pr
 ## USABILIDAD EN UX
 La **usabilidad** sera una medida en la que un producto digital es facil de usar y se adapta a las personas y sus necesidades. Los sistemas necesitan de esta para poder prolongar su vida. 
 El hecho de que sea dificl de usar implica que se generan fricciones durante su uso, esto provocara malestar en la persona que lo usa, generando que se aleja de la solucion. Por lo general las personas no pierden mucho tiempo intentando entender una pagina web, se necesita que sea facil descubrir como interactua al interfaz. 
-
 La definicion formal sera: la medida en que un produco puede ser utilizado por usuario especificos para lograr los objetivos especificos, con efectividad, eficiencia y satisfaccion en un contexto de uso especifico. 
 
 Dentro de esa defincion podemos encontrar los siguientes terminos: 
@@ -1126,16 +1125,15 @@ Ejemplos:
 
 Normal y Nielsen presentan las siguientes 10 heuristicas sobre usabilidad:
 - **VISIBILIDAD DEL ESTADO DEL SISTEMA:** El diseño debe mantener a los usuarios informados de lo que esta sucediendo, mediante una retroalimentacion adecuada y en un plazo razonable. Si el usuario conoce el estado, puede entender el resultado de sus interacciones.
-- **CORRESPONDENCIA ENTRE EL SISTEMA Y EL MUNDO REAL:** El sistema debe hablar el idioma de los usuarios. Debe utilizar conceptos familiares para ellos. Se debe presentar informacion de forma natural.
-La forma de diseñar esto dependera siempre del usuario al que se esta dirigiendo. Los controles de un diseño deben serguir convenciones del mundo real y corresponderse con el resultado deseado, esto se determinado mapeo natural.
-- **CONTROL Y LIBERTAD DE USUARIO:** Si el usuario cometer una accion por error debe tener una salida de emergencia claramente identificada. Esto genera sensacion de libertad y confianza. Les permite a los usuario sentir control sobre el sistema. 
+- **CORRESPONDENCIA ENTRE EL SISTEMA Y EL MUNDO REAL:** El sistema debe hablar el idioma de los usuarios. Debe utilizar conceptos familiares para ellos. Se debe presentar informacion de forma natural. La forma de diseñar esto dependera siempre del usuario al que se esta dirigiendo. Los controles de un diseño deben serguir convenciones del mundo real y corresponderse con el resultado deseado, esto se determinado mapeo natural.
+- **CONTROL Y LIBERTAD DE USUARIO:** Si el usuario comete una accion por error debe tener una salida de emergencia claramente identificada. Esto genera sensacion de libertad y confianza. Les permite a los usuario sentir control sobre el sistema. 
 - **COHERENCIA Y ESTANDARES:** Los usuarios no debe tener que preguntarse si diferentes palabras, situaciones o acciones significan lo mismo. No respetar la coherencia aumenta la carga cognitiva, obligando a los usuarios a aprender algo nuevo. 
 - **PREVENCION DE ERRORES:** Se necesitan mensajes de error claros, como tambien poder prevenir que los problemas ocurran.
 Existen dos tipos de errores: 
   - Descuidos: son errores inconcientes causados por la falta de atencion
   - Equivocaciones: son errores conscientes basados en una discrepancia entre el modelo mental del usuario y el diseño.
 - **RECONOCIMIENTO EN LUGAR DE RECUERDO:** Minimice la carga de memoria del usuario, haciendo visibles los elementos para la utilizacion del sistema. EL usuario no debe recordar formacion de una parte de la interfaz a otra.
-- **FLEXIBILIDAD Y EFICIENCIA DE USO:** Hay que permitir que los usuarios personalicen las acciones frecuentes. El sistema debe adaptarse a usuario principiantes y expertos. Proveer atajos, acceso directos, u otro tipo de caminos agiles.
+- **FLEXIBILIDAD Y EFICIENCIA DE USO:** Hay que permitir que los usuarios personalicen las acciones frecuentes. El sistema debe adaptarse a usuario principiantes y expertos. Proveer atajos, acceso directos, u otro tipo de caminos agiles. esto no implica que sea aprueba de tonntos, no se debe sostener a un solo usuario. un tonto tambien podria tocar opciones avanzadas y sin saber como hacerlo. generar esto a su vez le saca libertad.
 - **DISEÑO ESTETICO Y MINIMALISTAS:** Las interfaces no deben contener informacion irrelevante. Esto influye a la visibildad de la informacion relevante. Esto no implica un diseño plano, sino asegurarse que el diseño se centre en lo esencial.
 - **AYUDAR A LOS USUARIOS A RECONOCER, DIAGNOSTICAS Y RECUPERARSE DE ERRORES:** Los mensajes de error deben especificarse en lenguaje sencillo, indicar con precision el problema y sugerir una solucion de forma construcitiva. 
 - **AYUDA Y DOCUMENTACION:** Puede ser necesario proporcionar documentacion para ayudar a los usuarios a comprender como completar sus tareas. Esta debe ser facil de entender y enfocadao a las tareas del usuario. 
@@ -1152,7 +1150,62 @@ Por ejemplo, si le das click a Comprar y la pantalla se queda en blanco por 5 se
 El diseño se puede dividir en **3 niveles**:
 - **Visceral:** Es el "wow", es puramente estétitco, subconsciente e inmediato. Es la atracción física.En lo concreto: abrís la app de Airbnb y las fotos son hermosas, la tipografía es limpia y los colores transmiten calma. Te dan ganas de usarla solo por cómo se ve.
 
-- **Conductual:**Che, esto funciona bien... Es la experiencia de uso, el placer de que las cosas sean fáciles y eficientes. Acá domina la usabilidad.
+- **Conductual:** Che, esto funciona bien... Es la experiencia de uso, el placer de que las cosas sean fáciles y eficientes. Acá domina la usabilidad.
 De nuevo, en la app de Airbnb, deslizás el mapa y carga al toque, ponés los filtros y encontrás lo que queres en 2 clicks. Es placentero porque funciona sin fricción.
 
-- **Reflexivo:**Esto me representa...Es el nivel más alto. Tiene que ver con el estatus, el orgullo, la nostalgia y los valores. Lo que el objeto dice de vos.Por ejemplo, sentirte un "viajero inteliente" por usar Airbnb en vez de un hotel tradicional. O lo que te hace senir Apple por tener un iPhone.
+- **Reflexivo:** Esto me representa...Es el nivel más alto. Tiene que ver con el estatus, el orgullo, la nostalgia y los valores. Lo que el objeto dice de vos.Por ejemplo, sentirte un "viajero inteliente" por usar Airbnb en vez de un hotel tradicional. O lo que te hace senir Apple por tener un iPhone.
+
+## MODELO DE SEGURIDAD EN POSTGRES
+En **postgres** la seguridad y el acceso de los datos se gestiona mediante e lenguaje de control de datos. Para esto sera util la creacion de rol. Estos se pueden crear por medio de:
+```
+CREATE ROLE name;
+```
+A partir de la operaciones se podra agregar o eleiminar miembros a los grupos, poer no se podran tener dependecias circulares en las membresias. Si a un miemrbo se le otorgo pertenecia al gurpo con la opcion SET ROLE, temporalmente se convierte en el grupo. Si se le otorga la opcion INHERIT, 
+
+
+Para menejar privilegios tenemos las sigueintes operaciones:
+### GRANT: 
+se utiliza para permitir que un rol o usario realce operaciones especificas sobre objetos de la base de datos (tablas,vistas,funciones,etc) o en el sistema. El owner de un objeto tendra todo tipo de privilegios sobre este. Operaciones: 
+```
+GRANT [privilegio(s)] ON [objeto] TO [rol_o_usuario];
+```
+Por ejemplo se puede otorgar un permiso de escritura o lectura por medio de:
+```
+GRANT SELECT, INSERT ON empleados TO analista;
+```
+Si se utiliza la palabra **PUBLIC**, indica que los privilegios se le otorgan a todos los roles, incluso a los que todavia no fueron creados. Con **WITH GRANT OPTION**, el que recibe el privilegio puede darle el mismo a otros. 
+El permitos para poder dropear o alterar un objeto de la base no se podra entregar, y solo lo tendra el owner del objeto de la base. 
+Dependiendo el objeto de base que se genera, puede ser que tenga privilegios por default entragados a **PUBLIC**. Para tablas, esquemas y espacio de tablas el deafult no sera **PUBLIC**.
+
+Los privilegios que se puede otorgar son:
+- SELECT: permite la operacion SELEC sobre el objeto especificado
+- INSERT: permite la insercion de datos a una determinada tabalas
+- UPDATE: permite modificar alguna columan de una tabla. esto necesitar tambein tener privilegios de SELECT.
+- DELETE: permite elieminar filas de una tabal, tambien necesita privilegio de SELECT
+- RULE: perimite la creacion de reglas sobre tablas y views.
+- REFERENCES: permite poder crear constrains de foreign keys.
+- CREATE: permite crear esquemas dentro de la base. para esuqmeas permite crear obejetos dentro del mismo. para espacios de tabalas, permite a tablas eindices pueden ser creados dentro del mismo espacio.
+- TEMP: permite poder crear tablas temporales usando la base especificada.
+- EXECUTE: permite poder usuar una determinaa funcion y cualquier parametro sobre la misma. 
+- USAGE: permite el uso de leguajes especificos para la creacionde funciones en ese lengauje. Este es el unico privilegio que se puede aplicar a lenguajes procedurales.
+- ALL PRIVILEGES: todos los privilegios a la misma vez.
+
+Esta operaciones posee una variante sobre roles, donde un rol puede ser miembro de otro rol. Esto permite que un rol herede privilegios del rol del que es miembro. 
+```
+CREATE USER juan;
+GRANT lector TO juan;
+```
+juan pertenece a lector, por lo que tendra todos los privilegios de lector. Si a us vez se utiliza la opcion **WITH ADMIN OPTION**, juan podra adminsitrar la membresia de ese rol.
+
+### REVOKE
+Permite revocar los permitos que se ha otorgado previamente a usuarios o roles sobre objetos de la base de datos.  
+```
+REVOKE [permisos] ON [objeto] FROM [usuario_o_rol];
+```
+Un usuario solo puede revocar los privilegios que fueron directamente otorgados por ese usuario. Si A le dio privilegios a B, y B le dio privilegios a C, A no le puede sacar los privilegios a A. Si alguien que no es owner de un objeto de la base revoca los priviliegios sobre le objeto, fallara. 
+El propetario tendra control totoal, puede actuar como propietario: el duelo del objeto, el superusario, el mimebro del rol propietorio y un rol con WITH GRANT OPTION.
+
+
+### SEGURIDAD A NIVEL TABLA
+Los permisos a nivel de tabla permiten restrigir operaciones DML (operaciones que se encarga de gestionar, consultar o modificar los datos) y DDL (Utilizadas para crear y modificar la estructura de los objetos de la base).
+Por defecto solo los dueños de la tabla y los usuario de la misma tendran privilegio sobre ellas. Se suele implementar por medio de los permisos de roles

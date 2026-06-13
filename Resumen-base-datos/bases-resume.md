@@ -1157,11 +1157,11 @@ De nuevo, en la app de Airbnb, deslizás el mapa y carga al toque, ponés los fi
 
 ## MODELO DE SEGURIDAD EN POSTGRES
 En **postgres** la seguridad y el acceso de los datos se gestiona mediante e lenguaje de control de datos. Para esto sera util la creacion de rol. Estos se pueden crear por medio de:
-```
+```sql
 CREATE ROLE name;
 ```
-A partir de la operaciones se podra agregar o eleiminar miembros a los grupos, poer no se podran tener dependecias circulares en las membresias. Si a un miemrbo se le otorgo pertenecia al gurpo con la opcion SET ROLE, temporalmente se convierte en el grupo. Si se le otorga la opcion INHERIT, el rol tendra sus privilegios y los que hereda del rol que se le ha dado. Ejemplo:
-```
+A partir de la operaciones se podra agregar o elminar miembros a roles, pero no se podran tener dependecias circulares en las membresias. Si a un miemrbo se le otorgo pertenecia al grupo con la opcion SET ROLE, temporalmente se convierte en el grupo. Si se le otorga la opcion INHERIT, el rol tendra sus privilegios y los que hereda del rol que se le ha dado. Ejemplo:
+```sql
 CREATE ROLE joe LOGIN;
 CREATE ROLE admin;
 CREATE ROLE wheel;
@@ -1170,79 +1170,79 @@ GRANT admin TO joe WITH INHERIT TRUE;
 GRANT wheel TO admin WITH INHERIT FALSE;
 GRANT island TO joe WITH INHERIT TRUE, SET FALSE;
 ```
-Si me conecto con el rol JOE, la sesion de la base de datos tendra los privilegios dcirectos de JOE, como tambien todo privilegio que se le haya dado a ADMIN y ISLAND. En cambio los privilegios de **WHEEL** nos eran garantizados, tal que la opcion INHERIT fue dada como FALSE.
+Si me conecto con el rol JOE, la sesion de la base de datos tendra los privilegios directos de JOE, como tambien todo privilegio que se le haya dado a ADMIN y ISLAND. En cambio los privilegios de **WHEEL** no seran garantizados, tal que la opcion INHERIT fue dada como FALSE.
 
-A la hora de esta denntro de una sesion, podemos usar la siguiente operacion:
-```
+A la hora de estar dentro de una sesion, podemos usar la siguiente operacion:
+```sql
 SET ROLE joe;
 SET ROLE NONE;
 RESET ROLE;
 ```
-Set role nos permite actua dentro de la sesion en la que nos loggeamos, con solo los privilegios del rol especificado en la instruccion SET. Solo se podra seleccionar un rol en esta operacion del cual el rol activo en la sesion es miembro. 
+Set role nos permite actuar dentro de la sesion en la que nos loggeamos, con solo los privilegios del rol especificado en la instruccion SET. Solo se podra seleccionar un rol en esta operacion sobre el cual el rol activo en la sesion es miembro.
 
 PostgreSQL unifica los conceptos de usuarios y grupos bajo la noción de rol. Un rol puede actuar como usuario si posee el atributo LOGIN. Las membresías y la herencia de privilegios se aplican a cualquier rol independientemente de que posea LOGIN o no.
-En la creacion de roles hay priviliegios que se establecen como especiales: LOGIN, SUPERUSER, CREATEDEB y CREATEROLE, nunca podra heredados como los privilegios ordinarios.
+En la creacion de roles hay priviligios que se establecen como especiales: LOGIN, SUPERUSER, CREATEDB y CREATEROLE, Estos atributos especiales no se heredan mediante INHERIT ni por pertenencia a roles. Deben asignarse explícitamente al rol correspondiente.
 
 Un rol se podra eliminar un rol con:
-```
+```sql
 DROP ROLE name
 ```
-Cual membresia dentro del grupo se revoca automaticamente. 
+Cualquier membresia dentro del grupo se revoca automaticamente. 
 
-Para menejar privilegios tenemos las sigueintes operaciones:
+Para menejar privilegios tenemos las siguientes operaciones:
 ### GRANT: 
 se utiliza para permitir que un rol o usuario realice operaciones especificas sobre objetos de la base de datos (tablas,vistas,funciones,etc) o en el sistema. El owner de un objeto tendra todo tipo de privilegios sobre este. Operaciones: 
-```
+```sql
 GRANT [privilegio(s)] ON [objeto] TO [rol_o_usuario];
 ```
-Si bien el owner del objeto de una base tiene multiples privilegios sobre el mismo, pero se podra otorgar el ownership del objeto a otra entidad:
-```
+Si bien el owner del objeto de una base tiene multiples privilegios sobre el mismo, se podra otorgar el ownership del objeto a otra entidad:
+```sql
 ALTER TABLE table_name OWNER TO new_owner;
 ```
 El cambio de propietario puede ser realizado por el propietario actual del objeto(cumpliendo ciertas restricciones) o por un superusuario.
 
 Un ejemplo de garantizar privilegios puede ser:
-```
+```sql
 GRANT SELECT, INSERT ON empleados TO analista;
 ```
 En este caso se le da privilegio para leer e insertar data al rol de analista.
 
 Si se utiliza la palabra **PUBLIC**, indica que los privilegios se le otorgan a todos los roles, incluso a los que todavia no fueron creados. Con **WITH GRANT OPTION**, el que recibe el privilegio puede darle el mismo a otros. 
-El permitos para poder dropear o alterar un objeto de la base no se podra entregar, y solo lo tendra el owner del objeto de la base. 
+El permidp para poder dropear o alterar un objeto de la base no se podra entregar, y solo lo tendra el owner del objeto de la base. 
 Dependiendo el objeto de base que se genera, puede ser que tenga privilegios por default entragados a **PUBLIC**. Para tablas, esquemas y espacio de tablas el deafult no sera **PUBLIC**.
 
 En algunos casos el privilegio solo puede ser dada a columnas en epecifico, por ejemplo: 
-```
+```sql
 GRANT SELECT(nombre)
 ON empleados
 TO usuario1;
 ```
-```
+```sql
 GRANT UPDATE(salario)
 ON empleados
 TO rrhh;
 ```
-Esto implica que el privilegio solo se le estoy dando sobre una columan en particular. En el primer caso el rol usuario1 solo podra cosultar valores de la columna nombre, mientras que en el seundo ejemplo el rol rrhh solo pdora modificar la columna salario. 
+Esto implica que el privilegio solo se le estoy dando sobre una columan en particular. En el primer caso el rol usuario1 solo podra cosultar valores de la columna nombre, mientras que en el seundo ejemplo el rol rrhh solo pofra modificar la columna salario. 
 
-Esta operaciones posee una variante sobre roles, donde un rol puede ser miembro de otro rol. Esto permite que un rol herede privilegios del rol del que es miembro. 
-```
+Estas operaciones poseen una variante sobre roles, donde un rol puede ser miembro de otro rol. Esto permite que un rol herede privilegios del rol del que es miembro. 
+```sql
 CREATE USER juan;
 GRANT lector TO juan;
 ```
-juan pertenece a lector, por lo que tendra todos los privilegios de lector. Si a us vez se utiliza la opcion **WITH ADMIN OPTION**, juan podra adminsitrar la membresia de ese rol.
+juan pertenece a lector, por lo que tendra todos los privilegios de lector. Si a su vez se utiliza la opcion **WITH ADMIN OPTION**, juan podra adminsitrar la membresia de ese rol.
 
 ### SEGURIDAD A NIVEL TABLA
 Los privilegios que se puede otorgar son:
 - SELECT: permite la operacion SELECT sobre el objeto especificado. Este permitira seleccionar cualer columna o una columna especifica. Tambien permtiria utilizar el COPY TO. Este privilegio tambien debera ser dado para referenciar columnas existententes en UPDATE, DELETE o MERGE.
-- INSERT: permite la insercion de datos a una determinada tablas. Tmabien podra ser utilzados para columnas en especifico, esto hara que las columnas sobre las que no se tienen permiso reciban valores por defaul. Permite tambien el COPY FROM
-- UPDATE: permite modificar alguna columan de una tabla. Se necesita privilegio sobre select si se desea consultar columnas. Tambien se podra utilizar sobre columnas en especifico.
-- DELETE: permite elieminar filas de una tabla. Se necesita privilegio sobre select si se desea consultar columnas. Como el borrado es sobre una tabla, no se puede espeficificar permisos sobre columnas. 
+- INSERT: permite la insercion de datos a una determinada tablas. Tmabien podra ser utilziados para columnas en especifico, esto hara que las columnas sobre las que no se tienen permiso reciban valores por defaul. Permite tambien el COPY FROM
+- UPDATE: permite modificar alguna columan de una tabla. Se necesita privilegio sobre SELECT si se desea consultar columnas. Tambien se podra utilizar sobre columnas en especifico.
+- DELETE: permite eliminar filas de una tabla. Se necesita privilegio sobre SELECT si se desea consultar columnas. Como el borrado es sobre una tabla, no se puede especificar permisos sobre columnas. 
 - RULE: perimite la creacion de reglas sobre tablas y views.
 - TRUNCATE: Permite la accion TRUNCATE sobre una tabla
 - TRIGGER: Permite la creacion de TRIGGER sobre una tabla, una view, entre otros. 
 - REFERENCES: permite poder crear constrains de foreign keys.
 
-Por defecto solamente los propiertario de la tabla posee todos los privilegios sobre ella. Las operaciones ALTER TABLE o DROP TABLE no podran ser otorgados por medio de la operacion GRANT, sino que solo pertenecen al propietario del obejto.
+Por defecto solamente los propietarios de la tabla poseen todos los privilegios sobre ella. Las operaciones ALTER TABLE o DROP TABLE no podran ser otorgados por medio de la operacion GRANT, sino que solo pertenecen al propietario del objeto.
 
 Ejemplo:
 ```sql
@@ -1253,21 +1253,21 @@ TO analista;
 
 ### SEGURIDAD A NIVEL BASE DE DATOS
 Los privilegios que se puede otorgar son:
-- CREATE: permite crear esquemas dentro de la base. para esuqmeas permite crear obejetos dentro del mismo. para espacios de tabalas, permite a tablas de indices pueden ser creados dentro del mismo espacio. Tambien permite la instalacion de extensiones dentro de la base. 
-- CONNECT: Permite garantizar la coneccion a una base de datos. Este privilegio se chequeo al comeinzo de la conexion. Sin este todos los demas no tendra sentido, tal que si no tengo el privilegio de conexion no podre ejeuctar nignuna accion.
+- CREATE: permite crear esquemas dentro de la base. para esqumeas permite crear objetos dentro del mismo. para espacios de tablas, permite a tablas de indices pueden ser creados dentro del mismo espacio. Tambien permite la instalacion de extensiones dentro de la base. 
+- CONNECT: Permite garantizar la coneccion a una base de datos. Este privilegio se chequeo al comienzo de la conexion. Sin este todos los demas no tendra sentido, tal que si no tengo el privilegio de conexion no podre ejecutar nignuna accion.
 - TEMPORARY: permite poder crear tablas temporales usando la base especificada.
 ```sql
 GRANT CONNECT ON DATABASE universidad TO alumno;
 ```
-Estos detetmina que puede conectarse a la abse y realizar operaciones generales soobre la misma.
+Estos determina que puede conectarse a la base y realizar operaciones generales sobre la misma.
 
 ### SEGURIDAD A NIVEL DE ESQUEMAS
 tenemos los siguientes privilegiso:
-- USAGE: Este tendra distintos usos depende a que se lo este asiganando:
-  - Para lenggaujes proceduarles, permite al mismo la creacion de funciones en ese lengauje. unico privilegio para estos lenguajes
+- USAGE: Este tendra distintos usos depende a que se lo este asignando:
+  - Para lenguajes procedurales, permite al mismo la creacion de funciones en ese lenguaje. Unico privilegio para estos lenguajes
   - Para esquemas, permite el acceso a objetos contenidos dentro del esquema. Sin este permiso igual es posible podre ver los nombre de los objetos contenidos dentro del mismo. 
   - Para tipos y dominions, permite el uso de tipos y dominions en la creacion de tablas, funciones y otro objetos de esquemas. 
-  - Para servdiores externos, permite la cracion de tamblas foragneas. 
+  - Para servidores externos, permite la cracion de tablas foragneas. 
 - CREATE: permite crear objetos dentro del esquema. 
 
 Ejemplo:
@@ -1284,32 +1284,32 @@ Ejemplo:
 ALTER DEFAULT PRIVILEGES
 GRANT SELECT ON TABLES TO analista;
 ```
-A partir de ese momento, las nuevs tablas creadas por un rol correspondiente otorgaran automaticamente permisos SLECT al rol analista. Esto evita ejecutra GRANT manualmente cada vez que se crear una nueva tabla.
+A partir de ese momento, las nuevas tablas creadas por un rol correspondiente otorgaran automaticamente permisos SELECT al rol analista. Esto evita ejecutar GRANT manualmente cada vez que se crear una nueva tabla.
 ### REVOKE
-Permite revocar los permitos que se ha otorgado previamente a usuarios o roles sobre objetos de la base de datos.  
-```
+Permite revocar los permitos que se han otorgado previamente a usuarios o roles sobre objetos de la base de datos.  
+```sql
 REVOKE [permisos] ON [objeto] FROM [usuario_o_rol];
 ```
-Un usuario solo puede revocar los privilegios que fueron directamente otorgados por ese usuario. Si A le dio privilegios a B, y B le dio privilegios a C, A no le puede sacar los privilegios a A. Si alguien que no es owner de un objeto de la base revoca los priviliegios sobre le objeto, fallara. 
-El propetario tendra control totoal, puede actuar como propietario: el duelo del objeto, el superusario, el mimebro del rol propietorio y un rol con WITH GRANT OPTION.
+Un usuario solo puede revocar los privilegios que fueron directamente otorgados por ese usuario. Si A le dio privilegios a B, y B le dio privilegios a C, A no le puede sacar directamente los privilegios a C. Si alguien que no es owner de un objeto de la base revoca los priviliegios sobre le objeto, fallara. 
+El propietario tendra control total, puede actuar como propietario: el dueño del objeto, el superusuario, el miembro del rol propietorio y un rol con WITH GRANT OPTION.
 
 ### SEGURIDAD A NIVEL DE FILA
 Ademas de la seguridad estandar de SQL, que nos permite garantizar privilegios por medio de GRANT, tambien se puede tener seguridad por FILAS. Esto determina que filas podran ser retornadas o insertadas, actualizadas o eliminadas.  Por deafult, las tablas, no poseen ninguna politica, por lo que si un usuario tiene privilegios sobre la misma, todas las filas podran ser accesibles por el mismo. 
 
-Si se activa/desactica la politica de seguridad de una tabla:
-```
+Si se activa/desactiva la politica de seguridad de una tabla:
+```sql
 ALTER TABLE [tabla] ENABLE/DISABLE ROW LEVEL SECURITY
 ```
-Si tengo pcliticas definidas, desactivas la seguridad por fila, no elimina ninguna politica deifnida.
+Si tengo politicas definidas, desactivar la seguridad por fila, no elimina ninguna politica deifnida.
 
-Las operaciones de seleccion o modificacion deberan ser aceptads por las politicas sobre filas establecidas. Si no hya politicas en la misma, se define una politica por deafult que no permite nada, no deja que ninguna fila puede ser vista o modificada.
+Las operaciones de seleccion o modificacion deberan ser aceptads por las politicas sobre filas establecidas. Cuando Row Level Security está habilitado y no existe ninguna política aplicable, PostgreSQL utiliza un comportamiento por defecto de denegación total (default deny), impidiendo que las filas sean visibles o modificadas.
 
-Las politicas puede ser aplicdas a todos los comandos (ALL) o a SELECT; INSERT; UPDATE o DELETE. Se le puede asignar la politica a multiples roles, a esto aplican las reglas de herencia tambien.
+Las politicas puede ser aplicadas a todos los comandos (ALL) o a SELECT; INSERT; UPDATE o DELETE. Se le puede asignar la politica a multiples roles, a esto aplican las reglas de herencia tambien.
 
-La poltica debera ser una expresion que devuelve una valor booleano, Esta expresion debe ser evalauda para cada fila, por encima de cualquier condicion o funcion de la query del usuario. Para filas que la expresion no deveulve TRUE, no se seguira con el procesamiento. Esto imcplica que las politicas se ejcutan como parte de la query. 
+La política debe ser una expresión booleana evaluada para cada fila. PostgreSQL incorpora esta condición al plan de ejecución de la consulta, filtrando automáticamente aquellas filas para las cuales la expresión no devuelve TRUE. La politica estara por encima de cualquier condicion o funcion de una query de usuario.
 
-La politias se crean mediante la instruccion CREATE POLICY, y se alteran con ALTER POLICY., y se eliminar con DROP POLICY. Podemos tener multiples politicas y cada una debera tener un nombres unico. Ejemplo de politica:
-```
+La politicas se crean mediante la instruccion CREATE POLICY, y se alteran con ALTER POLICY., y se eliminar con DROP POLICY. Podemos tener multiples politicas y cada una debera tener un nombres unico. Ejemplo de politica:
+```sql
 CREATE TABLE accounts (manager text, company text, contact_email text);
 
 ALTER TABLE accounts ENABLE ROW LEVEL SECURITY;
@@ -1317,23 +1317,25 @@ ALTER TABLE accounts ENABLE ROW LEVEL SECURITY;
 CREATE POLICY account_managers ON accounts TO managers
     USING (manager = current_user);
 ```
-Esta politica aplica de forma implica tanto para operaciones de modificacion como consulta. La idea es que el rol managers solo podra hacer la queries espeificiadas sobre accounts, si el manager de la misma es el usuario actula de la base. Si no se especifica un ROl, ppor default se aplica a PUBLIC.
+Esta politica aplica de forma que se aplica tanto para operaciones de modificacion como consulta. La idea es que el rol managers solo podra hacer la queries especificadas sobre accounts, si el manager de la misma es el usuario actual de la base. Si no se especifica un ROL, por default se aplica a PUBLIC.
 
-Hasta ahora todas las politicas definidas se evaluna en cdaena usando un OR, para poder tener un comportamiento distinto se utiliza, la palabra AS RESTRICTIVE, que implica que se agregar un conectivo AND para la evaluacion. 
+Hasta ahora todas las politicas definidas se evaluna en cadena usando un OR, para poder tener un comportamiento distinto se utiliza, la palabra AS RESTRICTIVE, que implica que se agregar un conectivo AND para la evaluacion. 
 
-En conextos por ejemplo de backups de bases de datos, es importante que las polticas no se evalune, ya que pueden genrar multiples errores. En estos casos se puede setear row_security como off. 
+En contextos por ejemplo de backups de bases de datos, es importante que las polticas no se evaluen, ya que pueden generar multiples errores. En estos casos se puede setear row_security como off. 
 
-La forma mas performante de generar policies es de considerar los valores actuales de la fila que se evalua. peor en algunos casos es posibles hacer sub queries con el fin de estabalcer logica frente al valor de otras filas. 
+La forma mas performante de generar policies es de considerar los valores actuales de la fila que se evalua, pero en algunos casos es posibles hacer una sub querie con el fin de generar logica frente al valor de otras filas. 
 
 Los superusuarios y los roles que poseen el atributo BYPASSRLS ignoran las políticas de Row Level Security. Asimismo, el propietario de una tabla normalmente no se encuentra sujeto a las políticas definidas sobre la misma, salvo que se utilice:
 ```sql
 ALTER TABLE tabla FORCE ROW LEVEL SECURITY;
 ```
 ### SEGRURIDAD EN FUNCIONES
-Para la defincion de funciones tenemos los argumentos SECURITY_INVOKER y SECURITY_DEFINER. La primera permite que la funcion sea ejeuctada con los privilegios del usuario que la llama. Esto sera el default. la segunda permite que la funcion sea ejecutada con los privilegios del dueño de la funcion. 
+Para la definicion de funciones tenemos los argumentos SECURITY_INVOKER y SECURITY_DEFINER. La primera permite que la funcion sea ejeuctada con los privilegios del usuario que la llama. Esto sera el default. la segunda permite que la funcion sea ejecutada con los privilegios del dueño de la funcion. 
 
 Las funciones SECURITY DEFINER deben utilizarse cuidadosamente.Un usuario que posea privilegio EXECUTE sobre una función SECURITY DEFINER puede acceder indirectamente a información que normalmente no podría consultar.
 Por este motivo suele recomendarse definir explícitamente el search_path dentro de estas funciones.
+
+Para poder ejecutar una función es necesario poseer el privilegio EXECUTE sobre la misma.
 
 ### AUTENTIFIACION DE CLIENT  
 Una conexión PostgreSQL requiere:
@@ -1359,3 +1361,10 @@ El archivo pg_hba.conf controla qué clientes pueden autenticarse.El archivo pg_
 Ejemplo:
 ```text
 host all all 192.168.1.0/24 md5
+
+El parámetro listen_addresses del archivo postgresql.conf controla las interfaces de red sobre las cuales PostgreSQL acepta conexiones.
+
+Ejemplo:
+
+```ini
+listen_addresses='*'

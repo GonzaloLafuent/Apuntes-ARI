@@ -1156,11 +1156,11 @@ De nuevo, en la app de Airbnb, deslizás el mapa y carga al toque, ponés los fi
 - **Reflexivo:** Esto me representa...Es el nivel más alto. Tiene que ver con el estatus, el orgullo, la nostalgia y los valores. Lo que el objeto dice de vos.Por ejemplo, sentirte un "viajero inteliente" por usar Airbnb en vez de un hotel tradicional. O lo que te hace senir Apple por tener un iPhone.
 
 ## MODELO DE SEGURIDAD EN POSTGRES
-En **postgres** la seguridad y el acceso de los datos se gestiona mediante e lenguaje de control de datos. Para esto sera util la creacion de rol. Estos se pueden crear por medio de:
+En **postgres** la seguridad y el acceso de los datos se gestiona mediante el lenguaje de control de datos. Para esto sera util la creacion de roles. Estos se pueden crear por medio de:
 ```sql
 CREATE ROLE name;
 ```
-A partir de la operaciones se podra agregar o elminar miembros a roles, pero no se podran tener dependecias circulares en las membresias. Si a un miemrbo se le otorgo pertenecia al grupo con la opcion SET ROLE, temporalmente se convierte en el grupo. Si se le otorga la opcion INHERIT, el rol tendra sus privilegios y los que hereda del rol que se le ha dado. Ejemplo:
+A partir de la operaciones se podra agregar o eliminar miembros a roles, pero no se podran tener dependecias circulares en las membresias. Si a un miembro se le otorgo pertenecia al grupo con la opcion SET ROLE, temporalmente se convierte en ese ROL. Si se le otorga la opcion INHERIT, el rol tendra sus privilegios y los que hereda del rol que se le ha dado. Ejemplo:
 ```sql
 CREATE ROLE joe LOGIN;
 CREATE ROLE admin;
@@ -1183,7 +1183,7 @@ Set role nos permite actuar dentro de la sesion en la que nos loggeamos, con sol
 PostgreSQL unifica los conceptos de usuarios y grupos bajo la noción de rol. Un rol puede actuar como usuario si posee el atributo LOGIN. Las membresías y la herencia de privilegios se aplican a cualquier rol independientemente de que posea LOGIN o no.
 En la creacion de roles hay priviligios que se establecen como especiales: LOGIN, SUPERUSER, CREATEDB y CREATEROLE, Estos atributos especiales no se heredan mediante INHERIT ni por pertenencia a roles. Deben asignarse explícitamente al rol correspondiente.
 
-Un rol se podra eliminar un rol con:
+Un rol se podra eliminar con:
 ```sql
 DROP ROLE name
 ```
@@ -1208,8 +1208,8 @@ GRANT SELECT, INSERT ON empleados TO analista;
 En este caso se le da privilegio para leer e insertar data al rol de analista.
 
 Si se utiliza la palabra **PUBLIC**, indica que los privilegios se le otorgan a todos los roles, incluso a los que todavia no fueron creados. Con **WITH GRANT OPTION**, el que recibe el privilegio puede darle el mismo a otros. 
-El permidp para poder dropear o alterar un objeto de la base no se podra entregar, y solo lo tendra el owner del objeto de la base. 
-Dependiendo el objeto de base que se genera, puede ser que tenga privilegios por default entragados a **PUBLIC**. Para tablas, esquemas y espacio de tablas el deafult no sera **PUBLIC**.
+El permiso para poder dropear o alterar un objeto de la base no se podra entregar, y solo lo tendra el owner del objeto de la base. 
+Dependiendo el objeto de base que se genera, puede ser que tenga privilegios por default entregados a **PUBLIC**. Para tablas, esquemas y espacio de tablas el default no sera **PUBLIC**.
 
 En algunos casos el privilegio solo puede ser dada a columnas en epecifico, por ejemplo: 
 ```sql

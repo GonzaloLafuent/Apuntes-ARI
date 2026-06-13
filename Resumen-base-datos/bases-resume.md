@@ -1180,7 +1180,7 @@ RESET ROLE;
 ```
 Set role nos permite actua dentro de la sesion en la que nos loggeamos, con solo los privilegios del rol especificado en la instruccion SET. Solo se podra seleccionar un rol en esta operacion del cual el rol activo en la sesion es miembro. 
 
-En SQL no hay una distincion clara entre usuarios y roles, y los usuarios nos podran heredar automaticamente privilegios, mientras que los roles si. 
+PostgreSQL unifica los conceptos de usuarios y grupos bajo la noción de rol. Un rol puede actuar como usuario si posee el atributo LOGIN. Las membresías y la herencia de privilegios se aplican a cualquier rol independientemente de que posea LOGIN o no.
 En la creacion de roles hay priviliegios que se establecen como especiales: LOGIN, SUPERUSER, CREATEDEB y CREATEROLE, nunca podra heredados como los privilegios ordinarios.
 
 Un rol se podra eliminar un rol con:
@@ -1199,7 +1199,7 @@ Si bien el owner del objeto de una base tiene multiples privilegios sobre el mis
 ```
 ALTER TABLE table_name OWNER TO new_owner;
 ```
-El superusuario siempre podra hacer eso o si un rol es owner de un determinado objeto. 
+El cambio de propietario puede ser realizado por el propietario actual del objeto(cumpliendo ciertas restricciones) o por un superusuario.
 
 Un ejemplo de garantizar privilegios puede ser:
 ```
@@ -1211,28 +1211,7 @@ Si se utiliza la palabra **PUBLIC**, indica que los privilegios se le otorgan a 
 El permitos para poder dropear o alterar un objeto de la base no se podra entregar, y solo lo tendra el owner del objeto de la base. 
 Dependiendo el objeto de base que se genera, puede ser que tenga privilegios por default entragados a **PUBLIC**. Para tablas, esquemas y espacio de tablas el deafult no sera **PUBLIC**.
 
-Los privilegios que se puede otorgar son:
-- SELECT: permite la operacion SELECT sobre el objeto especificado. Este permitira seleccionar cualer columna o una columna especifica. Tambien permtiria utilizar el COPY TO. Este privilegio tambien debera ser dado para referenciar columnas existententes en UPDATE, DELETE o MERGE.
-- INSERT: permite la insercion de datos a una determinada tablas. Tmabien podra ser utilzados para columnas en especifico, esto hara que las columnas sobre las que no se tienen permiso reciban valores por defaul. Permite tambien el COPY FROM
-- UPDATE: permite modificar alguna columan de una tabla. esto necesitar tambein tener privilegios de SELECT. Tambien se podra utilizar sobre columnas en especifico.
-- DELETE: permite elieminar filas de una tabla, tambien necesita privilegio de SELECT. Como el borrado es sobre una tabla, no se puede espeficificar permisos sobre columnas. 
-- RULE: perimite la creacion de reglas sobre tablas y views.
-- TRUNCATE: Permite la accion TRUNCATE sobre una tabla
-- TRIGGER: Permite la creacion de TRIGGER sobre una tabla, una view, entre otros. 
-- REFERENCES: permite poder crear constrains de foreign keys.
-- CREATE: permite crear esquemas dentro de la base. para esuqmeas permite crear obejetos dentro del mismo. para espacios de tabalas, permite a tablas de indices pueden ser creados dentro del mismo espacio. Tambien permite la instalacion de extensiones dentro de la base. 
-- CONNECT: Permite garantizar la coneccion a una base de datos. Este privilegio se chequeo al comeinzo de la conexion. Sin este todos los demas no tendra sentido, tal que si no tengo el privilegio de conexion no podre ejeuctar nignuna accion.
-- TEMPORARY: permite poder crear tablas temporales usando la base especificada.
-- EXECUTE: permite poder usuar una determinaa funcion y cualquier parametro sobre la misma. 
-- USAGE: Este tendra distintos usos depende a que se lo este asiganando:
-  - Para lenggaujes proceduarles, permite al mismo la creacion de funciones en ese lengauje. unico privilegio para estos lenguajes
-  - Para esquemas, permite el acceso a objetos contenidos dentro del esquema. Sin este permiso igual es posible podre ver los nombre de los objetos contenidos dentro del mismo. 
-  - Para tipos y dominions, permite el uso de tipos y dominions en la creacion de tablas, funciones y otro objetos de esquemas. 
-  - Para servdiores externos, permite la cracion de tamblas foragneas. 
-- SET: Permite que un parametro de configuracion del server se le setee un nuevo valor en la sesion actual.
-- ALL PRIVILEGES: todos los privilegios a la misma vez.
-
-Como bien dijimos antes, en algunos casos el privilegio solo puede ser dada a columnas en epecifico, por ejemplo: 
+En algunos casos el privilegio solo puede ser dada a columnas en epecifico, por ejemplo: 
 ```
 GRANT SELECT(nombre)
 ON empleados
@@ -1252,6 +1231,60 @@ GRANT lector TO juan;
 ```
 juan pertenece a lector, por lo que tendra todos los privilegios de lector. Si a us vez se utiliza la opcion **WITH ADMIN OPTION**, juan podra adminsitrar la membresia de ese rol.
 
+### SEGURIDAD A NIVEL TABLA
+Los privilegios que se puede otorgar son:
+- SELECT: permite la operacion SELECT sobre el objeto especificado. Este permitira seleccionar cualer columna o una columna especifica. Tambien permtiria utilizar el COPY TO. Este privilegio tambien debera ser dado para referenciar columnas existententes en UPDATE, DELETE o MERGE.
+- INSERT: permite la insercion de datos a una determinada tablas. Tmabien podra ser utilzados para columnas en especifico, esto hara que las columnas sobre las que no se tienen permiso reciban valores por defaul. Permite tambien el COPY FROM
+- UPDATE: permite modificar alguna columan de una tabla. Se necesita privilegio sobre select si se desea consultar columnas. Tambien se podra utilizar sobre columnas en especifico.
+- DELETE: permite elieminar filas de una tabla. Se necesita privilegio sobre select si se desea consultar columnas. Como el borrado es sobre una tabla, no se puede espeficificar permisos sobre columnas. 
+- RULE: perimite la creacion de reglas sobre tablas y views.
+- TRUNCATE: Permite la accion TRUNCATE sobre una tabla
+- TRIGGER: Permite la creacion de TRIGGER sobre una tabla, una view, entre otros. 
+- REFERENCES: permite poder crear constrains de foreign keys.
+
+Por defecto solamente los propiertario de la tabla posee todos los privilegios sobre ella. Las operaciones ALTER TABLE o DROP TABLE no podran ser otorgados por medio de la operacion GRANT, sino que solo pertenecen al propietario del obejto.
+
+Ejemplo:
+```sql
+GRANT SELECT, UPDATE
+ON empleados
+TO analista;
+```
+
+### SEGURIDAD A NIVEL BASE DE DATOS
+Los privilegios que se puede otorgar son:
+- CREATE: permite crear esquemas dentro de la base. para esuqmeas permite crear obejetos dentro del mismo. para espacios de tabalas, permite a tablas de indices pueden ser creados dentro del mismo espacio. Tambien permite la instalacion de extensiones dentro de la base. 
+- CONNECT: Permite garantizar la coneccion a una base de datos. Este privilegio se chequeo al comeinzo de la conexion. Sin este todos los demas no tendra sentido, tal que si no tengo el privilegio de conexion no podre ejeuctar nignuna accion.
+- TEMPORARY: permite poder crear tablas temporales usando la base especificada.
+```sql
+GRANT CONNECT ON DATABASE universidad TO alumno;
+```
+Estos detetmina que puede conectarse a la abse y realizar operaciones generales soobre la misma.
+
+### SEGURIDAD A NIVEL DE ESQUEMAS
+tenemos los siguientes privilegiso:
+- USAGE: Este tendra distintos usos depende a que se lo este asiganando:
+  - Para lenggaujes proceduarles, permite al mismo la creacion de funciones en ese lengauje. unico privilegio para estos lenguajes
+  - Para esquemas, permite el acceso a objetos contenidos dentro del esquema. Sin este permiso igual es posible podre ver los nombre de los objetos contenidos dentro del mismo. 
+  - Para tipos y dominions, permite el uso de tipos y dominions en la creacion de tablas, funciones y otro objetos de esquemas. 
+  - Para servdiores externos, permite la cracion de tamblas foragneas. 
+- CREATE: permite crear objetos dentro del esquema. 
+
+Ejemplo:
+```sql
+GRANT USAGE ON SCHEMA ventas TO analista;
+```
+Un usuario podra tener privilegios sobre una tabla pero aun asi no poder acceder a ella si no posee USAGE sobre el esquema que la contiene.
+
+### PRIVILEGIOS POR DEFECTO
+PostgreSQL permite definir qué privilegios tendrán automáticamente los objetos creados en el futuro.
+
+Ejemplo:
+```sql
+ALTER DEFAULT PRIVILEGES
+GRANT SELECT ON TABLES TO analista;
+```
+A partir de ese momento, las nuevs tablas creadas por un rol correspondiente otorgaran automaticamente permisos SLECT al rol analista. Esto evita ejecutra GRANT manualmente cada vez que se crear una nueva tabla.
 ### REVOKE
 Permite revocar los permitos que se ha otorgado previamente a usuarios o roles sobre objetos de la base de datos.  
 ```
@@ -1292,5 +1325,37 @@ En conextos por ejemplo de backups de bases de datos, es importante que las polt
 
 La forma mas performante de generar policies es de considerar los valores actuales de la fila que se evalua. peor en algunos casos es posibles hacer sub queries con el fin de estabalcer logica frente al valor de otras filas. 
 
+Los superusuarios y los roles que poseen el atributo BYPASSRLS ignoran las políticas de Row Level Security. Asimismo, el propietario de una tabla normalmente no se encuentra sujeto a las políticas definidas sobre la misma, salvo que se utilice:
+```sql
+ALTER TABLE tabla FORCE ROW LEVEL SECURITY;
+```
 ### SEGRURIDAD EN FUNCIONES
 Para la defincion de funciones tenemos los argumentos SECURITY_INVOKER y SECURITY_DEFINER. La primera permite que la funcion sea ejeuctada con los privilegios del usuario que la llama. Esto sera el default. la segunda permite que la funcion sea ejecutada con los privilegios del dueño de la funcion. 
+
+Las funciones SECURITY DEFINER deben utilizarse cuidadosamente.Un usuario que posea privilegio EXECUTE sobre una función SECURITY DEFINER puede acceder indirectamente a información que normalmente no podría consultar.
+Por este motivo suele recomendarse definir explícitamente el search_path dentro de estas funciones.
+
+### AUTENTIFIACION DE CLIENT  
+Una conexión PostgreSQL requiere:
+- host
+- puerto
+- usuario
+- contraseña
+- base de datos
+
+Ejemplo:
+```bash
+psql -h 192.168.1.10 -p 5432 -U admin -d universidad
+```
+Donde:
+- host: conexión TCP/IP
+- primera all: cualquier base de datos
+- segunda all: cualquier usuario
+- 192.168.1.0/24: red permitida
+- md5: método de autenticación
+
+El archivo pg_hba.conf controla qué clientes pueden autenticarse.El archivo pg_hba.conf se evalúa de arriba hacia abajo y la primera regla que coincide es la que se aplica.
+
+Ejemplo:
+```text
+host all all 192.168.1.0/24 md5

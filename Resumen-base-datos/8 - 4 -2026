@@ -1,0 +1,21 @@
+Leer ACID, Atomic-Cosistent-Isolated-Dynamic (se confundió el prof es Durability) 
+
+fundamental pq queres del disco que las cosas sabemos que estén ahí, confianza en el disco, que no se pierdan los datos. Sirve para problemas transaccionales, usar PosgressSQL 
+
+Atomicidad: todo o nada en las ejecución de las transacciones.
+Consustencia: que todas las base de datos tengan restricciones consistentes o expectativas sobre las relaciones entre elementos.
+	El motor de consistenciaes el encargado de limpiar las FK q apuntaban a un elemento que quiero borrar. Cuando defino una FK puedo configurar cómo quiero manejar los insert/delete/updates (fallar o cascade deletes por ejemeplo)
+Isolated: cada transacción debe aparecer como si fuese ejecutada ella sola, sin ninguna otra al mismo tiempo.
+	En la realidad habrán varias transacciones ejecutándose al mismo tiempo. El [scheduler (concurrency-control manager)] debe asegurarse que cada acción individual de múltiples transacciones sean ejecutadas en un orden tal que el efecto neto es el mismo que si las transacciones hubiesen ejecutado secuencialmente una a la a vez.
+	Esto se logra generalmente mediante "Locks" en ciertas parte de la base de datos. Los locks previene que dos transacciones accedan al mismo dato de forma que interactúen mal. 
+	Los lock se guardan en la memoria principal en una [Lock table]. 
+	El scheduler afecta la ejecución de queries y otras operaciones de base de datos denegando el accesos a partes de la base de datos al hardware de ejecución.
+	A veces puede suceder que ninguna transacción pueda continuar porque cada una necesite un recurso que otra transsación "lockeo". El [transaction manager] tiene la responsabilidad de intervenir y cancelar (roll-backear o abortar) una o más transacciones para que otras puedan continuar.
+
+
+Durability: los efectos en la base de datos no deben perderse nunca, una vez que se haya completado la transacción.
+
+	Para esto tenemos el [Log manager]. Cada cambio se guarda en un disco separado. Inicialmente escribe los logs en un buffer y negocia con el buffer manager para asegrarse de que se escriban a disco en momentos apropiados.
+	Cuando una falla o crash ocurre el [recovery manager] examina el "log" de cambios y restaura la base de datos a un estado consistente. 
+
+

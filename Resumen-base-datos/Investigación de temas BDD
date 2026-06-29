@@ -1,0 +1,441 @@
+Investigación de temas BDD
+
+Ley de datos personales 25326 "Habeas Data" (4 de Octubre 2000) ARGENTINA
+
+
+Intenta proteger los datos personales que esten en archivos, registros, bancos de datos u otros medios técnicos de tratamientos de datos, sean públicos o privados destinados a dar informes para garantizar el derecho al honor y a la intimidad de las personas así como también el acceso a la información que sobre las mismas se registre. En conformidad con [artículo 43 tercer párrafo de la Constitución Nacional]
+La ley aplica también a personas de existencia ideal (personas juridicas i.e entidades publicas/privadas)
+No aplica a bancos de datos periodísticos
+
+2)Definiciones
+	Datos personales: info de cualquier tipo referida a personas físicas  o de existencia ideal determinadas o determinables
+	
+	Datos sensibles: Datos personales de origen racial, étnico, opiniones políticas, convicciones religiosas, filosóficas o morales, afiliación sindical e información referente a la salud o vida sexual.
+
+	Archivos, registros, base de datos o bancos de datos: indistintamente refieren al conjunto organizado de [datos personales] que sean objeto de tratamiento o procesamiento, electrónico o no, cualquiera sea la modalidad de su información, almacenamiento o acceso.
+
+	Tratamiento de datos: operaciones y procedimientos sistemáticos, electrónicos o no, q permitan la recolección, conservación, ordenamiento, almacenamiento, modificación, relacionamiento, evaluación, bloqueo, destrucción y, en general, el procesamiento de [datos personales], así como también su cesión a terceros a través de comunicaciones, consultas, interconexiones o tranferencias.
+
+	Responsable de archivo, registro, baso o banco de datos: Persona física o de existencia ideal pública o privada, que es titular de un archivo, registro, base o banco de datos.
+
+	Datos informatizados: Los datos personales sometidos al [tratamiento] o procesamiento electrónico o automatizado.
+
+	Titular de los datos: Toda persona física o persona de existencia ideal con domicilio legal o delegaciones o sucursales en el país, cuyos datos sean objeto del tratamiento al que se refiere la presente ley.
+
+	Usuario de datos: Toda persona, pública o privada que realice a su arbitrio el tratamiento de datos, ya sean archivos, resgistros o bancos de datos propios o a través de conexión con los mismos.
+
+	Disociación de datos: Todo tratamiento de datos personales de manera que la info obtenida no pueda asociarse a persona determinada o determinable.
+
+3) Legalidad(Licitud)
+
+	Hacer un archivo de datos es legal cuando este debidamente inscripto, fijandonos que cumplan principios q establece la presente ley y las reglamentaciones que se dicten en su consecuencia.
+	Los datos NO pueden tener finalidades contrarias a la ley [o a la moral pública].
+
+4) Calidad de datos
+
+	Los datos deben ser ciertos, pertinentes y no excesivos en relación al ámbito y finalidad para los que se hubieren obtenido
+
+	No se puede recopilar datos por medios desleales, fraudulentos o en forma contraria a las disposiciones de la ley presente.
+
+	Los datos objeto de tratamiento no pueden ser usados para finalidades distintas o incompatibles con los motivos de su obtención.
+
+	Los datos deben ser exactos y actualizarse en caso de que sea necesario.
+
+	Los datos total o parcialmente inexactos o incompletos deben ser suprimidos o sustituidos, o en su caso completados, por el responsable del archivo o base de datos cuando se tenga conocimiento de la inexactitud o carácter incompleto de la info, sin perjuicio de los derechos del titular establecidos en el [Articulo 16 de esta ley].
+
+	Los datos deben ser almacenados de modo que permitan el ejercicio del derecho de acceso de su titular
+
+	Los datos deben ser destruidos cuando hayan dejado de ser necesarios o pertinentes a los fines para los cuales hayan sido recolectados.
+
+5)Consentimiento 
+	
+	El [tratamiento de datos] personales es ilícito cuando el titular no dio su consentimiento libre, expreso e informado.
+	Debe constar por escrito, o por otro medio que permita se le equipare, de acuerdo a las circunstancias. El consentimiento dado con otras declaraciones debe figurar expresa y destacadamente con una notificación previa al requerido de los datos sobre el ART 6) .
+
+	No hace falta consentimiento CUANDO:
+		-Los datos son de acceso público irrestricto
+		-Se consiguen para funciones del Estado u obligación legal
+		-Sean Nombre, DNI, id tributario, ocupación, fecha de nacimiento y domicilio
+		-Deriven de una relación contractual, científica o profesional del titular de los datos, y sean necesarios para su desarrollo o cumplimiento;
+		-Se trate de las operaciones que realicen las entidades financieras y de las informaciones que reciban de sus clientes conforme las disposiciones del artículo 39 de la Ley 21.526. (?)
+
+6)Info antes de dar Consentimiento
+
+	Cuando se juntan datos se debe informar a los titulares expresa y claramente:
+		- para qué se tratan los datos, quienes son los destinatarios o clase de destinatarios
+		- si existe un archivo/registro/banco de datos (electronico o no) e identidad del responsable junto con su domicilio
+		- si es obligatorio o no responder preguntas de un cuestionario 
+		- consecuencias de dar los datos, si se puede negar o de la inexactitud de ellos
+		- Que el titular puede acceder, rectificar y eliminar los datos
+
+7) Datos sencibles y tratamiento
+
+	No se puede obligar a dar datos sencibles. No se pueden crear archivos, bancos o registros que revelen datos sencibles.
+	Las asociaciones religiosas y orgs políticas/sindicales pueden llevar un registro de los miembros.
+	Los antecedentes penales y contravenciones solo pueden tratarlos autoridades públicas correspondientes, dentro de la ley.
+	
+	Sólo se puede recopilar y tratar datos sencibles por razones de interes general con autorización de la ley o si es con finalidades científicas mientras no se pueda identificar al titular.
+
+8) Datos de salud
+	Los sanitarios públicos o privados y los profesionales de ahi pueden recolectar y tratar datos personales sobre la salud física o mental de los pacientes que estén o hubieran estado bajo tratamiento bajo secreto profesional.
+
+9) Seguridad de los datos
+	Se debe adoptar medidas tecnicas y organizativas para garantizar la seguridad y confidencialidad de los datos; para que no se puedan cambiar, borrar, acceder o tratar  sin auth; que permitan detectar desvios de la info.
+
+	Se prohibe registrar datos en archivos, registros o bases que no cumplan con este artic.
+
+10) Deber de confidencialidad
+	Cualquiera que participe en el tratamiento de los datos en cualquier fase esta obligado al secreto profesional incluso después de finalizar la relación con el titular del archivo.
+
+	El secreto se puede relevar por el poder judicial cuando hayan razones fundadas sobre seguridad pública, defensa nacional o salud pública.
+
+11)Cesión de datos
+
+	Solo se puede ceder los datos con consentimiento del titular y para el cumplimiento de fines relacionados con interes del que cede y al que le ceden. Al titular le tienen que informar la finalidad de la cesión y a quién o forma de identificarlo. Al que le ceden tiene q cumplir lo mismo que el q cede.
+
+	Se puede revocar el consentimiento de cesión
+
+	No es necesario consentimiento cuando:
+		- Lo diga una ley
+		- Se consiguen para funciones del Estado u obligación legal
+		- Sea entre dependencias de los órganos del Estado en forma directa, cumpliendo sus competencias.
+		- Sean datos relativos a la salud y haya una emergencia o estudio epidemiológico (siempre que se pueda mantener el anonimato del titular)
+		- Datos anonimizados
+12) Transeferencia internacional
+	Prohibido transferir datos a países sin protección adecuada. 
+	Excepto por:
+		- colab en Juicio internacional
+		- datos médicos para emergencias o estudios de epidemias
+		- las transferencias bancarias mismas
+		- se haya acordado con Arg
+		- colab vs terrorismo o crimen organizado
+13) derecho de info
+	Todos podemos pedirle al Org de control info de existencia de datos personales, sus fines y los responsables, gratis.
+	
+14) derecho a acceso
+	El titular puede pedir sus datos personales y la info de los bancos de datos públicos o los privados q sean para dar informes. Es gratis hasta 6 meses salvo que se acedite un interes legítimo al efecto. El derecho a muertos le corresponde a sus sucesores.
+	El responsable tiene 10 días desp de que se le haya pedido (fehacientemente) si no la da o es insuficiente se activa la Accion de Protección de datos o habeas data de esta ley.
+
+15) contenido de la info
+	La info debe ser clara, comprensible, completa y sin codificaciones pero solo del titular no de terceros. Queda en el titular de que forma se suministra.
+16)Derecho a rectificar, actualizar o borrar
+	La persona puede rectificar, actualizar, pedir que se borren o hacer confidencial los datos personales gratis. El responsable tiene 5 días desde q se le reclamó/advirtió sino [habeas data] y debe notificar a quienes haya cedido. Mientras se hace lo q pidió el titular hay que bloquear el archivo o avisar q esta en revisión.
+
+	No se pueden borrar los datos si pueden causar perjuicios a derechos o intereses legítmos de terceros o hay oblicación legal de conservarlos.
+17) Excepciones (del 16)
+	Los responsables de los datos pueden negarse si es por defensa de la Nacion, orden o seguridad públicos; o bien cuando obstaculizan algo judicial, de ser así se debe avisar al titular.
+	Se debe brindar acceso a los registros si el titular tiene q ejercer su derecho de defensa.
+
+18) El estado también tiene q cumplir esta ley (y todas sus partes) no puede recolectar datos ilimitadamente.
+
+19) ya esta en 16)
+
+20) impugnar valoraciones personales
+	las decisiones judiciales/administrativas q tengan una apreciacion o valoración de conducta no pueden tener como fin únicamente definir el perfil o personalidad del interesado. Sino se consideran nulos
+
+21)Registro de archivos de datos
+	Todo lo que se genere para hacer informes se debe inscribir en un Registro del organismo de control
+	Hay que dar: el titular, su finalidad, la naturaleza de los datos, forma de recoleccion y actualización, destino de los datos y personas físicas/ideal a las q se les pueda transferir, modo de interrelacionar la info registrada, q medios usan para garantizar la seguridad (detallando la categoria de personas q tratan la info), tiempo q se conservan los datos, formas y condiciones en q se puede acceder a tus propios datos y rectificar/actualizarlos.
+	Incumplir esto puede generar sanciones
+
+22)Archivos, bancos o registros públicos
+	Las normas sobre los mismos deben salir en el Boletin Oficial de la Nación o diario oficial indicando finalidad, característica de los archivos, de quienes quieren obtener datos, si es o no obligatorio dar los datos, cómo se obtienen y actualizan los datos, cesiones, transferencias o interconexiones previstas, organos responsables del archivo y su dependencia jerárquica si hace falta, oficina donde hacer reclamos en ejercicio de los derechos de rectificar, actualizar o borrar.
+23) supuestos especiales
+	Los registros de las fuerzas armadas, seguridad, organismos policiales o de inteligencia tmb deben cumplir esta ley, así como los antecedentes penales.
+	
+	Pueden tratar datos sin consentimiento si es para fines de defensa nacional, seguridad pública o represión de delitos. Estos datos deben clasificarse por categorias de grado de fiabilidad.
+	
+	Los datos con fines policiales se cancelarán cuando no sean necesarios para las averiguaciones q motivaron su almacenamiento
+
+24) Archivos, etc privados
+	Si generas algo q no sea para uso personal tenes que cumplir lo mismo q punto 21)
+
+25) Servcios informatizados de datos personales
+
+	Si contratas a alguien para tratar datos no puede usar los datos fuera del fin del que lo contrataste, cederlos ni guardarlos.
+	Cuando termina el contrato debe destruirlos salvo q le autorices expresamente si es que podes querer contratarlo en el futuro. Si es así se guardan 2 años, de forma segura.
+
+26) info crediticia
+	Solo pueden tratar datos de info crediticia que el titular facilite, con consentimiento o de caracter público. Pueden tratarse datos de cumplimiento o incumplimiento de obligaciones patrimoniales facilitados por el/los acreedores.
+	Sólo se podrán archivar, registrar o ceder los datos personales que sean relevantes para evaluar la solvencia económico-financiera durante 5 años o 2 años si se cancela la deuda.
+	La info crediticia no requiere de consentimeinto del titular ni notificación para cesión de los datos de actividades comerciales.
+
+27) datos para Publicidad
+	Se pueden recopilar datos para armar perfiles con fines promocionales, comerciales, publicitarios o que establezcan hábitos de consumo si es que estos son datos públicos, fueron facilitados por el titular o con consentimiento. El titular puede acceder sin cargo.
+
+28) datos para encuestas
+
+	No aplica esta ley para los datos de encuestas de opinión, mediciones y estadística si son prospección de mercados, investigación científica o médica y actividades análogas siempre que se anonimicen los datos, de no poder anonimizarse se deben disociar para no poder dentificar a nadie. (?)
+
+29) Organo de control
+	Este debe tomar las medidas necesarias para que se cumpla la ley y para ello tiene la atribución de:
+	- Asesorar y asistir a las personas q lo requieran
+	- Dictar normas y reglas
+	- Hacer censos de datos alcanzados por la ley y registrarlos permanentemente
+	- pedir auth judicial para acceder a locales, equipos o programas de tratamiento para verificar infracciones de esta ley
+	- Pedir info a entidades públicas y privadas (debiendo garantizar la seguridad de los datos)
+	- Imponer sanciones administrativas por no cumplir esta ley
+	- Intervenir en acciones legales por no cumplir esta ley
+	Este órgano tiene autonomía decentralizado el ámbito del Ministerio de Justicia y Derechos Humanos de la Nación
+	El director del órgano se designa cada 4 años por el poder Ejecutivo con acuerdo del Senado y debe ser alguien con antecedentes en la materia.
+	Es un puesto de dedicación exclusiva, con las mismas incompatibilidades fijadas por la ley para funcionarios públicos y se lo puede echar por mal desempeño desde el poder Ejecutivo.
+
+30) Código de conducta
+	Los responsables de los bancos de datos pueden establecer codigos de conducta que mejoren o aseguren condiciones de funcionamiento en función de esta ley. Estos códigos los registra el Org de Control quién puede rechazarlos si considera que no se ajusta a las reglas de la materia.
+
+31) Sanciones administrativas
+	Por daños y perjucios causados por no aplicar la ley hay sanciones desde los 1k a los 100k pesos, clausura o cancelación del archivo, etc. según reglamentación.
+
+32) Sanciones penales
+	- Meter o hacer meter datos falsos en un archivo de datos falsos tiene pena de un mes a 2 años
+	- Dar datos falsos contenidos en un archivo de datos personales a un tercero a sabiendas tiene pena de 6 meses a 3 años.
+	- La pena sube en 50% si causa perjuicio a otra persona
+	- Si el infractor es funcionario público no puede volver a serlo por el doble de la condena
+	- Acceder a un banco de datos personales ilegítimamente a sabiendas tiene pena de 1 mes a 2 años. Funcionarios públicos 4 años 
+	- Revelar info registrada en un banco de datos personales secreto por ley tiene pena de 1 mes a 2 años, funcionariosp publicos 4 años
+
+ACCION DE PROTECCIÓN DE DATOS:
+
+33) Procedencia
+	Se procede para tomar conocimiento de q datos personales fueron almacenados para proporcionar informes y su finalidad; en los casos en q se presuma falsedad, inexactitud, desactualización de la info q es, o el tratamiento de datos cuyo registro se encuentra prohibido en la presente ley, para exigir su rectificación, supresión, confidencialidad o actualización.
+
+34) Legitimación activa
+	La proteccion de datos se puede ejercer por el titular, sus tutores o curadores y los sucesores directos o colaterales hasta 2do grado por si o por medio de su apoderado.
+	Si se hace por una persona ideal debe ser ejercido por sus representantes legales o apoderados designados por estos.
+
+35) Legitimación pasiva: se procede con la accion de protec respecto a responsables y usuarios de datos destinados a informes
+
+36)	Competencia
+	El juez q trata el caso puede ser del domicilio del actor, del demandado o de donde pasó el hecho a elección del actor.
+	La competencia es federal cuando: 
+		Sean archivos publicos de organismos nacionales
+		Los datos estan interconectados con redes nacionales, internacionales o interjurisdiccionales.
+
+37) Procedimiento aplicable
+	
+	La acción se rige por esta ley usando el procedimiento del amparo común y si la ley no dice algo específico se aplican las reglas del Código Procesal Civil y comercial de la nación.
+
+38) Requisitos para la demanda
+	
+	Hay que poner por escrito con la mayor precision posible individualizado el nombre y domicilio del archivo, registro, etc y, en su caso, el responsable o usuario. Si es data pública poner el organismo estatal responsable. El juez no puede ser estricto con la info q se pide
+	Justificar pq la info resulta discriminatoria, falsa o inexacta y justificar q se han cumplido los recaudos necesarios.
+	El afectado puede pedir q se aclare que la info esta en proceso judicial mientras dure el proceso.
+	El juez puede bloquear provicionalmente el archivo cuando sea discriminatoro, falso o inexacto
+
+39) Trámite
+	Una vez empieza la acción el juez le pide al archivo, registro, etc info del accionante y puede solicitar informes de soporte técnico de datos, documentación sobre la recolección u otra info relevante. Hay 5 días para dar la info con extensión dada por el juez.
+
+40) Confidencialidad de la info
+	
+	Los privados no pueden alegar la confidencialidad de la info q se les requiere salvo info de fuente periodística
+	Los públicos q se niegen a remitir informes solicitados invocando las excepciones al derecho de acceso, etc de esta ley u otra deben justificar pq aplica esa ley y en ese caso el Juez puede tomar conocimiento de esos datos asegurando confidencialidad.
+
+41) Contestación del informe
+	
+	La base de datos tiene que explicar porque tiene esa info de vos y pq no respondió a tu pedido antes.
+
+42) Ampliación de la demanda.
+
+	Contestado el informe, el actor podrá, en el término de tres días, ampliar el objeto de la demanda solicitando la supresión, rectificación, etc ofreciendo en el mismo acto la prueba pertinente. De esta presentación se dará traslado al demandado por el término de tres días.
+
+43) Sentencia
+	Desp de 41 y 42 el juez dicta la sentencia. Si decide proceder con la acción se debe especificar si la información debe ser suprimida, rectificada, actualizada o declarada confidencial, estableciendo un plazo para su cumplimiento.
+	El rechazo de la acción no constituye presunción respecto de la responsabilidad en que hubiera podido incurrir el demandante.
+	La sentencia deberá ser comunicada al organismo de control, que deberá llevar un registro al efecto.
+44) Ambito de aplicación
+	Hasta el punto 32 son de orden público y de aplicación en lo pertinente en todo el territorio nacional. Se invita a las provincias a adherir a las normas de esta ley.
+	En bancos de datos interconectados en redes de alcance interjurisdiccional, nacional o internacional rige jurisdicción federal.
+45) 
+	El Poder Ejecutivo Nacional deberá reglamentar la presente ley y establecer el organismo de control dentro de los ciento ochenta días de su promulgación.
+
+46)	Dispocisiones transitorias
+	Los datos de antes de la ley se deben registrar según art 21.
+
+47) 
+	Los bancos de datos prestadores de servicios de información crediticia deberán suprimir, o en su caso, omitir asentar, todo dato referido al incumplimiento o mora en el pago de una obligación, si ésta hubiere sido cancelada al momento de la entrada en vigencia de la presente ley.
+
+--- Detalles de la ley: 
+	Está desactualizada ya que no tiene regulaciones sobre redes sociales y otras cuestiones digitales.
+
+
+- LEY EUROPEA DE PROTECCIÓN DE DATOS, RGPD (Reglamento General de Protección de Datos)
+
+	Se considera como la ley de datos más restrictiva del mundo. Da un mayor poder a las personas con respecto al conrol de su info y controla empresas al rededor del mundo. Esta ley busca proteger las libertades de los usuaros con respecto a su info personal.
+
+	Se considera un "reglamento" y no una "directiva" por lo que no ofrece flexibilidad para q los estados dentro de la UE ajusten la ley. 
+
+	Las multas son mucho más fuertes que la ley argentina, se puede llegar a los 20 millones de euros o más por sanciones. La RGPD fue sancionada en 2018 (la arg en los 2000)
+
+	La ley tiene vigencia para los encargados del tratamiento de datos dentro del suelo europeo y para organizaciones sin sede dentro de la UE pero que manejen info de ciudadanos europeos.
+
+	La idea de "dato personal" es más amplia con respecto a la ley argentina, agregando los datos biométricos, info genética, la ip de la compu personal y publicaciones de redes sociales.
+
+	Cada país miembro de la UE establece una autoridad de supervisión independiente para escuchar e investigar denuncias. Ésta podrá cooperar con otras presentes en otra sede de la UE.
+
+	Se debe incluir un tiempo de retención de datos personales y la info de contacto del controlador. Se debe proporcionar un delegado de protección de datos que es elencargado de q la organización aplique las leyes q protegen los daos personales de los usrs, realizar auditorias para garantizar el cumplimieto de esta ley, como tambien tener acceso al consejo de altos cargos frente a la toma de decisiones sobre el tratamiento de datos personales.
+mismosmismosmismosmismosmismosmismosmismosmismos
+	Los datos solo se pueden tratar si hay una razón legal, que puede ser:
+
+		- El interesado dio consentimiento con uno o más fines específicos
+		- El tratamiento es necesario para un contrato o para tomar medidas precontractuales
+		- Es necesario para proteger los intereses vitales del interesado o de otra persona física
+		- Es necesario para realizar una tarea de interés público o en el ejercicio de poderes públicos conferida al controlador
+		- Es necesario para la satisfacción de intereses legítimos del responsable del tratamiento o un tercero, salvo cuando dichos intereses sean anulados por los del interesado o sus derechos y libertades fundamentales que requieren protección de datos personales, sobre todo si el interesado es un niño.
+
+
+	Los interesados tienen derecho de acceso a sus datos y cómo es que estos están siendo procesados. Se debe poder entragar una copia de los datos y de los fines de utilización de ellos. Tienen derecho de portabilidad, es decir, pasar los datos de un sistema electrónico a otro sin que el responsable se lo impida; derecho a borrar los datos dentro de alguna base.
+
+	El consentimiento para el tratado de datos del interesado debe ser explicito tanto en qué datos van a tratarse como en la forma que serán tratados. En caso de niños, debe ser firmado por padres o tutores. Este debe ser una afirmación específica, clara e inequívoca; y debe ser más claro y explícito que en cualquier otro tipo de regulaciones. No se puede especificar distintos tipos de tratamientos para cada dato de forma que el consentimiento no pueda especificarlo. Los interesados pueden retirar este consentimiento en cualquier momento. 
+
+	Cada organización necesita un DPO (Data Protection Officer), que será experto en la legislación y la practica de proteccion de datos, éste busca ayudar al controlador o procesador a supervisar el cumplimiento interno del reglamento. El DPO puede eligir su propio equipo de soporte y será responsable de su propio desarrollo profesional continuo. La idea es que los sistemas deben ser diseñados desde el principio pensando en la privacidad. Se pide demostrar el activo cumpliento de la ley a partir de evaluaciones de riesgo, documentacion de proceso y registro de auditorias.
+
+	El RGPD habla del cifrado o encriptación de datos como la fórmula más segura para su protección, si se produce una fuga de datos en ese estado no es necesaria notificación a los afectados ni a las autoridades (ah re choto). Esto se denomina "seudonimización", es un proceso en la gestión de datos mediante la cual los campos de info personalmente identificables se sustituyen por uno o más ids artificiales.
+
+	El controlador de datos desatará bajo la obligación legal de notificar a la autoridaad de supervisión sin demora indebida. La filtración de datos debe notificarse en un marcode 72hrs luego de notarse. Esta notif a usrs no es necesaria si es que se implementó un mecanismo de protección de la misma.
+
+	La ley tiene características especiales sobre los datos: biométricos, genéticos, de orientación sexual, salud e ideología estableciendo una jerarquía de sensibilidad. Estos datos tiene prohibido su tratamiento salvo consentimiento.
+
+
+Conclusión: Diferencias ARG vs UE
+
+	La ley argentina si bien es restrictiva es más genérica y sólo limita recopilación y tratamiento, sin entrar en detalle de ciertos cuidados a tener con los mismos. Si bien establece que debe haber un sentido de seguridad es mucho más laxa y de libre implementación en cuanto a medidas. Respecto al consentimieto ésta no hace distinción en formas de tratar los datos, una vez aceptados, sólo al "fin" de el tratamiento. Además la ley argentina establece un marco legal para los usuarios afectados, en cambio la RGPD pone la responsabilidad más en las empresas.
+	
+	La ley de la UE al ser más actual, además, tiene en cuenta más tecnologías y cuestiones técnicas sobre los datos limitando el "profiling" (lo de datos biom, etc) y regulando las deciciones automatizadas; es mucho más punitiva con sus sanciones (pudiendo superar los 20 millones de euros o el 4% de la facturación global) y hace foco en cómo se crean los sistemas de datos pensando en la privacidad y seguridad desde el inicio. También exige notificar de las brechas de seguridad o filtración de datos.
+	Si bien la ley argentina establece un Organismo de Control la UE, al ser diversas naciones, establece y exige que cada mimebro tengo un DPO y les exige demostrar el cumplimiento de la ley activamente.
+
+
+
+	
+---------------------------------------
+BIG DATA 
+---------------------------------------
+
+Se refiere a conjuntos de datos masivos y complejos que los sistemas de gestion de datos tradicionales no pueden manejar. Ayuda a organizacion descubrir nuevas ideas.Este concepto surge con el aumento de las fuentes de informacion, principalmente al internet, que permitio el acceso a informacion muy diversa. Tuvo un rol fundamental en el crecimiento e innovacion de la empresas en el ultimo tiempo. No solo se refiere a un aumento de la cantidad de datos, sino tambien en los procesos utilizados para poder gestionar, capturar y analizar estos grandes volumenes. En las ultimas decadas el avance en IA, hizo que se generar un mayor foco en big data. Para poder extraer lo mejor de estas fuentes se aplicaron tecnicas de aprendizaje automatico.
+
+A diferencia de las bases normales, Big Data implica un volúmen y estructura de datos mucho mayor. Donde las bases de datos SQL usan métodos estadísticos para extraer info y su tamaño (en comparación) es mucho menor, BIG DATA incluye tipos de datos estructurados, no estructurados y semi-estructurados requiriendo otros métodos de análisis, visualización y procesamiento. 
+
+CARACTERÍSTICAS:
+
+	VOLUMEN: Hay muchas mas cantidad, un mayor volumen. Para poder manejar este aumento de volumen se utiliza almacenamiento en la nube.
+
+	VELOCIDAD: El flujo de datos es mayor. Los datos se mueven en un ritmo muy acelerado, teniendo actualizacion en tiempo real, permitiendo la toma de decision agiles.
+
+	VARIEDAD: Los macrodatos pueden adoptar distintos formatos.
+
+	VERACIDAD: Al tener un mayor volumen de informacion, se deben establecer procesos que garanticen la calidad y presicion de los datos, con el fin de no tomar de decision erroneas en base a esa informacion.
+
+	VALOR: Se obtiene un beneficio real en base al analisis de big data.
+
+Formas de almacenar BIG DATA:
+
+DATA LAKES: entornos de almacenamiento de bajo costo para poder gestionar volumnes de datos estructurados y no estrctucturados. Genralmente no validan, limpian ni normalizan los datos. Son utiles cuando el volumen, la variedad y la velocidad son elevados; y no es necesario rendimiento en tiempo real.
+
+DATA WAREHOUSE: agregan informacion de multiples fuentes en un respositorio centralizado y coherente. Ademas realizan procesos de sanatizacion para utilizar la informacion. Suelen ser mas costosos al tener un esquema estricto.
+
+DATA LAKES WAREHOUSES: es una combinacion entre la flexibilidad de los data lakes con la estructura y las capacidades de consultas de los almacenes de datos. La eleccion entre cada concepto depende mucho del tipo y el proposito de los datos.
+
+
+
+FILOSOFIA WALTER ESCUDERO
+
+Entiende que el aumento de la cantidad de datos no implica algo mejor. Mientras que los modelos tradicionales tenian una estructura fija donde era relativamente facil encontrar una correspondencia con una poblacion relevante, las datos en Big Data son anarquicos y espontaneos. Por lo tanto entiende que la calidad de la obtención de datos tradicionales es mejor pese a ser menores en volumen. Mas alla de esto la obtención de Big Data nos puede dar la posibilidad de aislar un subconjunto de datos que se asemeje a un experimento natural.
+
+Big data entiende que estamos lejos de tener todos los datos. Los datos de esta filosofia son observacionales, por lo tanto nos faltan aquellos contra facticos, que no se pueden ver, los cuales se deben construir. Entiende que la idea de que Big Data tenga todos los datos se sostiene sobre una mala interpretacion de la ley de grandes numeros, donde esta opera cuando los datos se obtienen de poblaciones homogeneas y de un ejercicio experimental. En cambio Big data se obtiene de poblacion heterogeneas y dependiente.
+
+Entiende que el de Big Data para politicas publicas es limitado, mientras que las empresas privadas solo buscan maximizar beneficios, las politicas publicas tienen un compromiso etico y moral que no es sencillo de cuantificar.
+
+
+
+---------------[Notas clase grabada 2022 1c sobre NoSQL]---------------------------
+
+Son bases de datos No Relacionales "NoSQL = Not only SQL". Generalmente son bases distribuídas de código abierto, escalan muy fácil en forma horizontal (i.e agregar cantidad de máquinas para procesamiento)
+
+Fueron diseñados teniendo en cuenta los _datos no estructurados o semi estucturados_.
+Podemos tener conocimiento de _cómo_ se almacenan los datos pero no es necesario para utilizar las bases.
+
+Cada tipo de base NoSLQ tiene sus propias características pero las CARACTERÍSTICAS COMPARTIDAS son:
+No tienen esquema (schema free)
+Tienen mecanismos de replicación sencillos
+Interfaces sencillas
+Pueden almacenar grandes volúmenes de datos
+Cumplen BASE en lugar de ACID
+	BASE significa:
+		Basic Avialability: el sist garatiza la disponibilidad según el teorema "CAP"
+			Queremos q los datos esten disponibles aun cuando haya fallas. (por ej si falla una base queremos usar otro nodo que nos de la info aprovechando que es distribuída) Necesitamos replicar los datos en diferentes nodos e identificar o inhabilitar acceso al grupo con fallas.
+			Teo de CAP: 
+				Cualquier sistemaque comparta datos a través de una red puede tener a lo sumo 2 de 3 propiedades al mismo tiempo.
+				(C) Consistencia: equivalente a tener una única copia de los datos. Todos los nodos del sist ven exactamente los mimsos valores de los datos en el mismo tiempo. Si hacemos "Read" debe tener el valor del write más reciente.
+				(A) Alta disponibilidad (aviability): un sist debe asegurarse de estar operacional el 100% del tiempo. Cada solicitud devuelve una respuesta (no error) independientemente del estado del nodo individual. No garantiza tener el "Write" más reciente.
+				(P) Partition tolerance: tolerarncia a particiones. Asegura que el sitema no falle aunque se caigan nodos o se retrasen/pierdan mensajes. Se volvió una NECESIDAD en sistemas distribuídos. Se logra replicando los datos en los nodos y redes.
+		Soft-state: El estado de la base de datos puede cambiar a lo largo del tiempo, aún sin intervención externa, por lo q se llama "consistencia eventual"
+			Consistencia eventual: El sistema va a ser consistente a lo largo del tiempo, siempre que durante ese tiempo no reciba inputs (ahi se vuelve inconsistente un tiempo).
+			Nos alejamos de Consistencia de aCid y pasa as er problema de los desarrolladores y no el DBMS
+			No hay garantías de en qué momento ocurre la Consistencia Eventual.
+
+Bases de datos conocidas con 2 CAP:
+	CP (NoSQL/Column): Hadoop; Big Table; H-Base; MemCacheDB;Graph
+	CA (SQL/RDBMS): SQL Server/SQL Azure; Oracle ; MySQL
+	AP (NoSQL/Document o "Key/Value"); DynamoDB; CouchDB; Cassandra; Voldemort
+
+Según Brewen el objetivo de CAP hoy debería ser encontrar el balance entre C y A más conveniente para cada app, al mismo tiempo q establecer la forma en que se van a manejar las particiones y cómo recuperar los errores durante las mismas.
+
+Estrategias para particiones: Detectar la particion, entrar en modo "particionado", recuperar del modo anterior.
+
+
+
+Las bases de datos NoSQL usan el concepto "Key/Value" (tipo hash) y no tienen esquemas por lo que no podemos hacer muchas consultas complejas. Tenemos bases de datos con datos de tipo Key/value, ColumnFamily, DocumentDatabases y GraphDatabases. A medida que el tipo de base o de tipo de datos restringe lo que podemos representar con ellos.
+
+La cantidad de datos que se puede representar en los 4 tipos de NoSQL superan el 90% de los casos de uso, así que tan ok.
+
+
+Key/Value:
+	Adecuadas para web, nube, OOP o apps móviles pq necesitamos guardar muchos objs distintos entre si. Enfoque en guardar un item y acceder con su clave, los items no tienen esquemas. Puede produci redundancia (podemos tener repetidos en distintos items pq no tenemos forma de saber).
+	No hay "integridad referencial"* (*i.e q la clave externa de una tabla de ref siempre debe aludir una fila válida de la tabla a la q referenciamos)
+	Son muy escalables.
+	No podemos definir checkeos de integridad de datos y eso queda en manos de los programadores. (no consist)
+	No tenemos herramientas para análisis, por ej hacer joins, selection ni ninguna query compleja solo podemos decir dame el valor de esta key.
+Document Base:
+	simil a las key/val pero con mayor claridad en los datos que tienen almacenados, perdemos libertad en qué tenemos. Los valoeres ahora tienen que ser documentos (ej XML o JSON), podemos tener distintos entre si. Tenemos metadata sobre los datos (ahora podemos hacer querys más complejas e indexar sobre campos).
+	Ejemplo de DocBase:
+		MongoDB
+			Escala horizontalmente usando sharding (fragmentacion horizontal). El usr pone la clave para accesder. Los datos se cortan en rangos (basados en la clave) y se distribuyen a los fragmentos. Uno de esos fragmentos se convierte en el MASTER, con uno o más esclavos. Son fáciles de configurar.
+			Permite queries Ad Hoc (busquedas por campo, rangos, expresiones regulares)
+			Diseñadas para grandes volumnes de datos, permitimos idexación, soporta datos semi estructs, escalable y provee A de CAP
+			No son adecuados para datos relacionales y no poveen C.
+ColumnFamily:
+	Relacionamos columnas de datos relacionados. Un grupo de cols tiene una funcion simil a las del astablas en bases Relacionales. Las "col families" son grupos de datos, que suelen accederse juntos entonces las tenemos juntas. Tiene almacenamiento multi dimensional (tipo mapas o vectores asociativo).
+	Los pares "clave-valor" tienen como valor un conjunto de columnas.
+	Hay un modelo más complejo con "super col families" con claves que apuntan a conjunto de cojuntos de cols, similar a una view.
+
+Graph Base:
+	ejemplo NEO4J: Almacena los datos como nodos conectados por medio de rels dirigidas y tipadas. Permite almacenar props tanto en los nodos como en las relaciones.
+	Es intuitivo pq es casi una generalización de calve-valor
+	Cumple con ACID
+	Escalable, alta disponibilidad pq permite replicar y fragmentar los datos
+	Soporta leng de consulta de grafos (XPATH-like) representar "expresiones de camino". Consulta complejas que nos hablen de los caminos o patrones en los caminos
+	Puede ser eaccedido mediante servicios REST o mediante una API orientada a objs
+	Tanto SQL Server como Oracle tienen funcionalidad para graphDB
+
+
+
+
+[Clase 3-06-2026]
+
+Cuando quiero estudiar datos que tienen mucha variedad de formatos NO implica que el sujeto tenga un problema de Big Data.
+
+Versionado: ejemplo base de datos donde Arg es el 7mo pbi más grande. Pero luego se hicieron correcciones donde, en esas versiones posteriores, Arg no lo es. Tenemos dist vers del mismo período de tiempo y sobre las mismas características.
+
+Veracidad: cuando estoy con big data queres info rápida de ocsas que no están todavía sistematizadas de un flujo que está ocurriendo in-real-time y sacar conclusiones. (Ejemplo scrappear tweets y la existencia de bots/trolls pagos). 
+
+Problema de big data cuando ese sujeto tiene acceso a un flujo tan grande q no puede almacenarlo (aunque otro sí pueda almacenarlo). Si lo podes almacenar ya no es Big Data desde el punto de vista de las 5Vs.
+
+
+Data Mining: es un "iterador" en análisis multivariado (un análisis donde buscamos correlación en dos sets de datos) (CORRELACIÓN =/=> CAUSALIDAD)
+
+El solo hecho de tener variedad de formatos no es condición suficiente para ser problema de "Big Data", necesitamos Cant de datos y no poder almacenarlos.
+
+
+
+
+una base de datos soporta json cuando una consulta de la base es resuelta dentro del motor de la base NECESARIAMENTE. Tiene que entender json. 
+

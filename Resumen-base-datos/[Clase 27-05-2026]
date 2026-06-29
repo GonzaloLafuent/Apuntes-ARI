@@ -1,0 +1,47 @@
+[Clase 27-05-2026] Va a dar clase de algo que no está en el libro y testear porque los cuestionarios estan tomando mucho tiempo
+
+Problemas con almacenamiento de datos, un tema es el [Formato de los datos]. 
+
+Textos y caracteres, 
+
+Al principio con 6 bits (64 opciones) se hizo el ASCII que tiene los caracteres de las 26 letras (no ñ), núms y símboos más usados (;,.:-_!"#$%&/()=+<>) además de un caracter especial de control.
+
+Más tarde agregaron ANSI (ISO 8859) con 256 entradas y caracteres especiales tipo acento y otros requeridos por "europa civilizada".
+
+Con eso en las bases de datos empezó a importar qué símbolos reprentan los números de las 256 entradas. Aparecen distinas tablas de asociación de código con caracteres. 
+
+BarChar cada caracter ocupa 1byte y cada uno tiene un mapeo de código. Decidieorn listar todos los caracteres de los idiomas conocidos y reservar algunos para gerogríficos y así se definió la lista conocida como Unicode. 
+
+Ahora también se agregan emojis y el consorcio Unicode lo revisa y si es importante cultural y mundialmente lo agrega.
+
+UTF-8 es el que más se usa.
+El primer bit indica si es multicaracter (por ej las tíldes) o no 0 = no 1=si
+no cualquier secuencia de bits es válida.
+
+
+
+en la diapo encoding muestra los 2 rangos de números unicode que tienen o necesitan para representar los 1Millón que necesito (se les llama charcteres subrogados).
+
+Cuando usamos la func "len" en programación hay 2 tipos uno de byte y otro de caracteres 
+
+BOM: Byte Order Marker
+
+Si mando un UTF16 tenemos que decidir big endian o little endian. Depende el sistema cómo lo interpreta entonces hay un char especial que es el FEFF que indica si es big o little (FEFF = big; FFFE=little).
+En UTF8 representa el FEFF con EF BB BF para saber que no tiene que usarlo pq acá no hay lo de little o big endian.
+
+No presté atención que pasa con UTF32
+
+Consejo si nos mandan algún archivo cualquiera checkear la ñ para corroborar el encoding y que en los distintos puntos de transmisión de datos las conversiones no rompieron nada.
+
+Collation habla de que idioma estoy manejando para las comparaciones por ejemplo poner la ñ desp de la n. Se define cuando definimos las base de datos. Siempre está presente. En las bases dedatos no se distingue entre mayusculas o minusculas, Hola=hola da true. Además de comparar con "=" hay un string compare en el que le pasas una var que especifica el tipo de cultura.
+
+---- 
+
+Fechas
+
+ptable.com es la tabla periódica de los elementos, interactiva (ni idea pq lo tiró)
+
+los tiempos son como los vectores, un vector y un punto podes trazar otro vector, con las horas podes hacer lo mismo podes restar horas distintas y también representa tiempo (un intervalo de tiempo) los intervalos pueden ser "perfectos" (cant de segundos) o "imperfectos" (mes = 30,25 ) se puede especificar que es lo que estamos queriendo hacer
+
+La duración tiene una P adelante por norma ISO depende donde esta la M representa algo y si está sola representa otra cosa
+

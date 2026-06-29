@@ -1,0 +1,398 @@
+Seguridad en Postgres
+
+En postgreSQL se maneja con roles y permisos para esos roles.
+
+Roles:
+	Son tanto Usuarios como Grupos. Un rol puede ser dueño de objetos de la base de datos y le podemos dar privilegios para interactuar con objetos de los q no es dueño. 
+	Roles con privilegio Login son escencialmente Usuarios. Los que no tienen Login funcionan como los Grupos.
+
+	Los roles pueden tener los siguentes atributos no heredables:
+		LOGIN: te podes conectar a la base de datos (´CREATE USER name´ = ´CREATE ROLE name LOGIN´)
+		
+		SUPERUSER: Saltea todos los checkeos de permisos salvo Login. Solo un Superuser puede crear un nuevo Superuser
+		
+		CREATEDB: permite crear bases de datos.
+		
+		CREATEROL: tenes que darle este rol explicitamente para q pueda crear otros roles. Podes Alterar y Droppear roles que hayan sido creados con el comando CREATEROLE usando la opción ADMIN. Si creamos un rol con CREATEROLE y no somos Superuser tenemos Alter y Drop de los roles
+
+	Cada rol tiene un conjunto de privilegios distinto (son ortogonales). Modificar un rol sólo afecta a ése rol.
+
+	Se puede agregar (GRANT) o eliminar (REVOKE) miembros a roles, pero no se podran tener dependecias circulares en las membresias. 
+	Si a un miembro se le otorgo pertenecia al grupo con la opcion SET ROLE, temporalmente se convierte en ese ROL, sólo podemos usarlo con roles dentro de la cadena de herencia que tengan la opción SET TRUE (viene default). 
+
+	No se puede grantear miembro a un rol PUBLIC.
+
+	Herencia: permite que roles hereden privilegios de otros roles.
+	Si se le otorga la opcion INHERIT, el rol tendra sus privilegios y los que hereda del rol que se le ha dado. La cadena termina con los roles que no tienen inherit.
+	Ejemplo:
+		CREATE ROLE joe LOGIN;
+		CREATE ROLE admin;
+		CREATE ROLE wheel;
+		CREATE ROLE island;
+
+		GRANT admin TO joe WITH INHERIT TRUE;
+		GRANT wheel TO admin WITH INHERIT FALSE;
+		GRANT island TO joe WITH INHERIT TRUE, SET FALSE;
+
+		Inmediatamente después de conectarse con el rol "joe", la sessión va a tener privilegios directos de "joe" más cualquier privilegio de "admin" y "island" porque "joe" los hereda. Los privilegios dados a "wheel" no se dan porque, aunque "joe" es indirectamente miembro de "wheel", la membresía es por "admin" que tiene ´WITH INHERITH FALSE´.
+
+		Después si hacemos ´SET ROLE admin´ la sessión va a tener los privilegios de admin pero no los de JOE ni ISLAND.
+		Si hacemos ´SET ROLE wheel;´ la sesión va a tener los privilegios de WHEEL y no los de JOE ni ADMIN. 
+		Poedmos volver a los privilegios originales con cualquiera de los siguentes comandos: 
+		SET ROLE joe;
+		SET ROLE NONE;
+		RESET ROLE;
+
+
+
+	Por default un rol heredan los privilegios de los roles que es miembro. Si queremos que no herede usamos CREATE ROLE name NOINHERIT. O bien podemos usar CREATE ROLE name WITH INHERIT TRUE o CREATE ROLE name WITH INHERIT FALSE.
+	Ejemplo: 
+		rol A (creado con INHERIT TRUE) es miembro del rol B y rol B tiene privilegio SELECT en una tabla, entonces A tmb tiene permiso por herencia.
+
+	Los atributos LOGING, SUPERUSER, CREATEDB y CREATEROLE son privilegios especiales ue no pueden ser heredados. Hay que usar SET ROLE a un rol que los tenga para poder usar los atributos.
+
+	DROP ROLE se usa también para eliminar un rol grupo. Toda membresía dentro del grupo se revoca (but the member roles are not otherwise affected(????)).
+
+	Dropping Roles
+		Como los roles pueden ser dueños de objetos de la base de datos y pueden retener privilegios de acceso a otros objetos, antes de eliminar un rol tenemos que eliminar el objeto o reasingnarle dueño y todos los permisos de ese rol tienen que ser revocados.
+
+		La posesión de objetos puede ser transferida usando ALTER. Por ejemplo:
+			ALTER TABLE bobs_table OWNER TO alice;
+
+		O bien podemos usar el comando REASSING OWNED para reasignar a todos los objetos de los que es dueño el rol a eliminar. REASSING OWNED no puede acceder a objetos de otra base de datos, hay que correrlo en todas las que tengan los objetos que tenia el rol. 
+		Cuando ya transferimos todos los objetos valiosos podemos droppear el resto con DROP OWNED (idem reassing correr en cada bdd). DROP OWNED se encarga de sacar privilegios dados al rol objetivo sobre objetos que no le pertenecen. REASSING OWNED no toca esos privilegios así que es necesario correr los 2 para eliminar dependencias del rol a droppear.
+
+		EJEMPLO DE DROP DE ROL:
+			REASSIGN OWNED BY doomed_role TO successor_role;
+			DROP OWNED BY doomed_role;
+			-- repeat the above commands in each database of the cluster
+			DROP ROLE doomed_role;
+		Si queres dropear un rol con dependencias te tira un issue message.
+GRANT Y REVOKE
+	Si un super user usa GRANT o REVOKE se ejecuta como si fuera el dueño del objeto afectado.
+	GRANT:
+		Asigna privilegios ya sea Roles o de acciones sobre objetos.
+		Si ponemos ALL en lugar de un privilegio en específico le damos todos los releveantes para ese tipo de objeto.
+		Tiene dos variantes: 
+			Dar privilegios sobre un objeto de la bdd
+			Dar miembro dentro de un rol.
+
+		Los permisos dados sobre una Tabla no se extienden a las secuencias que use la tabla, ni siquiera las secuencias atadas a columnas SERIAL. Los permisos secuenciales se deben dar por separado.
+
+		GRANT sobre Objetos de la base:
+			Si especificamos WITH GRANT OPTION el recipiente del privilegio puede, a su vez, darselo a otros. A los PUBLIC no hace falta.
+
+			Si tiene GRANTED BY el que da el privilegio debe ser el usuario actual (por temas de compatibilidad con SQL)
+
+			El dueño de un objeto ya tiene todos los privilegios por default. (El dueño puede elegir revocarse algunos por seguridad)
+
+			No se puede grantear el derecho de dropear o alterar la definición de un objeto. Solo el dueño tiene esos privilegios
+
+			Posibles privilegios:
+				SELECT
+				INSERT
+				UPDATE: Allows UPDATE of any column, or specific column(s), of a table, view, etc. For sequences, this privilege allows use of the nextval and setval functions. Requiere permiso SELECT
+				DELETE
+				TRUNCATE
+				REFERENCES
+				TRIGGER
+				CREATE
+				CONNECT
+				TEMPORARY
+				EXECUTE
+				USAGE
+				SET
+				ALTER SYSTEM
+				MAINTAIN
+
+			Hay un opción para dar privilegio sobre todos los objetos de un mismo tipo en un uno o más schemas. Solo funciona con tablas, sequencias, funciones y procediminetos. ALL TABLES también afecta las vistas y tablas foráneas. ALL FUNCTIONS también afecta funciones aggregate and window pero no los procedimientos. ALL ROUTINES incluye procedimientos.
+
+		GRANT on Roles:
+			Da miembro a un rol de uno o más roles y las opciones de modificación de membresía SET, INHERIT y ADMIN.
+			Los permisos dados dependen de las opciones asosciadas al GRANT, estas pueden ser modificadas especificandolas con el valor que querramos.
+
+			Las opciones pueden ponerse como TRUE o FALSE. La palabra clave OPTION es sinónimo de TRUE, por lo tanto WITH ADMIN OPTION es sinónimo de WITH ADMIN TRUE.
+
+			Opciones:
+				ADMIN: permite que ese rol admita a otros dentro de su rol o revocar membresía dentro del rol. Un rol no tiene ADMIN sobre si mismo. Los Superusers de la bdd pueden grantear o revocar membresía a cualquiera sobre cualquier rol. El default es FALSE
+
+				INHERIT: herencia, default TRUE
+
+				SET: default TRUE. Además de lo que vimos, para crear un objeto owned por otro rol o dar ownership de un abjeto existente a otro rol tenemos que tener capacidad de SET ROLE a ese rol. Sino ALTER o CREATE DATABSE van a fallar.
+
+				GRANTED BY: se guarda que rol específico granteo. El rol guardado como granteador debe tener ADMIN OPTION sobre el otro rol o ser Superuser. Si no es superuser y el grantor pierde ADMIN los grant dependientes también se sacan. Si un rol tiene los permisos por más de un rol al que pertenece no hay garantía de cuál va a guardarse, es recomendable usar SET ROLE para esa acción específica.
+
+Seguridad por FILAS:
+	Restringen, por user, que filas pueden ser devueltas por querys normales o si podemos insertar, updatear o eliminarlas con los comandos de modificación de datos.
+	Por default las tablas no vienen con RowLevel Security.
+	Podemos activar RLS con  ´´ALTER TABLE ... ENABLE ROW LEVEL SECURITY´´ Con ello todo acceso normal para seleccionar o modificar filas debe ser permitido por la política de seguridad, salvo tipicamente el dueño de la tabla.
+	Por dafault, si no hay ninguna política de seguridad, se usa default-deny q hace que no haya filas visibles ni modificables. Las operaciones que aplican a toda la tabla como TRUNCATE o REFERENCES no se ven afectadas por RLS
+
+	Las políticas de seguridad pueden ser específicas a comandos, roles o ambos. Podemos decir que aplice a ALL comandos o SELECT, INSERT, UPDATE o DELETE. Para especificar que filas son visibles o modificables deacuerdo con una política necesitamos una expresión que devuelva un Bool. Se evalúa esa expresión para cada fila antes de cualquier condición o función que venga de la query, salvo funciones "leakproof" q se garantiza no pierden info, el optimizador puede aplicarlas antes. Si da TRUE *no se procesa*. 
+	Se puede separar expresiones para las visibles y para las modificables. Las expresiones de políticas se corren como parte de la query con los privilegios del usuario de la query, se puede usar funciones security-definer para acceder a data no disponible para el usr.
+
+	Superusers y roles con el atributo BYPASSRLS siempre saltean el sistema row-level security cuando acceden a una tabla. Los dueños de una tabla normalmente saltean rsl pero un dueño de tabla puede elegir atenerse a rsl con ALTER TABLE ... FORCE ROW LEVEL SECURITY.
+
+	Activar o desactivar rsl en una tabla es siempre un privilegio del dueño únicamente, usando ALTER TABLE. Cuando desactivamos RLS con ALTER TABLE *no se elimina ninguna política*, sólo se ignoran y todas las filas son visibles y modificables como en el sistema de privilegios estándar de SQL.
+
+	Las políticas creadas usan el comando CREATE POLICY, modificadas con ALTER POLICY y eliminadas con DROP POLICY. 
+
+	Cada política tiene un nombre y múltiples politicas pueden definirse para una tabla. Para una tabla, las políticas, deben tener un nombre único ya q son específicas por tablas, muchas tablas pueden tener políticas con mismo nombre.
+
+	Cuando muchas políticas aplican a una query se combinan usando OR (para políticas permisivas, default) o bien usando AND (restrictivas). El OR funca como si el rol tuviera todos los privilegios de los que es miembro.
+	Ejemplos:
+		As a simple example, here is how to create a policy on the account relation to allow only members of the managers role to access rows, and only rows of their accounts:
+		CREATE TABLE accounts (manager text, company text, contact_email text);
+		ALTER TABLE accounts ENABLE ROW LEVEL SECURITY;
+		CREATE POLICY account_managers ON accounts TO managers
+			USING (manager = current_user);
+
+		Esta política tiene implícitamente la clausula WITH CHECK en el USING para que managers no puedan hacer cosas a filas que son de Otro manager y a filas modificadas por el comando para que filas de otro manager no puedan crearse con INSERT o UPDATE. 
+		Si no se especifica rol o se usa PUBLIC la política aplica a todos los usuarios del sistema. Para permitir todos los usuarios acceder sólo las filas de ellos en la tabla Users, se puede usar:
+			CREATE POLICY user_policy ON users
+ 			USING (user_name = current_user);
+ 		Para usar una política diferente para filas que están siendo agregadas a la tabla, en vez de las filas visibles, combinar muchas políticas. Ejemplo users q puedan VER todas las tablas pero MODIFICAR sólo las suyas.
+ 			CREATE POLICY user_sel_policy ON users
+ 				FOR SELECT
+ 				USING (true);
+			CREATE POLICY user_mod_policy ON users
+ 				USING (user_name = current_user);
+ 		Cuando usemos SELECT, estas políticas se combinan con OR.
+
+ ESQUEMAS
+ 	Por default los usuarios no pueden acceder a ningún objeto en Schemas que no poseen. Para permitirlo el dueño debe grantear el privilegio USAGE. Por default todos tienen el privilegio en el Schema "public". Puede que tengas que dar permisos sobre específicos del objeto dentro de un esquema que quiera usar.
+ 	Se puede permitir que un Usuario cree objetos en el Schema de alguien más. Para eso necesita el privilegio CREATE.
+
+ 	USAGE: Tiene distintos usos depende a que se lo este asignando:
+		
+		Para lenguajes procedurales, permite al mismo la creacion de funciones en ese lenguaje. Unico privilegio para estos lenguajes. 
+		
+		Para esquemas, permite el acceso a objetos contenidos dentro del esquema. Sin este permiso igual es posible podre ver los nombre de los objetos contenidos dentro del mismo. 
+
+		Para tipos y dominions, permite el uso de tipos y dominions en la creacion de tablas, funciones y otro objetos de esquemas. Para servidores externos, permite la cracion de tablas foragneas.
+	CREATE: permite crear objetos dentro del esquema.
+
+SEGURIDAD DE FUNCIONES
+
+	Para la definicion de funciones tenemos los argumentos SECURITY_INVOKER y SECURITY_DEFINER. La primera permite que la funcion sea ejeuctada con los privilegios del usuario que la llama. Esto sera el default. la segunda permite que la funcion sea ejecutada con los privilegios del dueño de la funcion.
+
+	Las funciones SECURITY DEFINER deben utilizarse cuidadosamente.Un usuario que posea privilegio EXECUTE sobre una función SECURITY DEFINER puede acceder indirectamente a información que normalmente no podría consultar. Por este motivo suele recomendarse definir explícitamente el search_path dentro de estas funciones.
+
+	Para poder ejecutar una función es necesario poseer el privilegio EXECUTE sobre la misma.
+
+SEGURIDAD A NIVEL BASE DE DATOS
+	Los privilegios que se puede otorgar son:
+
+	CREATE: permite crear esquemas dentro de la base. para esqumeas permite crear objetos dentro del mismo. para espacios de tablas, permite a tablas de indices pueden ser creados dentro del mismo espacio. Tambien permite la instalacion de extensiones dentro de la base.
+	
+	CONNECT: Permite garantizar la coneccion a una base de datos. Este privilegio se chequeo al comienzo de la conexion. Sin este todos los demas no tendra sentido, tal que si no tengo el privilegio de conexion no podre ejecutar nignuna accion.
+
+	TEMPORARY: permite poder crear tablas temporales usando la base especificada.
+
+PRIVILEGIOS POR DEFECTO
+	PostgreSQL permite definir qué privilegios tendrán automáticamente los objetos creados en el futuro.
+
+	Ejemplo:
+
+	ALTER DEFAULT PRIVILEGES
+	GRANT SELECT ON TABLES TO analista;
+	A partir de ese momento, las nuevas tablas creadas por un rol correspondiente otorgaran automaticamente permisos SELECT al rol analista. Esto evita ejecutar GRANT manualmente cada vez que se crear una nueva tabla.
+
+REVOKE
+	Permite revocar los permitos que se han otorgado previamente a usuarios o roles sobre objetos de la base de datos.
+
+	REVOKE [permisos] ON [objeto] FROM [usuario_o_rol];
+	Un usuario solo puede revocar los privilegios que fueron directamente otorgados por ese usuario. Si A le dio privilegios a B, y B le dio privilegios a C, A no le puede sacar directamente los privilegios a C. Si alguien que no es owner de un objeto de la base revoca los priviliegios sobre le objeto, fallara. El propietario tendra control total, puede actuar como propietario: el dueño del objeto, el superusuario, el miembro del rol propietorio y un rol con WITH GRANT OPTION.
+
+AUTENTIFIACION DE CLIENT
+	Una conexión PostgreSQL requiere:
+
+	host
+	puerto
+	usuario
+	contraseña
+	base de datos
+	Ejemplo:
+
+	psql -h 192.168.1.10 -p 5432 -U admin -d universidad
+	Donde:
+
+	host: conexión TCP/IP
+	primera all: cualquier base de datos
+	segunda all: cualquier usuario
+	192.168.1.0/24: red permitida
+	md5: método de autenticación
+	El archivo pg_hba.conf controla qué clientes pueden autenticarse.El archivo pg_hba.conf se evalúa de arriba hacia abajo y la primera regla que coincide es la que se aplica.
+
+	Ejemplo:
+
+	host all all 192.168.1.0/24 md5
+
+	El parámetro listen_addresses del archivo postgresql.conf controla las interfaces de red sobre las cuales PostgreSQL acepta conexiones.
+
+	Ejemplo:
+
+	```
+	ini
+	listen_addresses='*'
+	```
+
+
+[Clase 17/06/2026]
+
+Todos los sist deben poder "delegar responsabilidades" o capacidades. Ejemplo: no prestar passw del jefe para hacer cosas del jefe de la empresa. 
+Si presto la passw, puede a su vez darsela a otro. Con el sist de delegación debería poder controlar a quién le da permisos.
+
+
+Ventaja: puedo revocarlo o establecer caducidad. Puedo distinguir autor de cambios.
+Desventaja: necesitas granularidad, no queres delegar TODOS los privilegios. Porque queres delegarle responsabilidades.
+
+si remuevo permisos a un user debrían perderse todos los permisos que dió ese usando mis permisos (en cascada) pero también es útil si por ejemplo cambiamos de Gerente. Que pasa en ese caso? Si elimino el usuario del gerente anterior, todos pierden los permisos?
+
+
+menos del 1% del software transaccional tiene aprobación de creación de usuarios automática. Puede generar error humano.
+
+Opciones de privilegios de un Rol nuevo:
+
+ Superuser 	| Nosuperuser
+ CREATED 	| NOCREATEDB
+ INHERIT 	| NOINHERIT
+ LOGIN 		| NOLOGIN
+ REPLICATION| NO REPLICATION
+ BYPASSRLS 	| NOBYPASSRLS
+ CONNECTION LIMIT connlimit
+ [ENCRYPTED] PASSWORD 'password' | PASSWORD NULL
+ VALID UNTIL 'timestamp'
+ IN ROLE role_name [, ...]
+ IN GROUP role_name [, ...]   <---- tachado, no se acuerda porque
+ ROLE role_name [, ...]
+ ADMIN role_name [, ...]
+ USER role_name [, ...]
+ SUSID uid
+
+
+Cuando hacemos seguridad tiene que ser mejor que lo establecido.
+
+Hipótesis de conflicto, aprendemos de situaciones que pasaron y como se solucionaron.
+
+Seg. en bdd vs seg. en backend:
+
+	Minimo privilegio posible como default!!
+	De inyección de código nos defendemos en el backend
+	Qué significa atacar un sistema? Que ejecutemos acciones que no deberíamos poder/está preparado el sistema o acceder a info que no deberiamos 
+	
+	Cuando el backend se conecta a la bdd tener siempre el mismo usuario es un error! Porque si ese usuario tiene problemas con una clave de empleado o de cliente si hackeo el back termino viendo o haciendo cosas prohibidas. 
+	
+	Lo correcto (opc extrema) cada usuario tiene SU usuario de la bdd (no hay empleados, sino "juan"). Además tiene sus bemoles porque "quién crea esos usuarios particulares".
+
+	(Punto medio) Divido los roles y agarro el rol más nuclear (el que puede hacer todo) separado de los roles capaces intermedios (quizá gerentes, o cada grupo de usuarios que necesiten autenticación) y de los demás (por ejemplo del sistema de autenticación sólo puede ver los hash de passw, nombre de usr y lista de errores)
+	Cuando usamos el servicio de login estamos en el punto más vulnerable, todavía no tenemos certeza de q sea un usr malicioso.
+
+	El usuario con el creamos el esquema NO debe ser el mismo del backend y del usuario de la base.
+
+Comando GRANT 
+	
+	Al principio era básico para las acciones de modificación de filas/tablas. "WITH GRANT OPTION" habilita herencia.
+	El GRANTED BY es útil también por los backups. Te guardas en txt los comandos a ejecutar. Y sabes cómo reconstruir la base siendo un superuser (el superuser va a dar los roles "como si se lo hubiese dado tal").
+	[se olvido de decir "algo" cuando hablaba de timestamps y del where role_specification]
+
+	permiso: Trigger - permite modificar las acciones o funciones uqe se ejecutan como trigger de algo.
+
+	Una base de datos es la unidad donde tiene sentido ACID, en un servidor de bdd puedo tener más de una bdd.
+	Las bdd tienen esquemas, para que no se repitan los nombres de tablas (por ejemplo).
+
+	Podemos dar permisos POR bdd.
+	Funcion: devuelve algo
+	Proced: "devuelve void"
+	Permisos para procedimientos y funciones.
+	No todos los leng tienen "sobrecaga" (puedo tener dos funciones con mismo nombre y distintos parámetros). En SQL depende del motor de la bdd.
+
+	Cuando creas una func o procedimiento corre con privilegio únicamente de escribir y al user darle permiso de usar ese procedimiento. Así ese usr no puede acceder a los datos solo usa, como caja negra, el proc.
+
+	Podemos declarar en que leng vamos a escribir el procedimiento, pero viene con un leng default.
+	Search path == "tener abierto un esquema".
+	
+	Inmutable/Stable/volatile:
+	
+		Si escribimos una func que no escribe la bdd y no tiene un random detro (deterministica). Esa func es inmutable. Devuelve siempre los mismos res con los mismo param.
+
+		Si la func es Stable -> depende del estado de la bdd, si la base no cambio, devuelvo siempre lo mismo. Esa func no modifica la bdd, sólo depende de los param y de la bdd.
+
+		Volatile -> puede modificar la bdd, tener un random, devolver algo ligado a la pc,etc.
+
+	Not leakproof (leakproof, los side effects no llegan al backend).
+
+
+
+	Permisos en permisos: a un rol le doy otro rol.
+
+	Current role vs Current User, si corro una función como quién la corro? Creo que es el rol
+
+	¿Cómo se hace una capacitación?
+	Ejemplo: jefe de contabilidad, asistentes.
+	Los sistemas deberían tener la capacidad de uno degradarse el rol, una vez q me loggeo debería poder "ver como" algún rol inferior.
+
+	Deberíamos poder dar roles y advertir de los peligros o consecuencias. Que ciertos roles que cambien parametros no estén activos de forma predeterminada cuando entramos a sesión (entrar en modo ADMIN). 
+	Cuando creamos un role podemos crearlo con "{...| SET} {OPTION| TRUE | FALSE}"
+
+
+	Si sql tiene estos grupos para cada acción granularmente no hay necesidad de inventar otra cosa, usar ESTO de referencia. 
+
+
+Permisos por filas
+	Quiero que cada "gerente de sucursal pueda ver sólo lo de su sucursal usando el mismo esquema".
+	Agrego un campo en todas las tablas que sea "sucursal". Esto tiene problemas de seguridad.
+
+	Seguridad por fila: Uso políticas. Le aplico a cada tabla el llamado a una func. Cada query corre las políticas antes de ejecutarse.
+
+	la ventaja de hacer la seguridad en la bdd así y no en el backend es q con las políticas ejecutandose antes de las querys está centralizado y cualquier error al programarlo usando cualquier query salta. 
+
+Contraseñas 
+	"twelve factor" - un estándar sobre cómo desplegar, instalar y conectar sistemas. 
+
+	Para conectar a la bdd si estas en el mismo sv podes usar el método "trust" si el nombre de usr coincide con el de la bdd podes entrar sin ninguna otra cosa
+
+Control de usr
+	usar los estandar
+	evaluar el uso de sso
+	Critica principal de los jwt (un token q el sv le da desp de que te autenticas al navegador, tiene info de quién es el usr y el id sesión, cifrado con RSA. Dura un tiempo limitado). Tiene el problema de que me lo pueden robar, no se puede desactivar pq los permisos ya están en el token. Y si el token sigue teniendo tiempo activo??
+	Mientras haces cosas que sean rápidas uso el jwt. Si voy a la bdd (lento a los ojos del navegador) controlo el jwt. Porque validar es lo mismo que usar un id y revisar la tabla, pierdo la velocidad del token.
+
+	Pq queremos un jwt? No tengo que almacenar, podemos tener sist q generen tokens (decentralizado), es más rápido que el id. Por esto se usa.
+
+-----
+
+24/06/2026
+
+
+concepto de ejecutar una función como caja negra que hace cosas de las que con mi user no tengo permiso de hacer.
+
+
+revoke significa sacar algo que granteé pero si das algo a un "público", no puedo negarselo a alguien en específico.
+
+cuidado con trigger en instrucciones update pq (ej) c/gerente puede hacer lo q quiera con los datos de su sucursal puede cambiar las primary key? (en bdd generalmente se puede) no está bueno que pueda cambiar la primary key de su sucursal pq le puede encajar objetos a otra sucursal que no es la suya. Hay que checkear en UPDATE el valor de la primary key vieja y la nueva.
+
+
+viene query -> parser -> arbol sintáctico -> verificamos tipos (check de campos, tablas y tipos dentro de la query)-> AST(arbol) verficado ->optimizador -> Arbol optimizado-> -> elección de algoritmos -> plan de ejec
+
+nodos iniciadores(scan, q trae los datos crudos. El seek busca por índice), dan info a los agentes, saben hablar con el Transaction Manager para traer cosas del disco, busca datos de la tabla. Envía esos datos a los agentes intermedios, el output del iniciador es el input de los intermedios y así no tienen que hablar con el Transaction Manager necesariamente. Hay casos especiales
+
+los agentes intermedios:
+joins q no son merge tienen que pedirle con un seek que les traigan los registros (y el seek habla con el transaction manager).
+Si hay un update habla con el transaction manager para updatear los campos.
+por cada transacción para cada instruc genero un agente intermedio q sabe su contexto de qué transacción vienen
+
+
+el último nodo da el resultado que envío al user
+
+
+para elegir el plan de ejecución se usan heurísticas sobre los datos que tenemos, para una misma query podemos tener distints planes si la base es distinta, tenemos índices, densidad de tablas, etc.
+
+
+Pregunta final importante:
+
+	Cuando el recovery manager recibe un commit guarda el log de inmediato para poder mandar la confirmación al cliente.
+
+	no, la bdd te hace esperar 1 ciclo de disco o hasta q se llene el log, entonces graba el log en cada ciclo de disco como mucho. Para dar la confirmación si tengo que guardar el log pero no lo guardamos inmediatamente. Lo que importa es las transacciones que efectivamente logro hacer para considerar que tengo disco a velocidad de la ram, hacer mil op (de mil clientes) en paralelo terminamos haciendo esas mil en el tiempo que mil op de ram hubiesen hecho.
+
+	workflow: parte del back q pasa info de lo que pide el usr y lo que hay que operar/calcular.

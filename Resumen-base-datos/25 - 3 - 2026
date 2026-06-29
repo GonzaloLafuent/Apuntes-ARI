@@ -1,0 +1,8 @@
+las definiciones se pueden dar sobre un juego de datos, teniendo una tabla (conj de datos homogéneo) "Alumnos" por ejemplo.
+
+otro ámbito es sacar una "foto" de una instancia de la realidad (un recorte de la realidad). Podemos "ignorar" el nombre de las columnas y sólo mirar los datos. Otra es diseñando un sistema y sabemos cómo funciona la realidad y queremos ver si una DF existe o no. Otra es voy a definir los alcances de una base de datos con restricciones a la realidad y modelo la realidad eligiendo cómo recortar la realidad. 
+Ej: dentro de la Argentina los Nro de Dni debería ser único pero en la realidad no lo son! Puede ser por error humano (previo a la compu, cuando se hacía a mano). Los bancos y la justicia se encuentran con esto en sus bases de datos pero los colegios no.
+Como esto es poco probable (aunque pase) podemos "suponer que no pasa" y "parchearlo" cuando hacemos la base de datos. Alcanza con avisar que es un repetido, balance entre "correcto" y práctico. Los workarrounds LO TIENE QUE HACER EL USUARIO pero es muy importante NO mentirle porque sí, no es recomendable
+
+2FN: no esta en 2fn si una dependencia funcional que dependa de parte de la clave
+3fn y 2fn son parecidas en sentido práctico: redundancia de info y cuando hay redundancia podes tener info "disimil" (tener "Tucuman" y "Tucumán", con acento y sin acento depende donde lo busque).

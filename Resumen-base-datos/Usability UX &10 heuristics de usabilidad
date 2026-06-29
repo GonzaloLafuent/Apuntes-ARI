@@ -1,0 +1,135 @@
+Usability UX &10 heuristics de usabilidad
+
+Usabilidad
+	Qué es usabilidad? 
+		Es un atributo cualitativo referente a cuán fácil las interfaz de usuario son de usar. También refiere a métodos para mejorar la facilidad de uso durante el proceso de diseño.
+
+	Componentes de calidad
+		Learnability: q tan fácil es, para los usrs, lograr tareas básicas la primera vez q encuentran el diseño?
+		Eficiencia: cuando los usrs ya aprendieron el diseño, qué tan rápido completan tareas?
+		Memorability: cuando volves al diseño después de un tiempo de no usarlo qué tán rápido volves a agarrarle la mano?
+		Erorrs: cuántos Errores comete el usuario, que tan severos son y qué tan fácil es recuperarse de ellos?
+		Satisfacción: cuán placentero es usar el diseño?
+
+	Otros atributos importantes de Usabilidad:
+		Utilidad: hace lo que los usrs necesitan?
+			Tanto usabilidad como utilidad son importantes y juntas determinan si algo es útil. (No importa qué tan sencillo es algo si no logra lo que queres; y tampoco si puede lograr lo que queres pero es demasiado difícil de usar).
+			Útil: usabilidad + utilidad
+	Pq es imporante la Usabilidad?
+	En la web es condición necesaria para sobrevivir al mercado de páginas y que no se vaya la gente. La gente no lee un manual de usuario de páginas ni pasan mucho tratando de aprender a usar las págs.
+
+	Primera regla de los ecommerce: "si los usrs no pueden encontrar el producto, no pueden comprarlo"
+
+	Para las "intranets", la usabilidad es cuestión de productividad de los empleados. El tiempo que pasan los usrs perdidos en tu intranet o pensando sobre instrucciones difíciles es plata perdida pagándoles para que estén en el laburo sin terminar laburo.
+
+	Las mejores prácticas actuales gastan 10% del presupuesto de diseño en usabiliad. En promedio en webs esto logra más del doble en metricas de calidad y en intranets un poco menos el doble. Para software y productos físicos las mejoras son menores pero igualmente sustanciales.
+
+	Para el diseño interno de proyectos hay que pensar en duplicar la usabilidad como reducir el presupuesto de entrenamiento a la mitad y duplicar el núm de trasacciones que los emplados logran por hora. Para diseño externo, duplicar las ventas, duplicar el numero de usrs registrados o consumidores llegados o duplicar cualquier otro KPI (key preformance indicator)
+
+	Como mejorar Usabilidad:
+		User testing:
+			1) Encontrar "usuarios representativos", por ej clientes con una pag ecommerce o empleados de una intranet.
+			2) Pedirle a los usrs que hagan "tareas representativas" con el diseño
+			3) Observar que usuarios logran las tareas y dónde tuvieron dificultades con la interfaz. Callate y deja q los usrs hablen.
+
+		Importante: testear los usrs individualmente y dejarlos resolver cualquier problema por su cuenta. Si los ayudas o dirigís su atención a alguna parte de la pantalla en particular, ya contaminaste los resultados.
+		Para identificar los problemas más importantes de un diseño, generalmente, testear 5 usrs alcanza.
+
+		Es mejor usar los recursos en tests chicos y revisar el diseño entre cada uno para ir arreglando las fallas de usabilidad a medida que las identificas.
+
+		El [diseño iterativo] la mejor forma de subir la calidad del UX (user experience). Mientras más versiones e interfaces testees con usuarios, mejor.
+
+		Testear usuarios es distinto de usar "grupos de foco" (focus groups), que son una pobre forma de evaluar la usabiliadad del diseño.
+		Los Grupos de foco tiene un lugar en la investigación de mercado pero para evaluar diseño necesitas observar de cerca los usuarios individuales mientras hacen las tareas con la interfaz. Escuchar "lo que la gente dice" es mentiroso, hay que VER lo que realmente hacen.
+
+	- Cuando trabajar en la usabilidad?
+		1) Antes de empezar un nuevo diseño, PROBAR EL VIEJO diseño para identificar partes buenas que quedarse, o enfatizar, y las partes malas que donde los users tuvieron problemas.
+		
+		2) A menos que estes laburando en una intranet, testea los diseños de tus competidores para tener data barata de varias alternativas de interfaces con features similares a la tuya. (Para las intranets hay un "Intranet desing annual" para ver otros diseños).
+		
+		3) Tené un "campo de estudio" (un "in situ", un contexto de investigación en el ambiente usuario) para ver cómo se comportan los usuarios.
+		
+		4)Hace prototipos en papel de nuevas ideas de diseños y probalas. Mientras MENOS tiempo inviertas en estos diseños MEJOR porque vas a necesitar cambiarlos todos basado en los resultados de los tests.
+
+		5) Refina las ideas de diseño que mejor rindan muchas iteraciones, gradualmente moviendote de un prototipo de "baja fidelidad" a representaciones de "alta fidelidad" que corran en la compu. Testea cada iteracion.
+
+		6) Investigá los diseños de las guías de usabilidad establecidas tanto estudios/investigaciones viejas como nuevas.
+
+		7) Una vez decidas que diseño final implementar TESTEALO de nuevo. Los problemas de diseño sutiles siempre acechan durante la implementación.
+
+	No retraces el testeo hasta tener completamente implementado el diseño. Sino, va a ser imposible arreglar la mayoría de problemas de usabilidad cruciales que los tests revelen. Muchos de estos problemas, probablemente, son estructurales y arreglarlos va a requerir rehacer gran parte de la arquitectura.
+
+	La única forma de tener alta calidad en UX es empezar a testear con usuarios en el proceos de diseño temprano y mantenerse testeando en cada paso.
+
+10 Heurísticas de Usabilidad para Diseño de Interfaces de Usuario:
+
+	1) Visibilidad del Estado del Sistema
+		El diseño debería mantener informado a los usuarios siempre lo que está pasando mediante feedback, en una medida de tiempo razonable.
+		Cuando los usuarios conocen el estado actual del sistema apreneden cuál es el resultado de sus acciones anteriores y pueden determinar las próximas. Las interacciones predecibles crean confianza en el producto y en la marca.
+
+	2) Hace coincidir el Sistema con el Mundo Real
+	
+		El diseño debería hablar el idioma de los usuarios. Usar palabras, frases y conceptos conocidos para el usuario, en lugar de jerga interna. Seguí las convenciones del mundo real, haciedo que la información aparezca en un orden natural y lógico.
+		La manera en que diseñes depede mucho de los usuaros específcios. Términos, conecptos, iconos e imágenes que se ven perfectamente claras para vos o tus colegas pueden ser desconocidas o confusas para los usuarios.
+		Cuando los controles del diseño siguen las convenciones irl y los correspondientes resultados esperados es más facil para los usuarios aprender y acordarse cómo funciona la interfaz. Se crea una xp intuitiva.
+
+	3) Control del usuario y libertad
+		
+		Los usuarios comúnmente cometen errores. Necesitan una "salida de emergencia" clara y marcada para sacar las acciones no deseadas sin mucho esfuerzo.
+		Cuando es fácil para usrs salir de un proceso o deshacer acciones, se crea una sensación de libertad y confianza. La salida permite a los usrs mantener el control del sistema y evitar trabas y frustración.
+	
+	4) Consistencia y estándar
+
+		Los usuarios no deberían tener que adivinar si las distintas palabras, situaciones o acciones significan la mismas cosas. Seguí las convenciones de la plataforma y la industria.
+
+		La "Ley de Jakob" dice que la gente pasa la mayor parte de su tiempo usando productos que no son el tuyo. La experiencia de los usuarios con esos otros productos establece sus expectativas. No mantener consistencia aumenta la carga cognitiva del usuario, forzando el aprendizaje de algo nuevo.
+
+	5) Prevención de Errores
+
+		Los buenos mensajes de error son importantes PERO los mejores diseños previenen cuidadosamente los problemas antes de que pasen. O bien eliminar las condiciones que tienden a error o checkealas y dale a los usuarios una opción de confirmación antes de hacer la acción.
+		Hay dos tipos de errores, descuidos y equivocaciones. Los descuidos son errores inconcientes causados por falta de atención. Las equivocaciones son errores conscientes en base a una disonancia entre el modelo mental del usuario y el diseño.
+
+	6) Reconocer antes que recordar
+
+		Minimiza la carga de memorización del usuario haciendo que los elementos, acciones y opciones sean visibles. El usuario no debría tener que acordarse la información de una parte de la interfaz a otra. La información necesaria para usar el diseño (i.e nombre de campos o items del menu) debería ser visible o fácilmente conseguible cuando sea necesario.
+
+		Los humanos tienen memoria de corto plazo. Las interfaces qeu alientan el reconocimiento reducen la cantidad de esfuerzo cognitivo de los usrs.
+
+	7) Flexibilidad y eficiencia de uso
+		Los atajos (ocultos de usuarios nuevos) puede que aceleren la interacción de los usuarios expertos para que el diseño pueda ajustarse tanto a usuarios inexpertos como expertos. Permití que los usuarios adaptar las acciones frecuentes.
+		Los procesos flexibles se pueden hacer de distintas formaspara que las personas elijan las q les venga bien.
+	8) E S T E T I C A (brazo de 45 jijiji) y diseño minimalista. 
+
+		No tener info innecesaria o poco usada en la interfaz. Cada cosa compite con lo relevante y disminuye su visibilidad.
+		No necesariamente un diseño plano, enfoque en lo escencial y objetivos del usuario. 
+
+	9) Ayudara los usuarios a reconocer, diagnosticar y recuperarse de errores
+		Expresar los errores en lenguaje natural, indicar el problema exacto y sugerí, constructivamente, una solución.
+		Mostra los errores de forma que ayude a usrs a notarlos y reconocerlos.
+
+	10) Ayuda y decumentación
+
+		Lo mejor es no necesitar mucha explicación pero a veces no queda de otra.
+		El contenido debe ser sencillo de buscar y enfocado en las tareas del usr. Ser conciso y listar los pasos.
+
+
+----
+Preguntas de la clase:
+
+1) "Son compatibles hacer un sist foolproof con las idea de nielsen?" Puse sí. 
+
+Rta: No pq una de las heurísticas dice que tenemos que diseñar tanto para usrs avanzados y nuevos.
+
+7) Un sistema que al vencerse la sesión mande al usuario a la pantalla de login ¿cumple los principios de usabilidad?
+
+Puse si.
+
+rta: Depende, porque si te kickea pero no guarda el progreso es muy frustrante. Así como está incompleto.
+
+9) En una aplicación web, para ser compatible con los principios de usabilidad de NyN ¿qué comportamiento debería tener la flecha atrás del navegador?
+
+Puse: volver a la pantalla anterior del sist y volver a la página anterior a abrir la app
+
+rta: solo pantalla anterior por ESTANDAR. Tiene q ser significativamente anterior la pantalla anterior. Ojo con hacer las url el estado del sistema y que los cambios se mantengan. Recomendación de libro "Dive into html5" interesante si te interesa Front End.
+
+

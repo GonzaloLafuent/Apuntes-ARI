@@ -1,0 +1,1370 @@
+# Resumen de Bases de Datos
+## Modelo de data
+Nos permite decribir data o informacion. la descripcion contiene 3 partes: 
+- estructura de la data:  
+- operaciones de la data: en modelos de bases de datos estan limitadas las operaciones, por una cuestion de
+  eficienca.
+- Constrains de la data: Son limitaciones sobre lo que puede ser la data. 
+
+Actualmente hay dos modelos fuertes con respecto a como representar los sistemas de bases de datos:
+- El modelo relacional: se basa en tablas. gran parte del estudio de este modelo se basa en ver como se implementan estas tablas.
+En la mayoria de veces las relciones no esta implementadas como estructuras en la memoria principal, a la hora de implmentarlas fisicamente hay que tener en cuenta la necesidad de a acceder a relaciones muy grandes que viven en el disco. Las operaciones estaran asociadas a lalgebra relacional. 
+- El modelo semiestructurado: se asemaja mas a arboles o grafos. El principal representante es XML, que permite representar informacion de forma jerarquica usando elmentos taggeados. 
+
+se podria pensar que el modelo semiestructurado posee mayor flexibilidad que el modelo relacional, pero mas alla de esto el modelo relacional suele ser el mas preferido. Como la bases de datos son grandes, se necesita ser eficiente a la ahora de acceder o modificar data. A su vez de ser simple de utilizar. Estos dos objetivos son logrados por el modelo relacional:
+- Provee una forma simple y limitada de modelar la data que es versatil como para poder modelar todo tipo de relacion
+- Provee un cojunto limitado de operciones pero utiles.
+Todo junto convierte las limitaciones en mejoras, permitiendo construir lenguajes que permiten expresar consultas de una forma muy buena. 
+
+## Modelo relacional
+Permite representar data de una forma muy sencilla, como una tabla de dos dimensiones llamada relacion. 
+Terminos importantes del modelo: 
+### Atributos:
+- son las columnas de una relacion. decriben el significado de una entrada debajo de una columna. 
+### Esquemas: 
+- El nombre de una relacion y el cojunto de atributos para la misma se llama esquema de la relacion. 
+  Mas alla de que los atributos se los tome como cojunto, se suele establecer un order para mostrarlos dentro de la relacion. 
+El conjunto de esquemas de relaciones es llamada **esquema relacional de la base de datos**. Los atributos dentro de un esquema no son una lista, sino que solo seran un conjunto. se suele especificar un orden en la forma que mostrarmos los tributos en la relacion. 
+### Tuplas:
+- Es cualquier fila mas alla del encabezado que posee el nombre de los atributos. 
+### Dominio:
+- Cada elemento de una tupla debe ser atomico, por lo que debe pertenecer a algun tipo elemental. No pueden ser tipos que puedan ser divisibles en partes mas pequeñas. el dominio sera este tipo particular de cada atributo. 
+### Intancia:
+- es un cojunto de tuplas de una relacion dada. 
+### Claves:
+- un conjunto de atributos forma una clave de una relacion si no permitimos que dos tuplas en una instancia tengan los mismo valores en todos los atributos de la clave. Por lo general dentro del modelo se suelen usar calves artificiales, dado que no seria correcto asumir que los valores de un cierto atributo seran unicos entra las distintas tuplas. 
+
+## Historia del modelo relacional
+Surge a partir de un paper excrito **Ted Codd** en 1970. En este se propone que la informacion deberia ser presentada como tablas llamadas **relaciones**.
+Por detras, se tendria una estructura compleja que permitiria la repsuesta repída frente a ciertas consultas que se le haga. 
+Para 1990 este tipo de modelos se convirtieron en la idea a seguir, mas alla de esto la idea sobre modelos de bases de datos fue cambiando.
+El modelo relacional permitia entre que datos almaceno y como se almacenan, simplicidad, normalizcion de la informacion, optimizacion y un lengauje declarivo fuerte.
+
+## Operaciones
+Para poder realizar operacion de manipulacion de informacion, sus conceptos se sostiene sobre el **Algebra relacional**. La idea es definir un lengauje especifico para bases de datos, siendo util definirlo sobre estos concepto al ser menos poderoso, esto hace que sea mas eficiente y sencillo de programar. 
+En un momento las bases relacionales se construian directamente sobre el algebra relacional, hoy ya no es tan asi, sino que usan ese modelo como su base.
+
+**Algebra:** Esta formado por un cojunto de operadores y operando atomicos. nos permite generar expresiones operando operadores a operandos atomicos. En el algebra relacional los operandos atomicos, son la variables que representan relaciones y constantes que son relaciones finitas. 
+
+**Operaciones:** se puede dividir en: 
+- Operaciones clasica: union, interseccion y diferencia.
+- Operaciones que remueven parte de una relacion: seleccion y proyeccion.
+- Operaciones que combinan tuplas de dos relaciones: producto cartesiano y tuplas. 
+- Operaciones de renombre: no afectan a las tuplas pero si cambian el esquema de la relacion.
+
+Estas expresiones dentro del algebra se llaman **querires** o **consultas**.
+
+**Operaciones conocidas:**
+- **Union:** $R \cup S$ conjunto de elementos que que estan en R o S.
+- **Interseccion:** $R \cap S$, conjunto de elementos que estan en R y S.
+- **Diferencia:** $R - S$. Cojunto de elementos que estan en R pero no en S.
+
+Para poder aplicar esto es necesarios que:
+- R y S tengas esquemas con conjuntos de atributos identicos y el dominio de cada atributo debe ser el mismo para R y S.
+- Antes de computar cualquier de estas relaciones, las columnas de R y S deben estar ordenadas para que los atributos esten en el mismo orden para ambas relaciones
+
+**Proyeccion:** se utiliza para producir desde una relacion **R**, una nueva que posee algunas columnas de **R**. Para identiifarla se establecen el conjunto de argumentos que se van a extraer de la misma. a la hora de hacer una proyeccion, si hay tuplas repetidas en la misma, estas se eliminan.
+
+**Seleccion:**  Aplicado a una relacion **R** produce una nueva relacion como subconjuntos de tuplas de **R**. Contiene los mismos atributos que **R**
+Por lo general se expresan asignando una condicion sobre los atributos, es decir las tuplas obtenidas por medio de la seleccion seran aquellas que satisfacgan algunas codicion **C**. la condiicion se aplica sobre todas las tuplas pertenecientes a la relacion dada. 
+
+**Producto Cartesiano:** se denota como **R X S**, donde **R** y **S** son dos conjuntos, y el resultado de la operacion es un conjunto de pares, donde el primero elemento pertence a **R** y el segundo pertence a **S**.Como los elementos de **R** y **S** son tuplas, el resultado de su producto cartesiano sera un cojunto de tuplas aun mas grande en longitud. Por lo genral los componetes de la tupla de la izquierda estaran antes que los de la tupla de la derecha. 
+Si un atributo posee el mismo nombre en ambas relaciones, hay que generar un nuevo nombre para al menos alguno de ellos dos. 
+
+**Natural joins:** dado dos relaciones se busca unir aquellas tuplas que matchhean de alguna manera. Los que buscamos matchear son atributos entre relaciones.
+En este caso lo que hacemos es matchear aquellas tuplas que esten de acuerdo en algun atributo comun de los esquemas **R** y **S**. De esta forma un tupla de **R** y otra tupla de **S** conforman un par si y solo si ambas tuplas estan de acuerdo en un conjunto de atributos especificados. EL resultado es lo que se denomina como **Tupla joineada** o **joined tuple**.
+
+**Theta joins:** La idea es generar pares de tuplas pero en este caso con otro tipo de condiciones. En este caso usamos condiciones mas complejas que solo el matcheo en el valor de un conjunto de atributos. En este caso la expresion **theta** indica la posibilidad de incluir una condicion mas compleja.
+la forma de computar esto ser:
+- realizar un producto cartesiano de las relaciones **R** y **S**.
+- seleccionar del preducto de las mismas quellas tuplas que satisfagan la condicion dada.
+
+A partir de estas operaciones basicas podemos generar expresiones mas complejas que nos permiten la union de las mismas con el fin de realizar consultas a nuestra base. por lo general podemos tener mas de una exprtesion que representa la misma consulta.
+
+**Renombre:** exite un operador que nos permite renombrar las relaciones.El operador recibe una realcion **S**, y al aplicarse sobre **R**, contendra las mismas tuplas con nombres distintos.
+
+### Equivalencias de operadores: ###
+![Texto alternativo](equivalencia-1.png)
+![Texto alternativo](equivalencia-2.png)
+![Texto alternativo](equivalencia-3.png)
+
+## Constrains
+A la hora de querer exprsarlas hay de dos tipos: 
+- Expresar que no queremos que un valor dentro de uma realcion sea vacio
+- Expresar que cada tuplas de R tambien debe ser reasultado de S
+
+## Teoria de diseño de bases relacionales 
+
+Hay muchas maneras de diseñar un esquema de base relacional para una aplicacion. Mas alla de esto siempre un esquema tendra lugar para poder mejorarse. 
+Por lo general los mayores problemas los esquemas surgen de queres combinar mucha informacion en una sola relacion. 
+Hay una teoria solida sobre la nocion de **dependecia** que nos permite definir que hace a un buen esquema de base relacional. 
+
+### Dependencia funcional 
+Una **dependencia funcional** sobre una relacion **R** sostiene que si dos tuplas de **R** estan de acuerdo en los atributos $A_1$, $A_2$, ... $A_n$
+entonces deben estar de acuerdo en otra lista de atributos $B_1$, $B_2$, ... $B_n$. Cuando hablamos de que las tuplas estan de acuerdo en sus atributos, implica que poseen el mismo valor. 
+Si para cada instancia de **R** tenemos que la dependencia funcional es verdadera entonces digo que **R** la satisface.
+Es una generalizacion para la nocion de clave dentro de la relacion.
+
+### Claves de una relacion
+Decimos que uno o mas atributos es una clave de una relacion si: 
+- Esos atribtuos determina funcionalmnente todos los demas atributos de la relacion. 
+- Ningun subconjunto de la la clave debe poder determinar funcionalmente al resto de los atributos, la clave debe ser minima.
+Bajo esto decimos que es un conjutno minimal que determina toda la relacion
+
+Por lo general una relacion puede tener mas de una clave, donde una se suele identitificar como primaria. La teoria de dependencia funcional no le da ningun rol especial a la clave primaria. 
+Se suele hablar de dependecia funcional tal que si $A_1$, $A_2$, ... $A_n$ -> $B_1$, $B_2$, ... $B_n$ entonces puedo tomar una funcion que tome como argumentos el conjunto de atributos A y me devuelva B. Esta funcion no se puede definir en el sentido matematico. 
+
+### Superclaves
+Un conjunto de atributos que contiene una clave es una **super clave**. cada clave es una superclave, pero no todas las superclaves son minimas. 
+Por lo tanto la superclave es un cojunto de atributos que que determina funcionalmente a los otros atributos, pero que no es minimal. 
+Sera un cojunto no minimal que determina toda la relacion.
+
+En otros libros se suele hablar de de clave candidata para referirse a los que nosotros le decimos clave.
+
+### Reglas sobre dependemcia funcional 
+#### Razonando sobre dependencias funcionales
+Vamos a ver como se puede inferir distintas dependencias funcionales. Dentro de esto podemos tener una nocion de equivalencia sobres conjuntos de **FD**:
+- Dos conjuntos de **FD**, **S** y **T** son equivalentes si el conjunto de relaciones que satisface **S** es le mismo al que satisface **T**
+- De forma general, un cojunto de **FD** sigue a un cojunto de **FD** **T** si todas la relaciones que satisface **T** tambien satisfacen **S**
+
+#### Reglas de combinacion o spliteo 
+podemos decir que: 
+- Dada un depedencia funcional $A_1$, $A_2$, ... $A_n$ -> $B_1$, $B_2$, ... $B_n$ podemos remplezar por un conjunto de dependencias funcionales tal que 
+$A_1$, $A_2$, ... $A_n$ -> $B_i$ para i desde 1 A m, esta sera la **regla de spliteo**.
+-- De forma analoga, dada una dependencia funcional de la forma $A_1$, $A_2$, ... $A_n$ -> $B_i$ para i desde 1 A m podemo tranformlar a una dependencia funcional de la forma $A_1$, $A_2$, ... $A_n$ -> $B_1$, $B_2$, ... $B_n. Esta sera la **regla de combinacion**.
+
+### Dependencia funcionales triviales
+La dependencia funcional se considera trivial si se mantiene para cada instancia de la relacion, mas alla de cualquier constrains que se asuma. Por ejemplo, si consideramos la dependencia funcional $A_1$, $A_2$, ... $A_n$ -> $B_1$, $B_2$, ... $B_n$ donde {$B_i$} es subcojunto de {$A_i$}, entonces es una dependencia trivial.
+
+### Clausura de atributos
+suponiendo que {$A_1$, $A_2$, ... $A_n$} es un conjunto de atributos y **S** es un conjunto de dependencias funcionales. la clausura de {$A_1$, $A_2$, ... $A_n$} bajo **S**
+es un cojunto de atributos **B** donde para cada relacion que satisfga todas las dependencias funcionales en el conjunto **S**, entonces tambien satisface que $A_1$, $A_2$, ... $A_n$ -> B. la clausura de un conjunto de atributos {$A_1$, $A_2$, ... $A_n$} se escribira como {$A_1$, $A_2$, ... $A_n$} + .
+De esta forma lo que establece la clausura {$A_2$, ... $A_n$}+ son todos los aitributos que puedo deducir con A_2$, ... $A_n$. Es decir la clasura de un cojunto de atribtuos **X** sera el conjunto de atributos que queda funcionalmente determinado por **X** en todas las relaciones que satifacen S. La idea de hablar de un **S** generico es que no dependo de la tabla concreta en la que me estoy desarrrollando.
+
+Al poder computar la clausura de un conjunto de atributos para un determinado conjunto de dependencias funcionales, podemos testear cualquier dependencia funcional. 
+Si el valor **B** esta dentro de la clausura entonces $A_1$, $A_2$, ... $A_n$ -> B, en caso contrario podemos decir que la dependencia funcional no sigue a S. 
+
+Notemos que si {$A_1$, $A_2$, ... $A_n$} + es un conjunto de todos los atributos de una relacion si $A_1$, $A_2$, ... $A_n$ es una superclave de la relacion. 
+Esto nos da una forma de chequear si un conjunto de atrituros es una clave, viendo si la clausura de estos es igual a todos los atributos y luego si tomando algun set de esta clausra no obtengo todos los atributos, por lo tanto es minimal. 
+
+### Regla de transitividad
+Se deduce sobre dos depdencias funcionales. si $A_1$, $A_2$, ... $A_n$ -> $B_1$, $B_2$, ... $B_n$ y $B_1$, $B_2$, ... $B_n$ -> $C_1$, $C_2$, ... $C_n$ 
+entonces $A_1$, $A_2$, ... $A_n$ -> $C_1$, $C_2$, ... $C_n$. 
+
+### Clausura de dependencias funcionales
+A veces hay opciones para representar el conjunto completo de dependencias funcionales de una relacion. Si tenemos un cojunto **S** de dependencicas funcionales, cualquier otro cojunto **FD**  equivalente a **S** es un basico de **S**. Intentamos considerar solo bases donde las **FD** posee un solo atributo del lado derecho. 
+un basico minimo de una relacion es un basico **B** si cumple que :
+- Todas las **FD** de **B** tienen solo un atributo del lado derecho 
+- Si alguna **FD** se remuve de **B**, el resultado no es mas un basis. 
+- Si paara alguna **FD** en **B** removemos uno mas atributos del lado izquierdo de **F**, el resultado no es mas un basico **S**.
+
+### Proyectando dependenncias funcionales
+***Proyeccion:*** nos permite producir desde una relacion **R** una nueva relacion que solo tiene algunas columnas de la relacion **R** original. la expresion $PI_{A_1, A2,..A_n}$(R) se refiera a que solo tomo las columnas de los atributos $A_1, A_2,...A_n$
+
+la proyeccion de un cojunto de **DFs** ***S***, sera todas las DFs tal que:
+- Siguen de S
+- Incluye solo atributos de $R_1$, siendo $R_1$ una proyeccion de R.
+
+## Diseño de esquemas de bases relacionales
+El mal diseño de un esquema de base relacional puede genera diversos errores. 
+
+### Anomalias
+podemos encontrar el siguiente tipo de anomalias:
+- **Redundancia**: La informacion esta repetida en muchas tuplas.
+- **Anomalias de actualizacion**: podemos cambiar la informacion en una tupla y dejear inalterada la misma informacion en otra tupla. 
+- **Anomalias de borrado**: si un conjunto de valores se vuelven vacios, puede ser que perdamos otra informacion como efecto colateral. 
+
+## Formas normales
+las formas normales son un conjunto de reglas que nos permiten evitar las anomalias mencionadas. Da un cojunto de propiedades que debe cumplir una relacion de acuerdo a las **relaciones de dependencia**. Describe la forma en la que se van a organizar los atributos en las tablas. Dentro de las mas importantes tenemos **la forma normal de boyce-codd** y **la tercera forma normal**.
+nos dan el piso para el proceso de descomposicion. la idea es partiendo de una relacion universal e ir descomponiendo hasta llegar a la forma normal. 
+
+### Primera Forma Normal
+Todas las relaciones estan en forma normal de acuedo a nuestra definicion de modelo relacional. Una relacion esta en primera forma normal si y solo si todas los atributos son atomicos. si tuviera una lista de campos que crece exponencialmente tampoco es atomico. los atributos que almaceno deben ser atomicos. dentro de la relacion los aitrbutos que tengo debenser atomicos, si yo tengo nota_1, nota_2, nota_3 como atributo no tengo atomicidad. 
+
+### Segunda Forma Normal 
+Para definir esto tenemos que un atributo se lo considera primo si es miembro de alguna clave. Consideramos que una relacion esta en segunda forma normal si todo atributo no primo **A** en **R** no es parcialemnte dependiente de alguna clave de **R**. Esta forma normal solo tiene sentido si la clave es compuesta, de ser simple ya va estar en segunda forma normal. 
+si tengo una clave compuesta, por ejemplo tengo una tabla notas donde la clave es materia y lu. si en esa tabla pongo ademas el nombre de la materias, el nombre de la materias va a depedner solo del codigo de la materias. aca violo la segunda forma normal, tengo un atributo que pertenece a una parte de la clave.
+
+## Descomposicion de relaciones
+Para eliminar las anomalias se deben descomponer las relaciones. La descomposicion de **R** nos permite splitear los atributos de **R** para construir los esquemas de dos nuevas relaciones. Dada una relacion **R** con atributos $A_1$, $A_2$, ... $A_n$, podemos descompoenter a **R** en dos relaciones **S** con atributos  $B_1$, $B_2$, ... $B_n$ y otra relacion **T** con atributos $C_1$, $C_2$, ... $C_n$ tal que cumple que:
+- La union de los atributos $B_i$ con los atributos $C_i$ forman los atributos $A_i$
+- S es igual a la proyeccion de los atributos $B_1,...b_m$ sobre la relacion ***R***
+- T es igual a la poryeccion de loa atributos $C_1,...C_k$ sobre la relacion ***R***
+
+La redundancia no aplica a claves, estan se podran repetir dado que son la forma unica de representar un elemento y tener su referencia. 
+
+### Forma normal de Boyce-Codd
+La idea de descomposicion es poder cambiar una relacion por varias, de forma tal que no se exhiban anomalias. Hay una simple condicion frente a la cual se garantiza que no existan las anomalias anteriores. Esa condicion es **La forma normal de Boyce-CODD**:
+- Si una relacion R esta en **BCNF** si y solo si cada vez que tenemos una dependencia funcional no trivial de la forma $A_1$, $A_2$, ... $A_n$ -> $B_1$, $B_2$, ... $B_n$ para **R**, entonces $A_1$, $A_2$, ... $A_n$ es una superclave de **R**
+Otra forma de pensarlo es que el lado izquiero de toda dependencia funcional no trivial debe ser una superclave, que es equivalente a pensar que el lado izquierdo de toda dependecia funcional no trivial debe contener una clave. 
+
+Lo que nos permite esto es que toda dependencia funcional este ligada a una clave, por lo tanto no hay dependencia ocultas o duplicaciones innecesarias. 
+De esta forma **BCNF** elimina las anomalias porque evita las **DF** donde el determinante no identifica univocamente a las tuplas. 
+
+La idea es repitiendo un proceso hasta que todas nuestras relaciones se ecuentren en **BCNF**. la idea es siempre partir de aquella **FD** que esta violando el concepto de **BCNF**
+
+Exiten algunos casos triviales con respecto a relaciones y este tipo de formas normales. Suponiendo una relacion donde tengo dos atributos **A** y **B**, puedo ver que:
+- No hay depedendencia funcional no triviales, por lo tanto **BCNF** se mantiene, dado que solo una dependencia funcional no trivial puede romper la condicion. 
+- A -> B mantiene, pero B --> no. Por lo tanto A es la unica clave y cada dependencia funcional no trivial contiene A a la izquierda. Por lo tanto no se viola **BCNF**
+- Lo mismo ocurre para el caso donde B-> A se mantiene, perp no A-> B.
+- Como ambas se mantienen, luego A y B son claves. Podemos afirmar que para culquier dependencia funcional al menos una de estas va a estra a la izquierda, por lo tanto se cumple BCNF.
+Esto cloncluye que toda relacion con dos atributos va a estar en **BCNF**.
+
+## Lo bueno y malo de las descomposiciones
+Las descomposiciones tendran buenas cosas como malas. dentro de esto podemos hablar de: 
+- Eliminacion de anomalias
+- Recuperacion de informacion
+- Preservacion de dependencias
+
+En este modelo de normalizacion podemos obtener las condicion 1 y 2. A su vez podemos generear una nueva forma de descomposicion que nos de 2 y 3. pero no hay forma de obtener las 3 codiciones al mismo tiempo. 
+
+### recuperacion de informacion
+Por que planteamos un algoritmo si sabiamos que toda relacion de dos atributos esta en **BCNF**? El problema esta en que descomponer una relacion de esta forma, no nos permite unir las relaciones de la descomposicion y obtener todas las instancia de **R** de nuevo. esta se denomina como **lossless join**. El poblema esta en que partir de este razonamiento no puede llegar a obtener tuplas fantasma por medio de la union (join) de las relaciones de la descomposicion.
+Si utilizamos el algoritmo planteado para obtener la descomposicion, luego la relacion original puede ser recuperada mediante un join natural. Esto es algo que no todas las formas de obtener una descompsicion pueden asumir.  
+Para poder comprobar esto existe lo que se denomina como **The chase test** para ver la presencia de **Lossless join**. la idea de esta prueba es ver que pasaria si hago un join usando solo las dependencias funcionales. De esta forma se genera un tabla donde se posee como columnas los atributos de **R** y una fila por cada subrelacion. 
+Para el valor de los atributos de cada fila, se usa un simbolo fijo si estos atributos estan en la relacion, y de caso contrario se les agrega un indice.
+Luego utilizando las dependencias funcionales, de la forma X -> Y si dos filas coinciden en X deben coincidir en Y, y de esta forma se igualan los simbolos.
+La descomposion sera lossles si alguna fila termina con todos los atributos iguales. 
+
+### Preservacion de dependencias
+Muchas veces en la descomposicion **BCNF** hay que hacer un tradeoff entre poser un **lossless join** y poder **conserva las dependencias**.
+Cuando hablamos de conservar dependencias es que aparezcan de forma explicita en alguna de las relaciones de la descomposocion. Al eliminarse una **FD**, por ejemplo una que expresa transitivida, solo puede ser recuperada por medio de un join de sus atributos.
+De esta form el algoritmo propuesto nos permite eliminar anomalicas y resuperar la informacion, pero no preservar las dependencias.
+
+## Tercera Forma Normal
+Es una forma normal mas relajada que **BCNF**  En este caso la tercera forma normal nos permite tener lossless join y dependecy preservation, pero no permite eliminar las anomalias, dejando muchas veces redundancia. La preservar las **FD** nos permite la eveluacion de las mismas sin la necesidad de elbaorar joins con las otras relaciones.
+
+Una relacion **R** esta en tercera forma normal si cuando $A_1,...,A_n$ -> $B_1,...,B_m$ es una **DF** no trivial, o bien {A_1,...,A_n} es una superclave o 
+esos atributos $B_1,...,B_m$ que no estan entre las **As**, son miembros de alguna clave. Tambien se puede de definir como o bien la parte izquierda es una superclave o los valores **B** son primos.
+
+## Dependencia multivaluada
+Ocurre cuando dos atributos o conjunto de atributos son independientes uno del otro. Es un generalizacion de dependencia funcional. 
+una **MVD** es una afirmacion sobre **R** donde cuando se fijan lo valores de un conjunto de atributos, entonces los valores en otros atributos son independientes de todos los otros valores de la relacion. Se puede definir como que  $A_1,...,A_n$ ->> $B_1,...,B_m$, donde si nos restrinjimos a las tuplas que tiene vaLores particualres para **A**, luego el cojunto de avlores de **B** es independiente del conjutno de atributos de **R** que no estan entre **A** y **B**.
+mantiene la relacion para R si para cada tuple **t** y **u** de la relacion **R** que estan de acuerdo con todo los valores de **As**, podemos encontrar otra tupla **v** tal que esta de acuerdo: 
+- Con **t** y **u** en los valores **As**
+- con **t** en los valores de **Bs**
+- con **u** en todos los atributos R que no estan entre las **As** y los **Bs**
+
+Lo que nos permite es yo puedo combinar libremete los valores de B y el resto de los aitrbutos, siempre que mantenga el mismo A. La idea es que si tengo dos combinaciones posibles, todas las combinaciones cruzadas son posibles. Esto nos permite que dijada A, los valores B se puede combinar libremte con el resto de atributos.
+
+la relacion de **MVD** de la forma X->> Y nos dice que si encontramos dos filas que que estan de acuerdo en el valor de **X**, luego puedo encontrar filas nuevas haicneod combinacion con los valores de **Y**
+
+### Cuarta forma normal
+En este caso, por medio de esta forma normal podemo eliminar todas las **MVDS** no triviales son eliminadas, como tambien todas las **DF** que violan las **BCNF**. 
+Esto permite a su vez eliminar redeucnida. 
+
+Sera en si la condicion de **BCNF** pero aplicada a **MVDs**. Podemos decir que una relacion en cuarta forma normal si $A_1,...,A_n$ ->> $B_1,...,B_m$
+es una **MVD** no trivial y {$A_1,...,A_n$} es una super clave. 
+Como la cuerta forma normal es una genralizacion de BCNF entonces una violacion en BCNF es tambien una violacion en la cuarta form,a normal. 
+
+## Relacion sobre formas normales
+![Texto alternativo](relaciones-formas-normales.png)
+La **cuarta forma normal** implica  **BCNF**, que a su vez implica **tercera forma normal**.
+
+## Propiedades de las formas normales
+![Texto alternativo](propiedades-formas-normales.png)
+
+## Mas sobre operaciones de algebra relacional
+En este caso consideramos a la relaciones como **multiconjuntos** permitiendo que una misma tupla este repetida mas de una vez. esto modifica algunas de las operaciones que vimos sobre el algebra relacional.
+
+En modelos comerciales de **DBMS** se usa el modelo de muticonjuntos, principalmente porque hace mas eficientes a las operaciones.
+
+### Union, interseccion y difrencia sobre multiocnjuntos
+Suponiendo que una tupla **t** aparece en una relacion **R** un numero **n** de veces y aparece un numero **m** de veces en una relacion **S**. luego:
+- En el multiconjunto $ R \cup S $, la tupla **t** aparece n + m veces.
+- En el multiconjunto $ R \cap S $, la tupla **t** aparece $min(n,m)$ veces.
+- En el multiconjunto $ R - S $, la tupla **t** aparece $max(0,m-m)$ veces. Si aparece mas veces en **R** que en **S** luego la cantidad de veces que estara en la diferencia sera la resta de ambas cantidades, en caso contrario, como la diferencia da un numero negativo, el valor sera 0.
+
+### Proyeccion
+A diferencia de la proyeccion con sets, no se elimina los resultados duplicados obtenidos.
+
+### Seleccion 
+Se aplica la seleccion a cada tupla de forma independiente y no volvemos a eliminar los duplicados. 
+
+### Producto cartesiano
+En este caso no cambia, se utilizan las tuplas de una relacion para llenar la parte izquierda del par y la segunda coordenada se rellana con la segunda relacion, mas alla de que haya o no duplicados. 
+
+### Joins
+Nuevamente aca no hay cambios, a su vez tampoco se eliminan duplicados. 
+
+## Operaciones Extra
+Se han agregadop operaciones extra que sirve para los lenagujes de consulta modernos.
+
+### Eliminacion de duplicados
+se expresa como $\delta(R)$, permitieindo convertir el multiconjunto de tuplas en un conjunto, por medio de la eliminacion de duplicados. 
+
+### Operadores de agregacion
+Permiten hacer resumenes sobre la informacion de una columnas. dentro tenemos:
+- **Sum:** genera la suma de una columna con valores numericos.
+- **AVG:** produce el promedio de una columna con valores numericos.
+- **Min/Max:** genera el valor mas chico o grande de una columna con valores numericos. 
+- **Count:** produce el numero de valores en una determinada columna.
+
+### Grouping
+Nos permite agrupar una relacion y/o agregar algunas columnas. El operador utilizado para esto sera $\gamma$. sera una lista de elementos donde cada uno es:
+- Un atributo de la relacion **R** donde se aplica $\gamma$. este sera uno de loa atributos por los caules **R** se agrupara. 
+- un operador de agreacion aplicado a un atributo de la relacion. Para proveer un nombre para el atributo correspondiente al resultado de la agregacion, se añaden una flecha y un nuevo nombre que se concatenan en la agreacion. El atributo subrayado se dice que es el atributo agregado.
+la expresion retornada por $\gamma_{L}(R)$ se construye como:
+- una particion de tuplas de **R** en grupos. cada grupo consiste en un todas las tuplas que posee un valor particular en los atributos de grouping dentro de **L**.
+- Para cada grupo, produce una tupla que contiene: 
+- el valor de atributo de grouping para ese grupo
+- Las agregaciones, para todas las tuplas de ese grupo, para los atributos agregados de la lista **L**.
+
+En resumen: el operador permite dividir la relacion en grupos segun ciuertos atributos y aplica funciones agregadas para cada grupo. 
+Los atributos de agrupacion son lo que perduran de la relacion orginal, los de agregacion computan el valor del opeador de agregacion seleccionado.
+
+### Operador de ordenamiento
+Nos permite ordernar la forma en la que se muestran las tuplas de acuerdo a un conjunto de atributos. Se representa con el operador $\tau_{L}(R)$ donde **L** representa el conjunto de atributos sobre los que se ordena la relacion. El orden en el que aparecen los atributos de ordenamiento determina cual sera el primero que se utilice para ordenar las tuplas. 
+
+### Ourter joins.
+En este caso lo que nos permite es tener un **natural join** dentro dos relaciones **R** y **S**, agregando a su vez aquellas tuplas que no matchearon en ningun valor para ambas relaciones. Para indicar que estas tuplas no fueron producto del **natural join**, se les agrega como valor **NULL** aquellas columnas que no posee valor en esa tupla. 
+
+Tenemos 2 casos mas de este operador. El **Outer join de izquierda** que solo agrega las tuplas que no matchean del operando izquierdo, y el **outer join de derecha** que es la misma idea pero para la relacion que se opera en la derecha. 
+
+### Lista de Operaciones
+![Texto alternativo](resumen-operaciones.png)
+
+### Lista equivalencias
+![Texto alternativo](equivalencia-seleccion.png)
+![Texto alternativo](equivalencia-proyeccion.png)
+![Texto alternativo](equivalencia-producto-cartesiano.png)
+![Texto alternativo](equivalencia-join.png)
+![Texto alternativo](equivalencia-union.png)
+![Texto alternativo](equivalencia-diferencia.png)
+![Texto alternativo](equivalencia-interseccion.png)
+
+
+## Indices
+Un **indice** de un atributo **A** en una relacion es una estructura de data que hace mas eficiente la busquedad de esas tuplas que posee un valor fijo para el atributo **A**. Podemos pensar que los indices como un arbol binario de busquead de pares (clave,valor), en donde la clave es asociada con un valor que es el conjunto de ubicaciones de las tuplas que posee a **a** en el componente para el atributo **A**.
+esto suele servir para cuando **A** es comparado con un valor constante.
+
+### Por que usar indices?
+cuando una relacion es muy larga, es muy caro escanaer todas las tuplas para obtener aquellas que cumplen una determinada condicion. La forma naive de implmentarlo sera obtener todas las tuplas y testear la condicion sobre las mismas. Sera mas facil poder genera una forma que me permita obtener aquellas que satifacen una condicion de forma directa. 
+la idea es que el indice nos permite tener una estructura de datos auxiliar para acelerar el accesos a registros de una relacion mediante la asociado de valores de atributos con us ubiacion fisicas. 
+
+## DISEÑO DE BASES DE DATOS
+**TRANSACCIONES:** las transacciones son grupos de queries que deben ser ejecutadas de forma atomica e isolada una de otra. Cada query o modificacion a su vez puede ser considera como una transaccion a su vez.
+Una transaccion debe ser **Perdurable**, esto implica que el efecto de cualquier transaccion completa debe ser preservado incluso cuando el sistema falla al completar la transaccion
+El proceso de una transaccion tiene dos partes:
+- Control de concurrencia o sheduler: se encarga de asegurar atomicidad y aislamiento de las transacciones.
+- manager de loggeo y recuperacion, responsable de la perdurabilidad de las transacciones.
+
+El procesador de transacciones debe ocuparse de que las transacciones se ejecuten de forma correcta, para esto realiza las siguientes tareas.
+- **LOGGEO**: para poder asegurar la **durabilidad**, cada cambio se loggea de forma separada en el disco. El **manager de log** sigue varias politicas diseñadas para segurar de que mas alla de que el sistema falla, el **manager de recuperacion** podra examinar los logs de los cambios y restaurar la base a un estado consistente.
+El **manager de log** escribe los logs en un buffer y negocia con el **buffer manager** para que los logs se escriban a disco en un tiempo apropiado.
+- **CONTROL DE CONCURRENCIA:** cada transaccion debe simular que se ejecuta de forma aislada, pero en realidad dentro del sistema habran multiples transacciones ejecutandose. 
+De esta forma el **scheduler** debe asugurarse que las acciones individuales de multiples transacciones son ejecutadas de forma tal que el efecto final es el mismo si se hubieran ejecutado una a la vez.
+Para hacer esto se suelen mantener **locks** en ciertas partes de la base. Estos **locks** preveen que dos transacciones accedan a la misma data de forma que genere errores. Estos se suelen guardar en memoria principal, en lo que se denomina como **lock table**.
+- **RESOLUCION DE DEADLOCKS:** cuando las transacciones compiten por un recursos por medio de los **locks** que el scheduler garantiza, se puede generar situaciones donde ninguna siga progresando por que cada una necesita algo que la otra transaccion necesita. El **manager de transacciones** tendra el podes intervenir y cancelar una o mas transacciones para que las otras puedas seguir porgresando. Este manager se encargara de establecer el fin e inicio de las transacciones. se encarga de preprocesar y ejecutar las transacciones.
+
+**FORMA EN LA ACTUA LA TRANSACCION:** El **manager de transacciones** le enviara mensajes al **manager de loggeo**, al **manager de buffer** para preguntar para saber cuando es posible o necesario copiar el buffer al disco y al **procesador de queries** para ejecutar las queries y otras operaciones que incluyan la transaccion.
+Cuando se produzca algun choque el **manager de recuperacion** se activa. este examina los logs y los utiliza si es necesario. 
+Se encarga de mantener la durabilidad y atomicidad de las transacciones. 
+
+Dentro de este esquema el **scheduler** controlara el orden de ejecucion de las transacciones, decidiendo sin son demoradas o abortadas por problemas de concurrencia. tomara decisiones sobre el orden de ejecucionde las mismas. 
+
+## FORMA CORRECTA DE EJECUCION DE UNA TRANSACCION ##
+para definir esto asumimos que una base da datos esta formado por elementos, donde cada elemento posee un valor que puede ser modificado o accedido por una transaccion. algunos elementos pueden ser:
+- Relaciones
+- Bloques o paginas de disco
+- Tuplas u objetos individuales
+Una base de datos posee un estado, que es un valor para cada unos de sus elementos. Los estados se pueden dividir como:
+- **consistentes:** significa que satisfacen todas las constrains de un esquema de base de datos, como constrains de clave o constrains de valores. A su vez debe satisfacer toda constrains implicita por el diseño de la base.
+Un principio fundamental con respecto a esto es el **principio de correctitud**, que especifica que si una transaccion en ausencia de errores, y comienza con un estado consistente, el estado de la base debe ser consistente al terminar la transaccion.
+
+## OPERACIONES PRIMITIVAS DE LAS TRANSACCIONES ##
+Hay 3 epacios de direcciones que interactuan entre ellos:
+- El espacio de bloques de disco sosteniendo los elementos de la base de datos
+- La memoria virtual o principal que es manejada por el **manager de buffer**
+- El espacio de direcciones local utilizado por transacciones
+para que una transaccion pueda leer un elemento de una base de datos, el elemento debe ser traido a los buffers de memoria principal, si no estan ahi todavia. Luego el contenido puede ser leido por la transacion en su propio espacio de direcciones.Escribir en un elemento sigue el camino inverso.
+El valor no siempre se escribe al buffer de forma inmediata, esta decision depende del **buffer manager**.
+La primitivas que usaremos para definir las operaciones seran:
+- $INPUT(X):$ copia el bloque de disco que contiene un elemento de la base **X** a la memoria del buffer.
+- $READ(X,t):$ copia el elemento **X** de la base a la variable local **t** de la transaccion.
+- $WRITE(X,t):$ copia el valor de la variable local **t** al elemento **X** de la base en la memoria del buffer.
+- $OUTPUT(X):$ copia el bloque que contiene **X** desde su buffer al disco.
+para red y write, si el bloque no esta en memoria primero lo traigo a disco por medio de input.
+
+## UNDO LOGGING ##
+El primer estilo de loggeo que tenemos es **undo logging**, realiza reparaciones a la base de datos deshaciendo el efecto de transacciones que pueden no haberse completado antes de la caida del sistema.
+
+### RECORDS DE LOGS ###
+Un bloque de logs a la vez esta compuesto de record de logs, donde cada uno representa los eventos de la transaccion. Por lo general se crean en la memoria principal y luego se los ubica por medio del **buffer manager**. Los bloques de logs seranm escritos en disco tan rapido como sea posible, de acuerdo a la politica que se lleve a cabo. 
+Hay varios tipos de records de logs: 
+
+![Texto alternativo](lista-logs-records.png)
+
+El otro tipo de record que sera necesario sera el **record de actualizacion**, que sera una tripla $<T,X,v>$. El significado de esto es que la transaccion **T** modifico el elemento **X** y su valor anterior era **v**.
+Este tipo de record refleja una accion de **WRITE**.
+
+### REGLAS DE UNO LOGGIN ###
+- **U1:** si la transaccion **T** mdifica elemento de la base **X**, luego el log record de la forma $<T,X,v>$ debe ser escrito al disco antes que el valor nuevo de **X** se escrito al disco.
+- **U2:** si una transaccion se comitea, luego el record de commit debe ser escrito disco luego de que todos los elementos de la base modificados por la transaccion hayan sido escrito en disco. 
+Esto implica que los logs records deben ser subidos a disco siguiendo este orden:
+- Los logs record que indican cambios en los elementos de la base
+- Los cambios en si de los elementos
+- El record de COMMIT 
+Para poder forzar los logs record al disco, el **manager de transacciones** posee un comando **flush log** que permite copiar a disco cualquier bloque que todavia no haya sido copiado al mismo. 
+
+### RECUPERACION USANDO UNDO LOGGING ###
+El **mamanager de recuperacion** utilizara los logs para poder restaurar la base de datos a un estado consistente por medio de los logs generados. Para este caso nos basaremos en una idea sencilla, donde ser recorrer todos los logs mas haya del largo que este tenga.
+Por la regla **U2** si tenemos un record de **COMMMIT** todos los cambios que realizo la transaccion **T** ya fueron escrito a disco previamente. Por lo tanto esta transaccion **T** no dejo a la base en un estado incosistente.
+En cambio si econtramos un record **START** sin un record de **COMMIT** puede ser que haya habido cambios que no se hayan copiado al disco. En este caso **T** es una transaccion incompleta que debe ser deshacida. 
+Por medio de la regla **U1** sabemos que para todo cambio realizado por la transaccion hay un record de la forma $<T,X,v>$ que deberia estar en disco antes de la caida del sistema. 
+De esta forma durante la recuperacion, debemos escribir el valor de **v** en **X**, que era el valor anterior al cambio realizado por la transaccion.
+Como a su vez debe haber multiples transacciones que alteraron **X**, se debe seguir un orden en el cual se restauran los valores. 
+Luego de esto se debe guardar un record para cada transaccion **T** incompleta que ha sido abortada.
+
+### CHECKPOINTING ###
+Cuando una transaccion logea que su record de **COMMIT** llegue a disco, el resto de sus records de operaciones no es necesario.
+se podria pensar que esos logs de deberian borrar, pero no podemos. Esto se debe a que multiples transacciones ejecutan a la vez. 
+La forma de solucionar estos problemas es por medio de **checkpoint** los logs de forma periodica. en esteos puntos de chequeo, se realiza:
+- Se dejan de aceptar nuevas transacciones
+- Se espera a que todos los commits de transacciones activos o abortados escriban su record de commit o abort en el log
+- Se flushea el log al disco
+- se escribe un log de checkpoint y se flushea el mismo a disco
+- Se vuelven a aceptar transacciones. 
+Todas las transacciones que terminaron en el checkpoint, lograron que todos sus cambios hayan llegado al disco. Por lo tanto no sera necesario restaurar algunos de esas transaciones durante la recuperacion del sistema.
+De esta forma todo log anterior a el checkpoint podra ser eliminado.  
+ 
+### CHEKPOINT ACTIVO ###
+El problema de la tecnica de checkpoint, es que al realizar esto se debe parar el sistema, lo que puede generar una caida en el tiempo de respuesta.
+La solucion a esto sera el **checkpint activo**. 
+En este en caso se escribe lo de la forma $<START CPKPT(T_1, .., T_k)>$ y se flushea el log, donde cada $T_i$ representa uan transaccion que todavia no fue commiteada o escrito sus cambios a disco. Se espera hasta que estas transacciones commitean o aborten pero sin prohibir que entren nuevas transacciones.
+Cuando todas las transaccion activas terminan se envia un nuevo record que indica la finalizacion del checkpoint y se flushea el log. Para resturar los logs veremos los siguiente:
+- Si primero nos cruzamos con $<END CPTK>$, sabemos que todas las transacciones incompletas comenzaron luego de  $<START CPKPT(T_1, .., T_k)>$.  Luego debemos escanear para atras hasta el proximo $START CKPT$ y luego todos los logs previos no seran utiles y puede ser descartados.
+- Si primero nos cruzamos con $<START CPKPT(T_1, .., T_k)>$ luego la caida ocurrio dentro del checkpoint. pero las unica transacciones incompletar seran aquellas antes del $<START CPKPT(T_1, .., T_k)>$, y aquellas $T_i$ que no se completaron. 
+
+## REDO LOGGING ##
+El problema de **UNDO LOGGING** es que no podemos commitear una transaccion sin que antes se escriba toda la data que se modifico a disco. El **REDO LOGGING** nos permite evitar el backup inmediato de los elemento de bases a disco.
+Las difenencia con **UNDO LOGGING** son:
+- mientras que **UNDO LOGGING** cancela el efecto de transacciones incompletar y ignora aquellas commiteadas, redo loggin ignora aquella que no fueron completadas y repeti lo cambios de aquellas comiteadas. 
+- Mientras que **UNDO LOGGING** requiere que escribamos a disco los cambios realizados antes del commit. **REDO LOGGING** requiere que el commit aparezca antes de los cambios. 
+- A diferencia del **UNDO LOGGING** para recuperar en el **REDO LOGGING** necesitamos los nuevos valores, no los viejos. 
+
+### REGLAS DE REDO LOGGIN ###
+Cambia la interpretacion de la tupla, ahora $<T,X,v>$ representa que la transaccion T escribio el valor v en elemento X. cada vez que se modifica un elemento se debe cargar este record.
+Solo tendremos una regla:
+- **R1:** Antes de modificar cualquier elemento de la base es necesario que todos los logs pertenencientes a la modificacion del elemento **X**, incluido el record de modificacion como el de commit, deben estar en el disco. con redo tendremos el siguiente orden:
+- Primero los logs que indica los cambios 
+- Luego el log de commit
+- Luego se realizan los cambios de los elementos. 
+
+### RECUPERACION CON REDO LOGGING
+La ventaja de este modelo es que las transaccion incompletas pueden ser tratada como si nunca ocurrieron. Mas alla de esto, las transacciones commiteadas prensentan el problema, tal que no sabemos cual de sus cambios si llegaron a disco.
+De esta forma para recuperar el sistema por medio de este modelo:
+- se identifican las transacciones que comitearon
+- Se escanean desde el comienzo. Luego por cada tupla $<T,X,v>$:
+  - Si T no es una transaccion comiteada no se hace nada
+  - si T es una transaccion commiteada, escribimos el valor de **v** para el elemento **X**
+- Para cada transaccion no completada **T**, escribimos un record de abort en el log y lo flusheamos. 
+
+### CHEKPOINTS EN REDO LOGGING
+Tiene un problema que **UNDO LOGGING** no posee como los cambios hechos por las transacciones puede ser copiados a disco mucho tiempo despues de cuando se commiteo la misma, no nos podemos limitar a transacciones que estan activas a la hora de realizar un chekcpoint.
+Deberemos, al comienzo y fin del checkpoint, escribir a disco todos los elementos que fueron modificados por las transacciones comiteadas. Para esto se llevara un traqueo de que buffers estan **sucios** esto implica que fueron escritos pero no cargados al disco. 
+Para poder llevar a cabo un chekcpoint activo, tendremos los siguientes pasos:
+- Escribir un $<START CKPT (T_1,... ,T_k)>$, donde cada $T_i$ son las transacciones activas pero no comiteadas y luego hacer un flush del log.
+- Escribir al disco todos los elementos de base que fueron escritos la buffer pero no al disco, para las transacciones que habian comiteado cuando $START CKPT$ se escribio al log.
+- Escribir un $<END CKPT>$ y hacer un flush de log.
+
+### RECUPERACION CON CHECKPOINT EN REDO LOG
+En este caso tenemos varios casos para analizar:
+-  Si el ultimo log antes de la caidad es $<END CKPT>$, ahora sabemos que todo valor escrito por una transaccion que comiteo antes de $<START CKPT (T_i,... ,T_k)>$ posee sus valores en disco. pero toda transaccion que esta entre las $T_i$ y comenzo depues del comienzo del checkpoint puede tener cambios que todavia no fueron a disco, mas alla de que hayan comiteado.
+De esta forma para realizar la recuperacion solo nos tenemos que preocupar por aquellas transaciones entre las $T_i$ y las que arrancaron despues. No hay que analizar nada mas atras de eso.
+- Si ultimo log antes de la caida es $<START CKPT (T_i,... ,T_k)>$ no podemos asegurar que las transacciones que comitearon antes de este log hayan tenido sus cambios en disco. Por lo tanto tenemos que buscar el proximo $<END CKPT>$ y seguir el caso anterior.
+
+## UNDO\REDO LOGGING
+Aprovecha lo mejor de ambos mundos.
+### REGLAS DEL UNDO/REDO LOGGING
+la tupla de record log cuando se actualiza un valor ahora tendra 4 valores, $<T,X,v,w>$ donde significa que las transaccion **T** cambio el valor de **X**, si valor anterior es **v** y su nuevo valor sera **w**.
+Tendremos solo una regla:
+- **UR1:** Antes de modificar cualquier elemento **X** en el disco por cambios hechos por una transaccion, es necesario que el log aparezca en el disco.
+
+### RECUPERACION CON UNDO/REDO LOGGING
+En este caso tenemos toda la informacion tanto para deshacer como volver a aplicar un cambio. La politica sera:
+- Rehacer todas los transacciones commiteadas siguiendo un orden de erliest-first.
+- Deshacer todas las transacciones incompletas siguiendo un orden de latest first. 
+
+### CHEKPOINTING EN UNDO/REDO 
+Un checkpoint activo es mas sencillo en este modelo:
+- Se escribe un log $<START CKPT (T_i, . . . , T_k)>$ donde $T_i$ son todas las transacciones activas y se flushea el log. 
+- Se escriben al disco todos los buffers que estan sucios. Todos los buffers, no solo aquellos comiteados por transacciones.
+- Escribimos un $<END CKPT>$ y hacemos un flush del log. 
+
+## CONTROL DE CONCURRENCIAS
+El timing de cada paso dentro de transacciones diferentes debe ser regulado de alguna manera. Esta regulacion es llevada a cabo por el **scheduler**. Este control busca asegurar que las transacciones preserver su consistencia cuando se ejecutan de forma simultanea. 
+Cuando la transaccion realiza un escritura o lectura, le pasa la accion al scheduler. El scheduler decidar si esa accion se debe realizar en el momento o esperar un cierto tiempo para realizar la misma, como tambein puede abortar la transaccion. 
+
+### SHEDULES
+un **schedule** es un conjunto de acciones realizadas por una o mas transacciones. Cuando estudiamos esto hay que entender que las acciones de escritura y lectura no se realizan sobre disco, sino que se hacen sobre los buffers de memoria. 
+
+### SERIAL SCHEUDLES
+Un **schedule** sera **serial** si consiste en todas las acciones de una transaccion y luego todas las acciones de la otra transaccion, y asi sucesivamente. 
+
+### SCHEDULES SERIALIZABLES
+El principio de la transacciones dice que toda **schedule** serial, preserva la consistencua del estado de una base de datos. 
+De esta forma podemos decir que un **schedule** $S$ sera serializable si hay un **schedule** serial $S^´$, tal que para cada estado inicial de la base, el efecto de $S$ y $S^´$ es el mismo.
+
+## NOTACION
+para hablar de trasnsaccion nos referimos como $r_i(X)$ o $w_i(X)$ a que una transaccion $T_i$ leyo o escribio en el elemento $X$.
+
+## CONFLICTOS DE SERIALIZACION
+hablamos de **conflicto** cuando: si tengo un par de acciones de un schedule de forma consecutiva, si su orden es intercambiado, luego el comportamiento de al menos una transacion cambia.
+
+Situaciones que no generan conflicto:
+
+![Texto alternativo](situaciones-no-conflicto.png)
+
+Situaciones de conflicto comunes:
+
+![Texto alternativo](situaciones-conflicto-comunes.png)
+
+La conclusion general de esto sera que las transacciones podemos generan cambios, al menos que:
+- Involucren los mismos elementos de bases de datos
+- Al menos uno sea una escritura
+
+Esto genera dos terminos nuevos para schedules:
+- **Conflicto-equivalente:** si uno puede ser convertido en otro por medio de una secuencia de swaps no conflictivos o de acciones ayacentes.
+- **conflicto-serializable:-** si es **confilcto-equivalente** a un sheduler serial.
+
+## TEST PRAR SERIALIZACION CONFLICTIVA
+Las acciones en conflicto ponen constrains sobre el orden de las transacciones. Si estas constrains no se contradicen, podemos encontrar un schedule que sea conflicto equivalente. 
+Dado un **Schedule** $S$, que envuelven a las transacciones $T_1$ y $T_2$, entre las otras transacciones, decimos que $T_1$ toma precedencia sobre $T_2$, escrito como $T_1 <_{S} T_2$, si hay acciones $A_1$ de $T_1$ y acciones $A_2$ de $T_2$ tal que:
+- $A_1$ esta antes que $A_2$ en $S$
+- $A_1$ y $A_2$ involucran el mismo elemento de base
+- al menos $A_1$ o $A_2$ es una accion de estcritura.
+Estas son las condiciones exactas sobres las cuales no podemos hacer swap entre $A_1$ y $A_2$ 
+
+Esta nocion de precedencia se puede resumir en un grafo. Los nodos de precedencia seran las transacciones del schedule. donde cada nodo estara taggeado con $T_i$ para cada transaccion dada, habra un arco para cada para de nodos que cumpla que $T_i <_s T_j$
+
+Para saber si **S** sera **conflicto serializable**, construimos el grafo de precedencia para **S** y nos preguntamos si hay ciclos. Si los hay luego **S** no sera conflicto serializable. 
+A su vez, si calculo el orden topologico del mismo me dara un orden serial **conflicto equivalente**
+
+### GENERACION DE SERIALIZACION POR MEDIO DE LOCKS
+La idea de esto es una transaccion obtiene locks sobre los elementos de la base para poder manipularlos de forma aislada, no permitiendo que otras acciones accedan al mismo si ya es utilizado por otra transaccion.
+
+### LOCKS
+De los capitulos anteriores sabemos que el **scheduler** tendra la responsabilidad de tomar los pedidos de las transacciones y permiterles actuar o bloquearlos por ciertos tiempo.
+
+Cuando tenemos un scheduler con locking, este buscara forzar la conflictiva-serializada. Cuando un scheduler utiliza locks, las transacciones deberan pedir o liberar los locks aparte de las acciones de lectura y escritura. 
+- consistenia de las transaccions:
+  - una transacciones sobre podra leer o escribir un elemento se previamente obtuvo el lock de ese elemento o todavia no lo libero
+  - si una transaccion genera el lock de un elemento, debe liberarlo en el futuro.
+- Legalidad de schedule: Dos transacciones nos podran bloquear el mismo elemento. 
+
+Para entender esto generamos dos nuevas acciones: 
+- $L_i(X):$ la transaccion $T_i$ bloquea el elemento $X$
+- $U_i(X):$ la transaccion $T_i$ desbloquea el elemento $X$
+
+## SCHEDULER CON LOCKING
+Si un request no es dado, la transaccion que lo envio se demora y espera hasta que el sheduler le de permiso. El scheduler tendra lo que se denomina como **lock table** , donde por cada elemento de la base posee si una transaccion mantiene un bloqueo sobre el mismo. 
+
+## LOCKING DE DOS FASES
+Por medio de este podemos garantizar que un schedule legal de transacciones consistentes es conflicto-serializable:
+
+- En cada transaccion, todas las acciones de lock estan 
+precedidas por una accion de unlock.
+
+Esto modelo implica dos fases, la primera donde obtengo el bloque de los recursos y la segunda donde devuelvo el acceso a los mismos.
+
+Dentro de este modelo tenemos que siempre habra por lo menos un **schedule serial conflicto equivalente** **S** de las transacciones de dos fases. Podremos llevar de una forma a la otra por medio de induccion.
+
+Un problema de este modelo sera el riesgo de que halla deadlocks, prouciendose cuando una transaccion no libera un recurso y otra debe acceder al mismo.
+
+### SISTEMA DE LOCKING CON MULTIPLES MODOS DE LOCKS
+Se introducen los tipos de locks, por lo general se habla de locks para escritura y para lectura.
+
+### LOCKS COMPARTIDOS Y EXLUSIVOS
+Este es un modelo de **scheduler** que usa dos tipos de locks:
+- locks compartidos
+- locks exclusivos
+Para todo elemento **X** o bien puede tener un lock exclusivo, o bien no tenerlo y tener varios locks compartridos. 
+
+Este modelo posee distintas condiciones:
+- **CONSISTENCIA DE LAS TRANSACCIONES:** una transaccion no puede escribir sin sostener un lock exclusivo, no podra leer sin poseer algun tipo de lock sobre el elemento. Se puede pesar como que para toda transaccion $T_i$ una lectura debe esta precedida para algun tipo de lock sobre el elemento que se quiere leer, y una escritura debes ser precedida por un lock exlusivo.
+
+- **LOCKING DE DOS FASES DE LA TRANSACION:** todo lock debe preceder un unlock.
+
+- **LEGALIDAD DE LOS SCHEDULES:** un elemento puede ser bloqueado exclusvamente por una transaccion o por muchas en modo compartido, pero no las dos al mismo tiempo. 
+
+### MATRICES DE COMPATIBILIDAD
+si usamos distintos modos de locks, el scheduler necesita algun tipo de politica para determinar cuando puede garantizar un pedido de lock. Una **Matriz de compatibilidad** sera una forma de describir porlitica de locks. Tendra una fila y columna por cada modo de lock. 
+Las filas corresponden a un lock que se sostiene sobre un elemento **X** para otra transasccion, y la columna corresponde al modo del lcokm que se pide sobre **X**.
+
+### UPGRADING LOCKS
+La idea de esto nos permite actualizar el modelo de lock de forma dinamica. Si estoy en un lock compartido, los otras transacciones pueden leer. de esta forma la posibilidad e actuzlaiar el lock, nos permite camcabiarlo a exclusivo solo cuando vamos escribir en la variable compartida. 
+
+### UPDATE LOCKS
+Algunos problemas de deadlock se peude evitar con un tercer modo denominado **update lock**. El update lock le da a una traccions un lock de lectura sobre un elemento X, solo este lock podra sera a modo de escritura. Se podra genera un update lock sobre X, si este estaba en modo shared, pero una vez que esta en modo update se bloquea todo tipo de modo de lock sobre ese elemento. 
+
+### LOCKS INCREMENTALES
+Muchas transacciones operan en bases de datos solo incrementando o decrementando valores almacenados. 
+
+## EJECUCION DE QUERIES
+el procesador de queries, sera un grupo de componentes de las DBMS que convierten cualquier query del usuar y modificaciones de informacion en una secuncia de operaciones que luego seran ejecutadas. 
+
+Cuando una query se compila, se tiene 3 pasos muy grandes:
+- **Parseo**: se construye un arbol de la query
+- **Reesctritura de query**: el arbol de parseo se convierte en un plan de query incial, que suele sera una representacion algebraica de la query. Este luego se reescribe en un plan equivalente que se suele ejecutar en menor tiempo.
+- **Generacion del plan fisico**: El plan logico del paso 2, se convierte en un plan fisico al seleccionar el algoritmo que se utiliza para implementar cada operador logico. 
+
+### PLANES FISICO DE QUERIES
+**PLAN FISICO:** esta construido en base a operadores, donde cada uno implementa un paso del plan. En general, los operadores fisico son implementacion de cada una de las operaciones del algebra relacional. 
+El plan fisico esta construido por algunos bloques basicos. 
+
+### ESCANEO DE TABLAS
+lo mas basico que se puede hacer dentro de un plan fisico sera leer el contenido entero de una relacion **R**. A su vez se puede agregar un predicado que me permite leer aquellas tuplas de **R** que lo satisfacen. Por lom general hay dos formas basicas de ubicar las tuplas de un realcion:
+- Muchas veces se suelen ubicar en una memoria secundaria, donde se dividen en bloques.
+- Si tenemos un indice en algun atributo, solemos usar ese para poder obtener todas las tuplas de la relacion.
+
+### ORDENAMIENTO DURANTE ESCANEO
+Una mutiples razones por las cuales queremos ordenar mientas estamos realizar un escaneo de las tablas, como por ejemplo si hacemos un ORDER BY. 
+El operador de plan fisico **sort-scan** nos permite esto, tomando como parametros una relacion y una funcion que determina el orden. 
+
+### MODELO COMPUTACIONAL PARA OPERADORES FISICOS
+Dado una query con multiples operaciones, su plan fisico esta compuersto por diferentes operaciones fisicas. Para poder ejecutar de forma performante una query, sera fundamental estimar de forma correcta el costo de cada operaciones fisica. 
+Por lo general se usara como metrica de costo la cantidad de operacion de I/O en disco que se realizan. 
+Al comparar algoritmos para la misma operacion, se asume lo siguiente:
+- Los argumentos de todo tipo de operador son encontrados en disco, pero el resutlado de la operacion se deja en memoria. 
+
+### ITERADORES PARA IMPLEMENTAR OPERADORES FISICOS
+Muchos operadores fisicos pueden ser implementados como iteradores, que es un grupo de operadores que permiten al consumidor del resultado del operador fisico obtener el resultado una tupla a la vez. Se forma por las siguientes operaciones:
+- **open()**: Comienza el proceso de obtener tuplas. 
+- **getNext()**: obtiene la proxima tupla en el resultado yb ajusta la estructuras de datos como sea necesario para que se peuden obtener las tuplas siguientes. si no hay mas tuplas devuelve not found.
+- **close()**: termina la iteracion luego de que todas las tuplas que se necesitaban ver fueron consumidas. 
+
+
+### ONE PASS ALGORITHMS
+Debemoe discutir como se ejecuta cada paso individual dentro de un plan. Hya 3 categorias de algoritmos para operadores:
+- Basados en ordenamiento
+- Basado de hash
+- Basados en indexes
+
+A su cez se puede dividir en otros 3 grados de acuerdo a dificultad y costo: 
+- **one-pass algoritmos**: implican leer la data una vez sola del disco.
+- **two-pass algoritmos**: implican leerla primero en disco, realizar un procesamiento sobre la misma, reescribirla y luego realizar una segunda lectura de la misma. 
+
+para one pass podemos calsificar los operadores de la siguiente manera: 
+- **Una tupla a la vez, operadores unarios**: Estas operaciones (seleccion y proyeccion) no requieren la relacion entera, o una parte grande de la misma en memoria. Podemos leer un bloque a la vez, usar un buffer de memoria principal y luego generar el
+output.
+
+**OPERACIONES:** Este caso solo incluye las operaciones de seleecion y proyeccion. La forma de realizarlas sera sencilla. leemos los bloques de la relacion uno a la vez y luego mueven las tuplas seleccionadas o proyectadas al buffer de output
+
+- **relacion completa, operadores unarios**: estos requieren que muchas de las tuplas esten en memoria al mismo tiempo, por lo tatno es limitado para relacion que tienen el tamaño del buffer.
+
+**ONE PASS ALGORITMOS PARA OPERADORES BINARIOS:**
+Para la uncion de bags, se puede computar de forma sencilla usando estos algoritmos por medio de: si realizar $R \in_{B} S$, copiamos todas las tuplas de $R$ al output y luego copiamos toda las tuplas de $S$.
+Para otras operaciones binarias requerimos que leer el operando mas chico entre $R$ y $S$ dentro de la memoria y cosntruit una estructura de datos acorde de forma que las tuplas puedan ser insertadas y encotradas de forma rapida. 
+
+
+## NESTED LOOP JOIN
+Hay un cojunto de algoritmos distintos para operar joins. estos se los denomia como **nested loop join** Se puede considerar como **one half pass**.
+
+### TUPLE BASED NEDTED LOOP JOIN
+la idea para generar el join, en este caso, para dos relaciones **S** y **R** ese iterar por cada una de las tuplas, generando un doble bucle. 
+Este tipo de algoritmo encaja bien con el patron de iterador.
+
+### BLOCK-BASED NESTED JOIN ALGORITHM
+se puede mejorar la eficiencia del algoritmo anterior si: 
+- Se organiza el acceso a ambos argumentos por bloques.
+- se usa tanta memoria principal como se pueda para guradar las tuplas que pertenecen a la relacion **S**, las tuplas del loop de mas afuera.
+
+## TWO PASS ALGORITHMS
+Por lo general esto se puede extender a multiples pasos por la memoria pirncipal pero nos vamos a concentrar en solo dos. 
+
+### TWO PHASE, MULTIWAY MERG-SORT
+Este algoritmo ordena las tuplas de la sigueinte manera:
+- Repetidamente llena los M buffers con nuevas tuplas de R y las ordena, usando un algoritmo de ordenamiento en memoria principal. Luego guarda cada una de las sublistas en un almacenamiento secundario.
+- Mergee y ordenar las sublistas. 
+
+### TWO PASS ALGORITHMS BASE ON HASHING
+buscan resolver los mismos problemas que los anteriores. En este caso, si la data es muy grande para ser guardada en la memoria principal, se hashea toda las tuplas del arguemtno o los argumento usando un hash key adecuado.
+Luego realizamos la operaciones trabajando con un bucket a la vez. 
+
+### INDEX BASES ALGORITHMS
+la cosntruccion de indices sobre ciertos atributos nos permiten cosntruir mejoras en ciertos algoritmos. Se puede mejorar algoritmos de seleccion, de join o otros operadores bianrios. 
+
+## COMPILADOR DE QUERIES
+### PARSEO Y PREPROCESAMIENTO 
+una vez que llega la query esta pasa por las siguientes fases:
+- Parseo: la query escrita en sql se convierte en arbol que representa la estructura de la misma. 
+- Preprocesamiento
+- Generacion del plan logico: el arbol pasa a una expresion del algebra relacional
+- Reescritura, se pasa a un plan fisico donde se dice no solo que operaciones se ejecutan sino en que orden.
+
+### PARSEO Y PREPROCESAMIENTO
+### ANALISIS DE SINTAXIS Y PARSEO EN ARBOLES
+El trabajo del parser sera tomar cualquier texto escritor en SQL y covertirlo en un arbol de parseo. cada nodo corresponde a:
+- Atoms, que seran elementos lexicos, como palabras especiales, nombres, atributos de una relacion, constantes, parentesis, operadores y otros elementos del esquema.
+- Categorias sintacticas, que son nombres para familia de subpartes de queries que tiene roles similares en la query. Algunas categorias puede ser, <QUERY > que representa un cojunto de queries, <CONDITION> que representa toda expresion que es una condicion
+
+Si un nodo es un atom, no posee hijos. si el nodo es una categotia sintactica luego el hijo se describe por alguna regla gramatica del lenguaje. 
+
+Reglas gramaticas para la construccion de expresiones:
+
+![Texto alternativo](parseo-reglas-1.png)
+![Texto alternativo](parseo-reglas-2.png)
+
+### PREPROCESADOR
+Este tiene distintas funciones fundamentales:
+- Si una relacion que se usa en una query en realidad es una virtual view, luego cada una de las realciones en el from-list deben ser reemplazadas por el arbol de parseo que describe la view.
+- Se responsabiliza de chequear semantica. este realiza:
+  - **chequeo de uso de relaciones:** Que las relaciones en una clausa FROM son relaciones o views
+  - **chequea y resuelve atributos usados:**que todo atributo mencionado existe.
+  - **chequeo de tipos:** todos los atributos deben serl tipo especifico para el que se los va a usar.
+
+### FROM PARSE TREES TO LOGICAL QUERY PLANS
+Dado el arbol, queremos pasar a un plan logico. Esto lleva dos pasos:
+- reemplazar los nodos y estructuras en grupo apropiados de acuerdo a operadores del algebra relacional.
+- Luego tomamos la primer expresion y la convertimos en algo que experamos sea el el plan fisico mas eficiente.
+
+### REGLAS ALGEBRAICAS QUE PERMITEN MEJORAR QUERY PLANS
+### IMPROVING THE LOGICAL QUERY PLAN
+Cuando nuestra query pasa a ser algebra relacional, obtenemos un posible plaa logico para la query.
+Por lo general se pueden escribir mutiples planes y luego compararlos, pero en este caso consideramos que cuando se reescribe se elige el mejor, que significa que va a ser el mas barato para ejecutarse. 
+Un problema por ejemplo que puede tener un efecto importante es la forma en la que ordenamos los joins. 
+Los optimizadores suelen usar las siguientes reglas de algebra relacional:
+- Seleccciones puse ser llevadas lo mas abajo del arbol de la expresion. si una seleccion tiene una condicion con ANDS, podemos separar cada parte y enviarla al fondo del arbol.
+- Las proyecciones tambien deben ser enviadas al fondo del arbol
+- La duplicacion de duplicado puede ser removida o movida a la posicion mas conveniente.
+- Algunas selecciones pueden ser combinadas con el producto paragenera algun tipo de join, que suele ser mas eficiente que la operacion original.
+
+### ESTIMACION DEL COSTO DE LAS OPERACIONES
+Al pasar a un plan fisico, lo hacemos considerando diferentes opciones. Por lo general se realiza un estimacion o evaluacion del costo, denominada **cost based enumeration**, donde se selecciona el plan fisico de menor costo y este se le envia al ejecutor de queries.
+para cada plan fisico se selecciona:
+- Un ordenamiento o agrupacion para operaciones conmutativas-asociativas como joins, unions e intersecciones.
+- Un algoritmo para cada operador en el plan logico.
+- Operadores adicionales, que se necesitan para el plan fisico pero no se expresa de forma explicita en el plan logico.
+- La forma en la que se pasan los argumentos de un operador a otro, usando almacenamiento intermedio o disoc, o usnado iteradores.
+
+Para poder estimar el costo, no queremos ejecutar cada uno de los planes y comparar. Por lo tanto se realizar algun tipo de dato mediante la informacion que nos da la query. 
+
+### ESTIMANDO COSTO DE RELACIONES INTERMEDIAS
+el costo de las relaciones intermedias tiene una influencia profunda en el costo total de la ejecucion. buscamos estimar el numero de tuplas de la relacion intermedia. 
+
+para ver mas sobre el costo de las operciones y su estimacion ver capitulo 16.4
+
+### COST BASED PLAN SELECTION
+el costo de evaluar una expresion es aproximada por le numero de operaciones de entrada y salida realizadas en disco. El numero de estas operaciones esta influenciado por:
+- Los operadores logicos elegido para implementar la query, algo que se decide cuando se seleccion el plan logico.
+- El tamaño de los resultados intermedios.
+-  Los operadores fisicos utilizados para implementar la logica de los operadores. Como por ejemplo la eleccion de one-pass, two-pass, sort o no-sort. 
+- El orden de operaciones similares, especialmente para joins.
+- El metodo de pasar argumentos de un operador fisico al proximo.
+
+Hay varias porblemas a resolver a la hora de realizar un seleccion de plan basada en el costo de forma efectiva. 
+
+### OBTENIENDO TAMAÑOS ESTIMADOS DE PARAMETROS
+Para definir el costo de ciertas operaciones, hacemos usos de un cojunto de metricas sobre las relaciones como el numero de tuplas de una relacion, o el numero de diferentes valores de una columna en una relacion. Por lo general las DBMS permiten obtener estas estadisticas. 
+Por lo gneral las DBMS computan histogramas de los valores para un cierto atributo, estableciendo cistintso tipos de estos para poder computar ciertos valores. 
+por lo general este tipo de estaidistcas no se computan todo el tiempo, con el fin de no afectar a la performance del sistema. a su vez muchas de estas s contruyen con solo una fraccion de la data. 
+
+### HEURISTICAS PARA REDUCIR EL COSTO DE PLANES LOGICOS
+se suelen usar heuristicas para trasnformar las queries. cuando se esta cosntruyendo el plan logico, debemos considerar un numero de tranformaciones opcionles y el costo antes y depues de aplicarlas. 
+
+## APPROCHES TO ENUMERATING PHYSICAL PLANS
+El primer approach es el exhaustivo, se consideran todas las opciones y cada posibilidad se le asigna un costo, seleccionando aquel de menor valor. 
+A la hora de explorar el espacio de posibles planes, tenemos dos enfoques.
+- top down: trabajos enm plan para abajo desde la raiz.
+- bottom up: para cada subexpression de plan logico, computamos el costo de todas las posibles cosoto de computar esa subexpresion.
+
+Por lo general no hay diferencia en estos casos, pero para el modelo de bottom up se suele usar progrmacion dinamica con el fin ahorrar pasos, tomando solo el mejor plan de cada subexpresion.
+
+**SELECCION POR HEURISTCA:** la primer opcion es usar la misma idea que para la eleccion del plan logico, realizar una secuencia de decicisiones basadas en heuriticas. Hay distintas heuristicas que se pueden aplicar:
+
+![Alt text](/Resumen-base-datos/heuristicas-comunes.png)
+
+**BRANCH-AND-BOUND PLAN ENUMERATION:** comienza usando heusristicas para encontrar un buen plan fisico para el plan logico completo. Esto tendra un costo **C**. Luego, considerando las subqueries, podemos eliminar todo plan para ellas que tenga un costo mayor  a **C**.
+La ventaja de esto es que podemos elegir cuando cortar la busquedad y elegir el mejor plan.
+
+**HILL CLIMBING:** Se comienza primera eligienod en base a heuristicas un pla fisico. Luego se realizan pequeños cambios al mismo, y aplicando distintas reglas se buca llegar al plan de menos costo mas cercano. Luego cuando no podemos hacer mas cambios para obtener un mejor plan, nos quedamos con ese.
+
+**DYNAMIC PROGRAMMING:** Es una variacion de bottom up, guardamos por cada subexpresion aquella de menor costo. mientras vamos subiendo, nos quedamos con el mejor plan de cada nodo. 
+
+**SELINGER-STYLE OPTIMIZATION:** Es una mejora de la estrategia anterior, donde no solo se guarda el plan de menor costo, sino algunos que si bien son mas caros pueden servir mas arriba si se cambia el orden. 
+
+## CHOOSING AN ORDER FOR JOINS
+Uno de los problemas fundamentales en optimizacion es el de elegir el orden de natural joins para 3 o mas de ellos. Estas ideas tambien puede ser aplicadas a muchas otras operaciones.
+
+### SIGNIFICANCE OF LEFT AND RIGHT JOIN ARGUMENTS
+Los algoritmos que vimos de joins sos asimetricos, esto implica que los roles que toma cada relacion sera distinto y el costo dependera de que relacion toma cada rol. 
+Por ejemplo, si queremos usar un one pass algorithm, nos conviene que el argumento de la izquierda sea el mas chico.
+Esto tambien impacta el algoritmo como nested-loop join o index-join.
+el argumento de la izquierda se lo determina como el contructor de la relacion, mientras que el de la derecha se lo llama la pueba de la relacion. 
+
+### JOIN TREES
+Cuando tenemos un join de dos relaciones, necesitamos ordenar los argumentos. Por lo general buscaremos que a la izquierda se encuentre el de menor tamaño. 
+
+### LEFT DEEP JOIN TREES
+Se suele decir que un arbol es left-deep tree si todas si todas sus hijos a la derecha son hojas. En el caso contrario se dice right-deep tree. En el caso de no ser ninguno de los dos, se lo denomia como brushy. 
+Por lo general suele tener una ventaja consisderar solo left-deep trees como orden posible para los joins:
+- El numero de arboles posibles de la forma left-deep es largo, pero no tanto largo como todos los numeros posibles de arboles. 
+- Left-deep tress para joins interactual con todos algoritmo comunes que propusimos para joins. Estos algopritmos siguiendo esta estructura, hace que sea mas eficiente. 
+
+### DYNAMIC PROGRAMMING TO SELECT A JOIN ORDER AND GROUPING
+Hya 3 opciones para elegir un orden en los joins:
+- Considerarlos a todos
+- Considerar un subcojunto de lo mismo
+- Usar heuristicas para elegir un orden
+
+La programacion dinamica sera util tanto para considerar a todos o tambien para solo considerar un subcojunto de ellos. Estos ordenes se limitan solo a arboles de la forma **left deep**.
+Suponiendo que queremos hacer un join de las relaciones $R_1, ... , R_n$, lo que hacemos es contruir una tabla con una entrada por cada subconjunto de uno mas de las $n$ relaciones. en esa tabla se pone:
+- El costo estimado de unir ese subcojunto de relaciones.
+- El menor costo de computar el join de esas realcioens
+- La expresion que determina el menor costo. 
+
+Para poder simplificar el calculo de costo en programacion dinamica se puede usar el tamaño de las ralaciones para estimar el costo. La desventaja de esto es que no involucra el costo real de calcular los joins.
+
+### GREEDY ALGORITHM FOR SELECTING A JOIN ORDER
+Cuando la cantidad de join crece, no sera util usar una busquedad exahustiva. De esta forma conviene usar una heuristica pra elegir esete orden.
+La mas utilizada suele ser un algoritmo greedy, donde vamos tomando una decision a la vez y nunca volvemos atras en el arbol de decisiones para reconsiderar otras opciones. 
+
+## COMPLETING THE PSHYSICAL QUERY PLAN
+Los pasos que todavia nos faltan seran: 
+- Seleccionar un algoritmo para implementar las operaciones de la plan de la query cuando la seleccion de estos no esta dada por un paso previo, como el de seleccionar el orden de los joins
+- Si los resultados seran materializados o habra un pipeline
+- Notacion para las operaciones del plan fisico, que debe tener notaciones sobre acceso a los metodos para relaciones guardadas y algoritmos para la implementacion de algebra relacional. 
+
+### CHOOSING A SELECTION METHOD
+Hay multiples maneras en las que se puede construir la seleccion de un conjunto de tuplas. Cada plan fisico utiliza algun numero de atributos que:
+- Tiene un indice
+- Son comparados con una constante en terminos de la seleccion
+En estos casos usamos la construccion de indices para identificar el cojunto de tuplas que satisfacen cada condicion.
+A su vez se deben considerar aquellos planes fisicos donde no hay indices y por lo tanto hay que aplicar el filtro a cada tupla. 
+Decidimos sobre la forma en la que se realiza la seleccion estimando el costo de leer la data en cada plan. 
+
+### CHOOSING A JOIN METHOD
+En capitulos anteriores vimos forma de decidir como hacer el join, que se basaban por ejemplo en la cantidad de buffers disponibles o otras metricas. el problemas es que si no estamos seguros de esos numeros, no tenemos forma de elegir. 
+Para esto se puede usar otra iniciativa que aplica a su vez a otras operaciones. entre estos tenemos:
+- La primer idea es utilizar el algoritmo de **one-pass** join, esperando que el buffer nos pueda dar la cantidad de buffers necesarios para realizar las operacion. otra opcion es elegir el **nestede loop** join esperando que el argumento de que el argumento de la izquierda no genere inconvenientes, logrando una ejecucion eficiente. 
+- Sort join sera una buena elelcion si:
+  - Uno o mas atributos ya fueron ordenados en su atributo de union
+  - Hya dos o mas joins con el mismo atributo
+- Hay una opprtunidad de un indice por medio de un join, por loq ue podemos utiliza un **index join**
+- Si no hay oportunidad de usar relaciones que ya estan ordenadas o indices, luego se necesita un join de multiples fases, por lo que hashing suele ser la mejor opcion. 
+
+### PIPELINING VS MATERIALIZATION
+Hay dos forma de ejecutar le plan fisico:
+- **MATERIALIZACION:**: se acomodan las operaciones de forma adeacuada, para que una operacion no se ejecute hasta que todos sus arguementos tengan valor, y luego se guarda el valor de su resultado en disco. Cada relacion intermedia se materializa en disco.
+- **PIPELINING:** Se entralaza la ejecucion de multiples operaciones. las tuplas producidas por una operacion pasan directamente a la otra operacion que las va a utilizar.
+Los operaciones unarias son perfectas para este modelo, dado que estas operaciones se realizan una tupla a la vez. 
+Las operaciones bianrias tambien puede seguir este modelo, se usa un buffer para pasar el resultado al consumidor, un bloque a la vez. 
+
+### NOTATION FOR PHYSICAL QUERYB PLANS
+Por lo general un operador del plan logico se convierte en uno o mas del plan fisico. La idea ahora se catalogr los distitnos operadores que se pueden encontrar en un plan fisico. Por lo genral cada DBMS tendra su modelo de notacion y no sera tan estandar como con el algebra relacional.
+
+- Ver operadores del libro
+
+### ORDERING PHYSICAL OPERATIONS
+Lo ultimos sera el orden de las operaciones. El plan fisico por lo general esta representado por un arbol, y esto implica un orden, tal que la data debe fluir hacia arriba del mismo.
+Para arboles brushy el orden de evaluacion no siempre estara claro. Habra muchas cosas que determinaran como se ejcutan las operaciones.
+En resumen, el orden de los eventos del arbol seguiran las siguientes reglas:
+- Separar el arbol en distintos subarboles en cada edge que representa materializacion. cada subarbol se ejcutara uno a la vez.
+- Ordenar la ejecucion de los arboles de forma bottom-up, de izquierda a derecha. esto corresponde con un preorder del arbol. 
+- Ejecutar todos los nodos de cada subarbol usando la red de iteradores. de esta forma todos los nodos de un subarbol son ejecutados de forma simultanea.
+
+### TIPO DE OPERACIONES SQL
+DML, DCL, TCL. esto esta dentro del esatndar, define de que esa cada operaciones, sin son para relizar transaciones, controlar seguirdad, de moficacion de datos, ect. 
+Saber que instruccion pertenece a cada categoria, nos permite definir la idea minima de atomicidad. lo que necesito para poder genera el dbms
+
+trunccate: si bein toca datos, se la considera ddl
+
+## LEY DE PROTECCION DE DATOS 25.326, LEY ARGENTINA
+La ley 25326 fue promulgada el 30 de octubre del año 2000. Teniendo como objetivo la proteccion integral de los datos personales asentados en archivos, registro o bancos de datos, entre otros, tanto para entes publicos como privados. La misma esta vinculada al derecho constitucional habes data, por lo tanto la ley intenta desarrollar un derecho constitucional. 
+
+se establecen algunas definiciones pertinentes para el tratado de la ley:
+- **Datos personales:** informacion de cualquier tipo referida a personas fisica o de existencia ideal determinadas o determinables. 
+- **Datos sensibles:** datos personales que revelan origen racial y etnico, opiniones politicas, convicciones religiosas, filosoficas o morales, afiliacion sindical e informacion referente a la salud o la vida sexual.
+- **Archivo, registro, base o banco de datos:** indistintamente, diganse al conjunto organizado de datos personales que sean objeto de tratamiento o procesamiento electronico o no, cualquiera fuere la modalidad de su formacion, almacenamiento, organizacion o acceso. 
+- **Tratamiento de datos:** Operaciones y procedimientos sistemativos, electronicos o no, que permiten de forma general el procesamiento de datos. 
+- **Responsable de archivo, registro, base o banco de datos:** Persona fisica que es titular de el archivo resgitro, etc.
+- **Datos informatizados:** los datos personales sometidos al tratamiento o procesamiento electronido o automatizado. 
+- **Tiltular de datos:** toda persona cuyos datos sean objeto del tratamiento al que se refiere la ley. 
+- **Usuario de datos:** toda persona publica o privda que realice el tratamiento de datos. 
+- **Disociacion de datos:** todo tratamiento de datos personales de manera que la informacion obtenida no pueda asociarse a persona determinada o determinable. 
+
+- **ARTICULO 3 - (Archivos de datos)**
+los archivos de datos no puede tener finalidades contrarias a las leyes o a la moral publica. Estos deberan ser debidamente inscriptos
+- **ARTICULO 4 - (Calidad de datos)**
+Busca sostener la calidad de los datos, resaltando que los mismos no debens ser obtenidos por medios fraudulentos ni de manera excesiva sobre el objetivo al que se le van a dar. 
+Los datos a su vez no puede ser usados para fines distintos al que motivaron su obtencion, esto genera que solo deben ser utilizados para el fin para el que fueron recolectados. Se deben mantener actualizados para su uso
+todo dato inexacto debe ser comprimido, debido, o su vez, ser destruidos si ya no se los utiliza. 
+Se busca evitar recopilacion excesiva y el almacenmaiento incesario de la informacion, como tambien la acumulacion masiva de la informacion.
+- **ARTICULO 5 - (Cosentimiento)**
+Se concentra en el concentimento sobre el uso de los datos. El usuario debe dar consenso para la utilizacion de sus datos y esto debe ser expresado de forma clara por alguno medio.
+Hay casos donde no se necesita consentimiento:
+- Si se obtiene de fuente publicas. 
+- Se realiza su obtencion para funciones del estado.
+- se trata de datos como nombres, DNI, identificacion tributatria, etc.
+- Derivan de una relacion contractual cientifca o profesional del titular de los datos.
+- **ARTICULO 6 - (Informacion)**
+Al ahora de obtener los datos personales se deben informar la finalidad para la que seran tratdos y quienes seran sus destinatarios, la exitencia del archivo donde se almacenaran y su responsable, el caracter obligatorio de ciertos datos, la consecuencia de proporcionar los datos, la posibilidad de poder rectificar y acceder a los mismos.
+- **ARTICULO 7 - (Categoria de datos)**
+Los datos sesibles posee un caracter especial, no se puede obligar a proporcionarlos y tampoco se debera llevar registros de los mismos. los datos de antecentes solo puede ser tratados por autoridades publicas
+- **ARTICULO 8 - (Datos relativos a salud)**
+Solo los establecimienos medicos o vinculados a salud pueden recolectar y tratar o recolectar datos correspondiente a la salud de una persona. 
+- **ARTICULO 9 - (Seguridad de los datos)**
+Se debe garantizar la seguridad de los datos almacenados, tanto para evitar su acceso como perdida y adulteracion. No se podran almacenar en soportes que no poseen la seguridad necesaria.
+- **ARTICULO 10 - (Deber de confidencialidad)**
+El responsable dentro del tratmiento de los datos debe guardar secreto profesional respecto a los mismos. Solo podran ser revelados frente a una resolucion judicial.
+- **ARTICULO 11 - (Cesion)**
+La datos se podran ceder bajos ciertas normativas. el concentimiento para la cesion puede ser revocable y no puede no ser exigido en ciertos casos como: si realiza entre organismos del estados, estan vicnulados a la salud y se necesitan por razones de salud publica o emergencia epidemiologicas o si se produjo un porceso de disociacion de la informacion de forma tal que no se puede reconocer al individuo en base a sus datos. 
+El que recibe la cesion tendra las mismas responsabilidades que el que cedio la informacion. 
+- **ARTICULO 12 - (Transferencia Internacional)**
+Se prohibe la transferencia de datos de manera internacional, excepto cuando: se realiza para la colaboracion de un juicio internacional, tratamiento medicos o epidemiologicos, tranferencias bancarias o trabajos de inteligencia contra lucha de narcotrafico o crimen organizado.
+argentina solo permitera trasnferencia de datos hacia paises con niveles adecuados de proteccion o bajo garantias especiales.
+- **ARTICULO 13 - (Derecho de informacion)**
+Toda persona puede solicitar a los organismos de control informacion sobre la existencia de ciertos archivos o bases de datos. 
+- **ARTICULO 14 (Derecho al acceso)**
+El titular de los datos podra solicita acceso a ellos bajos ciertas restricciones. EL responsable de la informacion debe cumplir con la respuesta en un laspo de 10 dias. 
+- **ARTICULO 15 (Contenido de la informacion)**
+La informacion solicitada debe ser expresa de forma clara y sin ningun tipo de codificaciones, escrita en un lenguaje claro. El medio sobre el que se la expresa dependera del titular
+- **ARTICULO 16 (Derecho de rectificacion, actualizacion o supresion)**
+Toda persona puede pedir la rectifiacion y eliminacion de sus datos, donde el responsable debe responder con la operaciones realizadas dentro de un plazo de 5 dias habiles. 
+La supresion no se puede realizar si hay una obligacion legal para tener esos datos. 
+- **ARTICULO 17 (Excepciones)**
+Los responsables de bancos de datos publicos puede denegar la supresion de datos en funcion de una decision clara y fundada. 
+Tambien se podra denegar el acceso a informacion por parte de titular de bases publicas si esto obstaculiza procesos judiciales. 
+- **ARTICULO 18 (Comisiones legislativas)**
+
+- **ARTICULO 19 (Gratuidad)**
+la rectifiacion,actaulizacion o supresion de datos se realizara de manera gratuita. 
+- **ARTICULO 20 (Impugnacion de valoraiones tradicionales)**
+
+Usuario y responsables de archivos, registros y bancos de datos
+- **ARTICULO 21 (Registro de archivos de datos. Inscripcion)**
+Todo archivo, resgistro o base da datos publico y /o privado detinado a informacion debe inscribirse en el registro que al efecto habilite el organismo de control.
+Se debe proporcionar: el titular, su finalidad, la naturaleza de los datos, entre otros. El incumplimiento de esto puede generar sanciones
+- **ARTICULO 22 (Archivos, registros o bancos de datos publicos)**
+Las normas sobre creación, modificación o supresión de archivos, registros o bancos de datos pertenecientes a organismos públicos deben hacerse por medio de disposición general publicada en el Boletín Oficial de la Nación o diario oficial.
+- **ARTICULO 23 (Supuestos especiales)**
+
+- **ARTICULO 24 (Archivos, registros o bancos de datos privados)**
+los particulares que formen archivos o bancos de datos que no sean de uso personal deberan registrarse.
+- **ARTICULO 25 (Prestación de servicios informatizados de datos personales)**
+Cuando por cuenta de terceros se presten servicios de tratamiento de datos personales, éstos no podrán aplicarse o utilizarse con un fin distinto al que figure en el contrato de servicios, ni cederlos a otras personas, ni aun para su conservación.
+- **ARTICULO 26(Prestación de servicios de información crediticia)**
+En la prestación de servicios de información crediticia sólo pueden tratarse datos personales de carácter patrimonial relativos a la solvencia económica y al crédito, obtenidos de fuentes accesibles al público o procedentes de informaciones facilitadas por el interesado o con su consentimiento.
+- **ARTICULO 27 (Archivos, registros o bancos de datos con fines de publicidad)**
+Para fines publicitarios o ventas, donde se busca construir un perfil de consumidor, podran ser utilizados si estos se obtiene de bancos publicos o se obtinen bajo consentimiento o suministrados por los titulares de los datos. 
+El titular podra accede sin costo y retirarlos cuando los desee. 
+
+- **ARTICULO 28 (Archivos, registros o bancos de datos relativos a encuestas)**
+Las nomras vigentes no aplican encuetas de opinion, mediciones y estadisticas, investigaciones cientificas o medicas. Se debera mantener un proceso de anonimato para aquellos que dan la informacion.
+
+Control:
+El organo que se encarga de eso sera denominado como la AAIP, agencia de acceso a la informacion publica. 
+- **ARTICULO 29 (Organo de Control)**
+El organo de control debera realizar las acciones necesarias para poder sostener esta ley y sus aplicaciones. Este tendra facultdades para: asistir a personas con respecto a sus derechos frente a esta ley, dicta normas dentro de este marco, llevar un censo de los bancos de datos, imponer sanciones ante incumplimientos por parte de instituciones, entre otras. 
+El mismo organo sera autonomo.
+- **ARTICULO 30 (Códigos de conducta)**
+Las asociaciones o entidades representativas de responsables o usuarios de bancos de datos de titularidad privada podrán elaborar códigos de conducta de práctica profesional, que establezcan normas para el tratamiento de datos personales que tiendan a asegurar y mejorar las condiciones de operación de los sistemas de información en función de los principios establecidos en la presente ley.
+
+Sanciones:
+- **ARTICULO 31 (Sanciones administrativas)**
+Frente a el incumplimento de lo pautado, aquellos responsables de los bancos de datos podran recibir multas desde los mil a la cien mil pesos, clausura de los organismo o la eliminacion de los bancos de datos que poseean.
+- **ARTICULO 32 (Sanciones penales)**
+La insercion de data que se considera falsa tendra como pena sño de prision. Donde si el que lo realiza es un funcionario publico, se lo deshabilitara para poder llevar a cabo su rol.
+A su vez habra penas para el acceso ilegal a bancos de datos y que revelara dicga informacion. 
+
+Acción de protección de los datos personales
+- **ARTICULO 33 (Procedencia)**
+Esta ley procedera: Para poder tener conocimiento sobre los bancos de datos existententes y su finalidad, o frente a la presencia de informacion incorrecta o utilizada de forma ilegal. 
+- **ARTICULO 34 (Legitimación activa)**
+Esta ley podra ser ejercida por aquel que se consiedere afectado o sus tutores y sucesores de la persona fisica. 
+- **ARTICULO 35 (Legitimación pasiva)**
+La acción procederá respecto de los responsables y usuarios de bancos de datos públicos, y de los privados destinados a proveer informes.
+- **ARTICULO 36 (Competencia)**
+
+- **ARTICULO 37 (Procedimiento aplicable)**
+
+- **ARTICULO 38 (Requisitos de la demanda)**
+
+- **ARTICULO 39 (Trámite)**
+
+- **ARTICULO 40 (Confidencialidad de la información)**
+
+Conclusiones:
+- las ideas pricipales son:
+  - proteger la intimidad de las personas con respecto a la informacion que es solicitada por ciertos organismos
+  - Establcer sanciones para aquellos organismo que no establezcan mecanimos de seguridad para la informacion de sus usuarios
+  - Regular los procesos sobre los cuales se trata la informacion, buscando poder llevar un censo de los distintos bancos de datos y sus finalidades
+  - Establecer responsabilidades para aquellos considerdos como dueños de los bancos de datos
+  - Brindar al ciudadano la posibilidad de rectificar, actualizar o eliminar sus datos personales dentro de los distintos bancos de datos.
+- Se ecuentra desactualizada, no posee regulaciones sobre cuestiones digitales, como redes sociales. 
+
+## LEY EUROPEA SOBRE LA PROTECCION DE DATOS, RGPD
+Se considera como la ley de datos mas restrictiva del mundo. Este le da un mayor poder a las personas con respceto al control de su informacion, y controla empresas alrededor del mundo. 
+Esta ley busca proteger las libertadades de los usuarios con respecto a su informacion personal. 
+
+Al ser considerada como un reglamento y no una directiva, es directamente vinculante y aplicable, por lo que no ofrece flexibilidad para que los estados miembros ajusten la ley. Por ejemplo, españa antes de la sancion de esta ley tenia su propia regulacion, pero la sancion de esta la dejo sin poder. Reino unido por su parte, sigue aplicando dicha ley pese a no pertenecer mas dentro de la union europea. 
+
+Las multas son mucho mas fuertes que los de la ley argentina, mientras que en la ley anterior lo maximo eran 100000 pesos, dentro de la normativa europea puede llegar a los 20 millones de euros o mas. Hay que tener en cuenta que la **gprd** fue sancionada en 2018 mientras que la ley argentina fue sancionada en el año 2000.
+
+El alcance de esta ley tendra vigencia para: 
+- Los encargados o responsbales del tratamiento de los datos estan dentro del suelo eruopeo.
+- Organizacion sin sede dentro de la union pero que manejan informacion de ciudadanos europeos. 
+
+La idea de dato personal es mas amplia con respecto a la ley argentina, teniendo a su vez concepciones mas actualizadas, considerando como datos personales los datos biometricos, informacion genetica o la ip de la computadora personal, como tambein  publicaciones dentro de redes sociales. 
+
+cada miembro de la union europea establecera una autoridad de supervision (SA) independiente para poder escuchar e investigar denuncias. Cada SA podra cooperar con otras presentes en otra sede de la union europea. 
+
+Se debera incluir un tiempo en la retencion de datos pesonales y la informacion de contacto para el controlador de datos. A su vez se debe proporcionar un delegado de proteccion de datos. Este ultimo sera el enercagado de que la organizacion aplique las leyes que protegen los datos personales de los usuarios. Este debera realizar auditorias para garantizar el cumplimienot de esta ley, como tambien tener acceso al consejo de altos cargos frente a la toma de decisiones sobre el tratamiento de datos personales. 
+
+Los datos solo se pueden tratar si existe al menos una base legal para hacerlo.se establece que los fines lícitos son:
+- El interesado ha dado su consentimiento para el tratamiento de sus datos personales con uno o más propósitos específicos.
+- El tratamiento es necesario para la ejecución de un contrato del que el interesado es parte o para tomar medidas precontractuales a petición del interesado antes de celebrar un contrato.
+- El tratamiento es necesario para cumplir con una obligación legal a la cual el controlador, responsable del tratamiento, está sujeto.
+- El tratamiento es necesario para proteger los intereses vitales del interesado o de otra persona física.
+- El tratamiento es necesario para la realización de una tarea llevada a cabo en interés público o en el ejercicio de poderes públicos conferida al controlador.
+- El tratamiento es necesario para la satisfacción de intereses legítimos perseguidos por el responsable del tratamiento o por un tercero, salvo cuando dichos intereses sean anulados por los intereses o los derechos y libertades fundamentales del interesado que requieren protección de datos personales, en particular cuando el interesado es un niño.
+
+La ley establece un cojunto de derechos para las personas cuyos datos son tratados. Los interesados tienen derecho de acceso a sus datos y como es que estos estan siendo procesados. Se debe poder entregar una copia de estos datos al interesado como tambien los fines de utilizacion de los mismos. 
+A su vez el intersado tendra el derecho a la portabilidad, que le permite transferir los datos personales de un sistema electronico a otro sin que el responsable se lo impida. Tambien se posee el derecho a la supresion, que permite susprimir sus datos personales dentro de alguna banco. 
+
+A la hora de usar el consentimiento como base legal para el tratemitno, ese debe ser explicito, tanto para los datos que se van a pedir como el proceso que se va a realizar sobre los mismos. En el caso de los niños, debe ser firmado por padres o turores. El cosentimiento debe ser una afrimacion especifica, libre, calra e inequivoca. A su vez no se podran especificar ditsintos tipos de tratamientos para cada dato, tal que el concentimento no podra especifcar esto. 
+Los interesados pueden retirar este concentimioento en cualquier momento. El concentimiento sera muchas mas restrictivo y explicito que en otro tipo de regulaciones. 
+
+Para cada orgnizacion se necesiar un DPO, que sera experto en la legislacion y la practica de proteccion de datos, que buscara ayudar al controlador o procesador a supervisar el cumplimiento interno del reglamento. La eleccion de este sera una decicion importante. El mismo podra crear su propio equipo de soporte y tambien sera responsable de su propio desarrollo profesional continuo. La idea es que los sistemas deben ser diseañados desde el principio pensando en la privacidad. No solo se exige el cumplimiento de la ley por parte de los responsbales sino que se puede desmostrar la misma, a partir de la evaluacion de riesgos, la decumentacion de procesos y el registro frente a auditorias. 
+
+El RGPD habla del cifrado o encriptacion de los datos como la formula mas segura para su proteccion. De hecho si la informacion se encuentra en ese estado y se produce su fuga, no es necesaria la notificacion a los afectados ni autoridades correspondientes. Esto es lo que se denomina como seudonimizacion, es un proceso en la gestion de datos mediante la cual los campos de informacion personalmente indentificables dentro de una registro de datos se sustituyen por uno o mas indentificadores artificiales. 
+
+El controlador de datos destara bajo la obligacion legal de notificar a la horitdad de supervision sin demora indebida. La filtracion de datos debera notificarse en un marco de 72 horas luego de que se noto la filtracion. La notifacion a los usuario no es necesaris si es que se implementaron mecanismo de proteccion de dicha informacion. 
+
+A su vez posee carateristicas especiales sobre datos realacionados con: biometrica, genetica, orietaciones sexual, salud e ideologia. Establece que cierta informacion es mas sensible que otra. Estos tipos de datos estaran prohibidos para su tratamiento
+
+## DIFERENCIAS ENTRE AMBAS LEYES
+La ley argentina posee un sentido mas adiministrativo, entinede que existen un cojunto de bases de datos y busca realizar un control sobre eso. intenta establecer un registros de los distintos bancos de datos del pais. 
+Por el otro lado la ley europea al ser una ley mas reciente posee un sentido mas amplio, no busca solo establecer un registro sobre banco de datos, sino que busca establecer una legislacion sobre entorno digitales y flujos de informacion.
+la ley europea busca evitar porblemas, realizando un control desde la genesis del sistema, buscando genera privacidad dede el diseño. Por el otro lado, argentina busca establecer un marco legal para que si un usuario se ve afectado por sus datos, pueda realizar la queja. 
+Frente a esto la gdpr le da mayor responsbilidad a las empresas sobre la posesion de datos, buscando documentar los procesos de los mismos, tener mayor auditorias sobre las misma y una evaluacion mayor sobre los riesgos. 
+El concentimiento es importante en ambas, pero en la gpdr es muchos mas estricta y clara. 
+
+## BIG DATA
+Se refiere a conjuntos de datos masivos y complejos que los sistemas de gestion de datos tradicionales no pueden manejar. Ayuda a organizacion descubrir nuevas ideas.Este concepto surge con el aumento de las fuentes de informacion, principalmente al internet, que permitio el acceso a informacion muy diversa. Tuvo un rol fundamental en el crecimiento e innovacion de la empresas en el ultimo tiempo. No solo se refiere a un aumento de la cantidad de datos, sino tambien en los procesos utilizados para poder gestionar, capturar y analizar estos grandes volumenes. En las ultimas decadas el avance en IA, hizo que se generar un mayor foco en big data. Para poder extraer lo mejor de estas fuentes se aplicaron tecnicas de aprendizaje automatico.
+
+A diferencia de los datos tradicionales, **big data** involucra un volumen de datos mayor. Mientras que las **bases de datos tradicionales** se contruian por medio de bases SQL, donde su tamaño era pequeño y se utilizaban metodos estadisticos para poder extrear informacion de ellos, **big data** incluye datos estructurados, no estructurados y semi-estructurados. Esto provoca que se requieran otros metodos de analisis y visualizacion de los datos, como tambien sistemas de procesamiento distribuidos para poder tratar grandes volumenes de data. 
+
+Big data posee 5 caracteristicas claras:
+- **VOLUMEN:** Hay muchas mas cantidad, un mayor volumen. Para poder manejar este aumento de volumen se utiliza almacenamiento en la nube. 
+- **VELOCIDAD:** El flujo de datos es mayor. Los datos se mueven en un ritmo muy acelerado, teniendo actualizacion en tiempo real, permitiendo la toma de decision agiles.
+- **VARIEDAD:** Los macrodatos pueden adoptar distintos formatos.  
+- **VERACIDAD:** Al tener un mayor volumen de informacion, se deben establecer procesos que garanticen la calidad y presicion de los datos, con el fin de no tomar de decision erroneas en base a esa informacion. 
+- **VALOR:** Se obtiene un beneficio real en base al analisis de **big data**.
+
+Una de las caracteristicas mas importantes sobre big data es donde almacenar esta gran cantidad de datos. se proponen la siguientes soluciones:
+- **DATA LAKES:** netornos de almacenmaiento de bajo costo para poder gestionar volumnes de datos estructurados y no estrctucturados. Genralmente no validan, limpian ni normalizan los datos. Son utiles cuando el volumen, la variedad y la velocidad son elevados, y no es necesario rendimiento en tiempo real. 
+- **DATA WAREHOUSE:** agregan informacion de multiples fuentes en un respositorio centralizado y coherente. Ademas realizan procesos de sanatizacion para utilizar la informacion. Suelen ser mas costosos al tener un esquema estricto. 
+- **DATA LAKES WAREHOUSES:** es una combinacion entre la flexibilidad de los **data lakes** con la estructura y las capacidades de consultas de los almacenes de datos. La eleccion entre cada concepto depende mucho del tipo y el proposito de los datos. 
+
+### FILOSOFIA WALTER ESCUDERO
+Entiende que el aumento de la cantidad de datos no implica algo mejor. Mientras que los modelos tradicionales tenian una estructura fija donde era relativamente facil encontrar una correspondencia con una poblacion relevante, las datos en Big Data son anarquicos y espontaneso. Por lo tanto entiende que la calidad de la obtension de datos tradicionales es mejor pese a ser menores en volumen. Mas alla de esto la obtension de Big Data nos puede dar la posibilidad de aislar un subconjunto de datos que se asemeje a un experimento natural.
+
+Mas alla del volumen que implica Big data, entiende que estamos lejos de tener todos los datos. Los datos de esta filosofia son observacionales, por lo tanto nos faltan aquellos contra facticos, que no se pueden ver, los cuales se deben construir. Entiende que la idea de que Big Data tenga todos los datos se sostiene sobre una mala interpretacion de la ley de grandes numeros, donde esta opera frente a cuando los datos se obtienen de poblaciones homogeneas y de un ejercicio experimental. En cambio Big data se obtiene de poblacion heterogeneas y dependiente. 
+
+Entiende que el de Big Data para politicas publicas es limitado, mientras que las empresas privadas solo buscan maximizar beneficios, las politicas publicas tienen un compromiso etico y moral que no es sencillo de cuantificar. 
+
+## BASES DE DATOS NO RELACIONALES
+Permiten diseñar y administrar datos que no encajan con esquemas fijos como tablas. Estos modelos no garantizar completamente el concepto de **ACID**. Estos modelos de bases priorizan la flexibilidad, la escalabilidad y rendimiento, lo que las hacen mejor para grandes volumenes de datos. 
+La no posee un modelo fijo de datos, favorece a la felxibilidad de la misma. Favorece a las bases de datos distribuidas, lo que permite que se copie y almacenen en varios servidores. 
+
+Diferencias con las bases de datos relacionales:
+- Mientras que la bases relacionales almacenan datos de forma estructurada, las no relaciones incorporan modelos de datos mas flexibles permitiendo que cambien facilmente con el tiempo.
+- En las relacinales necesitamos definir los esquemas de ante mano, en las no relacionales permiten que los esquemas evolucionen reduciendo la necesidad de cambios estructurales. 
+- Las relacionales suelen escalar agregando mas recursos a un unico servidor, las no relacionales se diseñan para escalar en varios servidores lo que admite bases mas distribudas y grandes. 
+- Las relaciones enfatizan mas en transaccion seguras con una mayor precision de datos, mientras que las no relacionales priorizan la escabilidad y la velocidad.
+
+Tipos de bases de datos no relacionales:
+- **BASES DE DATOS CLAVE/VALOR:** se organiza como un diccionario calvbe-valor, donde cada elemento tiene una clave y un valor. se utiliza habitualmente para almacenar en cache la informacion de las sesion del usuario, pero no es ideal cuando se quieren extraer varios registros a la vez. Una de sus ejemplos son:
+  - **REDIS:** es extremadamente rapida, posee baja latencia y cache distribuido. Es ideal para tiempo real dada su alta velocidad. Es mas costosa y no es buena para relaciones complejas. Por lo general guarda informacion en memoria RAM. 
+- **BASADAS EN DOCUMENTOS:** almacenan datos como documentos. son utiles para datos semiestructurados y se suelen almacenar como JSON. Posee una gran  flexibilidad donde no es necesario que el esquema coincida entre documentos, lo cual tambien puede ocasionar errores. El ejemplo claro de esto sera:
+  - **MONGO DB:** permite trasnacciones. se pueden indexar los documentos con indices primarias y secundarios. Permite la replicacion, teniendo replicas de un conjunto de data, donde la replica secundaria permite mantener un copia de la primara. Permite escalar horizontamente por medio de **sharding**, donde se posee un shard key que determina como la data esta distrbuida, de esta forma la data esta dividida sobre multiples shards, permitiendo usar la shard key para indexar el shard. Se puede usar como fyle system.
+- **BASADAS EN COLUMNAS:** almacenan informacion en columnas, lo que les permite a los usuario acceder solo a laas columnas que necesitan sin asignas memoria adicional a datos irrelevantes. Un ejmplo de esto sera:
+  - **CASSANDRA:** Posee una arquitectura distribuida usando un modelo peer to peer donde todos los nodos son iguales escalabilida horizontal y una alta tolerancia  a fallos. Esta diseña para una alta disponibilidad. funciona con multiples nodos, donde cada uno es una instancia de cassandra. estos se comunican mediante un protocolo llamado gossip. Cada nodo tendra la misma funcionalidad y capacidades que los demas. 
+- **BASADAS EN GRAFOS:** suele alojar datos en forma de grafos de conocimiento, Los elemntos de datos se almacenan como nodos, aristas y propiedades.  Caulquier objeto puede ser un nodo. Una arista define una relacion entre dos nodos. Permiten adminsitrar y almacenar redes de conexiones entre elementos. En este casos las relaciones que se modelan son mas fueretes que los datos en si, por ejemplo si quiero modelar redes sociales, recomendaciones, mapas, etc.
+
+A diferencia del acrónimo ACID, el mundo no relacional suele regirse por los principios **BASE:**
+- **Basically Available (Disponibilidad Básica):** El sistema garantiza la disponibilidad de los datos incluso si hay fallos parciales.
+- **Soft state (Estado flexible):** Los datos pueden cambiar con el tiempo sin que la acción sea inmediata en todos los nodos.
+- **Eventual consistency (Consistencia eventual):** Los datos terminarán sincronizándose y siendo consistentes en todo el sistema, pero no en el mismo milisegundo de la escritura
+
+## USABILIDAD EN UX
+La **usabilidad** sera una medida en la que un producto digital es facil de usar y se adapta a las personas y sus necesidades. Los sistemas necesitan de esta para poder prolongar su vida. 
+El hecho de que sea dificl de usar implica que se generan fricciones durante su uso, esto provocara malestar en la persona que lo usa, generando que se aleja de la solucion. Por lo general las personas no pierden mucho tiempo intentando entender una pagina web, se necesita que sea facil descubrir como interactua al interfaz. 
+La definicion formal sera: la medida en que un produco puede ser utilizado por usuario especificos para lograr los objetivos especificos, con efectividad, eficiencia y satisfaccion en un contexto de uso especifico. 
+
+Dentro de esa defincion podemos encontrar los siguientes terminos: 
+- **Efectividad:** Es hacer las cosas de forma correcta, el producto funciona
+- **Eficiencia:** Es hacer las cosas con el mínimo esfuerzo, con el menor número de información requerida.
+- **Satisfacción:** El producto te hace sentir bien y mejor aún te hace sentir feliz.
+
+La usabilidad es una parte de la experiencia de usuario (UX). Un producto puede ser usable pero ofrecer una mala experiencia general, y también puede ser atractivo visualmente pero poco usable.
+
+Algunos conceptos importantes dentro de esta teoria seran:
+- **Feedback:** es la respuesta que brinda el sistema luego de una acción realizada por el usuario. Permite comprender el estado actual del sistema y confirmar que la acción fue recibida correctamente.
+Ejemplos:
+  - Mensaje de "Guardado exitosamente".
+  - Barra de progreso.
+  - Indicador de carga.
+
+- **affordances:** son las posibles acciones que un objeto o elemento de una interfaz permite realizar. Un buen diseño hace evidente qué acciones pueden ejecutarse sobre cada elemento.
+Ejemplos:
+  - Un botón sugiere que puede presionarse.
+  - Una barra de desplazamiento sugiere que puede arrastrarse.
+  - Un campo de texto sugiere que puede escribirse en él.
+
+- **signifiers:** son señales visuales, auditivas o textuales que indican cómo utilizar un elemento de la interfaz. Ayudan a que las affordances sean percibidas correctamente por los usuarios.
+Ejemplos:
+  - Un texto "Haga clic aquí".
+  - Un botón con relieve.
+  - Un ícono acompañado por una etiqueta descriptiva.
+
+- **Modelo mental:** es la representación que una persona construye sobre cómo funciona un sistema. Un buen diseño busca que el modelo mental del usuario coincida con el funcionamiento real del producto.
+- **Mapping:** Es la relación espacial entre los botones que tocás y lo que pasa en el mundo real o en la pantalla. Cuando el mapping es natural no necesitás pensar.Por ejemplo, el mapping de las perillas de las hornallas al estar en linea recta es malo, si estuviera en forma de cuadrado seria mejor.
+
+Normal y Nielsen presentan las siguientes 10 heuristicas sobre usabilidad:
+- **VISIBILIDAD DEL ESTADO DEL SISTEMA:** El diseño debe mantener a los usuarios informados de lo que esta sucediendo, mediante una retroalimentacion adecuada y en un plazo razonable. Si el usuario conoce el estado, puede entender el resultado de sus interacciones.
+- **CORRESPONDENCIA ENTRE EL SISTEMA Y EL MUNDO REAL:** El sistema debe hablar el idioma de los usuarios. Debe utilizar conceptos familiares para ellos. Se debe presentar informacion de forma natural. La forma de diseñar esto dependera siempre del usuario al que se esta dirigiendo. Los controles de un diseño deben serguir convenciones del mundo real y corresponderse con el resultado deseado, esto se determinado mapeo natural.
+- **CONTROL Y LIBERTAD DE USUARIO:** Si el usuario comete una accion por error debe tener una salida de emergencia claramente identificada. Esto genera sensacion de libertad y confianza. Les permite a los usuario sentir control sobre el sistema. 
+- **COHERENCIA Y ESTANDARES:** Los usuarios no debe tener que preguntarse si diferentes palabras, situaciones o acciones significan lo mismo. No respetar la coherencia aumenta la carga cognitiva, obligando a los usuarios a aprender algo nuevo. 
+- **PREVENCION DE ERRORES:** Se necesitan mensajes de error claros, como tambien poder prevenir que los problemas ocurran.
+Existen dos tipos de errores: 
+  - Descuidos: son errores inconcientes causados por la falta de atencion
+  - Equivocaciones: son errores conscientes basados en una discrepancia entre el modelo mental del usuario y el diseño.
+- **RECONOCIMIENTO EN LUGAR DE RECUERDO:** Minimice la carga de memoria del usuario, haciendo visibles los elementos para la utilizacion del sistema. EL usuario no debe recordar formacion de una parte de la interfaz a otra.
+- **FLEXIBILIDAD Y EFICIENCIA DE USO:** Hay que permitir que los usuarios personalicen las acciones frecuentes. El sistema debe adaptarse a usuario principiantes y expertos. Proveer atajos, acceso directos, u otro tipo de caminos agiles. esto no implica que sea aprueba de tonntos, no se debe sostener a un solo usuario. un tonto tambien podria tocar opciones avanzadas y sin saber como hacerlo. generar esto a su vez le saca libertad.
+- **DISEÑO ESTETICO Y MINIMALISTAS:** Las interfaces no deben contener informacion irrelevante. Esto influye a la visibildad de la informacion relevante. Esto no implica un diseño plano, sino asegurarse que el diseño se centre en lo esencial.
+- **AYUDAR A LOS USUARIOS A RECONOCER, DIAGNOSTICAS Y RECUPERARSE DE ERRORES:** Los mensajes de error deben especificarse en lenguaje sencillo, indicar con precision el problema y sugerir una solucion de forma construcitiva. 
+- **AYUDA Y DOCUMENTACION:** Puede ser necesario proporcionar documentacion para ayudar a los usuarios a comprender como completar sus tareas. Esta debe ser facil de entender y enfocadao a las tareas del usuario. 
+
+### Los Golfos de la Interacción
+Norman dice que entre una persona y una máquina hay un "abismo" (golfo). El diseño tiene que construir los puentes para cruzarlo. Dentro de estos podemos mencionar:
+
+- **Golfo de Ejecución: ¿Cómo sé qué hacer?:** Es la distancia entre lo que el usuario quiere lograr y lo que el sistema le permite hacer.
+Por ejemplo si entrás a una web para comprar una remera, si ves un botón gigante que dice "Comprar ahora" (un *Signifier* que aprovecha el *Affordance* de clickear) cruzaste el golfo al toque. Si el botón está oculto o parece un texto común, te quedaste varado en el golfo.
+
+- **Golfo de Evaluación: ¿Qué pasó? ¿Salió bien?:** Es el esfuerzo que hace el usuario para entender en qué estado quedó el sistema después de hacer algo.
+Por ejemplo, si le das click a Comprar y la pantalla se queda en blanco por 5 segundos y no pasa nada, tu Golfo de Evaluación es enorme (¿Se cobró?¿?Hago click de nuevo?). Si aparece un circulito girando y un cartel de "Procesando pago" (*Feedback*), el golfo se cierra el instante.
+
+El diseño se puede dividir en **3 niveles**:
+- **Visceral:** Es el "wow", es puramente estétitco, subconsciente e inmediato. Es la atracción física.En lo concreto: abrís la app de Airbnb y las fotos son hermosas, la tipografía es limpia y los colores transmiten calma. Te dan ganas de usarla solo por cómo se ve.
+
+- **Conductual:** Che, esto funciona bien... Es la experiencia de uso, el placer de que las cosas sean fáciles y eficientes. Acá domina la usabilidad.
+De nuevo, en la app de Airbnb, deslizás el mapa y carga al toque, ponés los filtros y encontrás lo que queres en 2 clicks. Es placentero porque funciona sin fricción.
+
+- **Reflexivo:** Esto me representa...Es el nivel más alto. Tiene que ver con el estatus, el orgullo, la nostalgia y los valores. Lo que el objeto dice de vos.Por ejemplo, sentirte un "viajero inteliente" por usar Airbnb en vez de un hotel tradicional. O lo que te hace senir Apple por tener un iPhone.
+
+## MODELO DE SEGURIDAD EN POSTGRES
+En **postgres** la seguridad y el acceso de los datos se gestiona mediante el lenguaje de control de datos. Para esto sera util la creacion de roles. Estos se pueden crear por medio de:
+```sql
+CREATE ROLE name;
+```
+A partir de la operaciones se podra agregar o eliminar miembros a roles, pero no se podran tener dependecias circulares en las membresias. Si a un miembro se le otorgo pertenecia al grupo con la opcion SET ROLE, temporalmente se convierte en ese ROL. Si se le otorga la opcion INHERIT, el rol tendra sus privilegios y los que hereda del rol que se le ha dado. Ejemplo:
+```sql
+CREATE ROLE joe LOGIN;
+CREATE ROLE admin;
+CREATE ROLE wheel;
+CREATE ROLE island;
+GRANT admin TO joe WITH INHERIT TRUE;
+GRANT wheel TO admin WITH INHERIT FALSE;
+GRANT island TO joe WITH INHERIT TRUE, SET FALSE;
+```
+Si me conecto con el rol JOE, la sesion de la base de datos tendra los privilegios directos de JOE, como tambien todo privilegio que se le haya dado a ADMIN y ISLAND. En cambio los privilegios de **WHEEL** no seran garantizados, tal que la opcion INHERIT fue dada como FALSE.
+
+A la hora de estar dentro de una sesion, podemos usar la siguiente operacion:
+```sql
+SET ROLE joe;
+SET ROLE NONE;
+RESET ROLE;
+```
+Set role nos permite actuar dentro de la sesion en la que nos loggeamos, con solo los privilegios del rol especificado en la instruccion SET. Solo se podra seleccionar un rol en esta operacion sobre el cual el rol activo en la sesion es miembro.
+
+PostgreSQL unifica los conceptos de usuarios y grupos bajo la noción de rol. Un rol puede actuar como usuario si posee el atributo LOGIN. Las membresías y la herencia de privilegios se aplican a cualquier rol independientemente de que posea LOGIN o no.
+En la creacion de roles hay priviligios que se establecen como especiales: LOGIN, SUPERUSER, CREATEDB y CREATEROLE, Estos atributos especiales no se heredan mediante INHERIT ni por pertenencia a roles. Deben asignarse explícitamente al rol correspondiente.
+
+Un rol se podra eliminar con:
+```sql
+DROP ROLE name
+```
+Cualquier membresia dentro del grupo se revoca automaticamente. 
+
+Para menejar privilegios tenemos las siguientes operaciones:
+### GRANT: 
+se utiliza para permitir que un rol o usuario realice operaciones especificas sobre objetos de la base de datos (tablas,vistas,funciones,etc) o en el sistema. El owner de un objeto tendra todo tipo de privilegios sobre este. Operaciones: 
+```sql
+GRANT [privilegio(s)] ON [objeto] TO [rol_o_usuario];
+```
+Si bien el owner del objeto de una base tiene multiples privilegios sobre el mismo, se podra otorgar el ownership del objeto a otra entidad:
+```sql
+ALTER TABLE table_name OWNER TO new_owner;
+```
+El cambio de propietario puede ser realizado por el propietario actual del objeto(cumpliendo ciertas restricciones) o por un superusuario.
+
+Un ejemplo de garantizar privilegios puede ser:
+```sql
+GRANT SELECT, INSERT ON empleados TO analista;
+```
+En este caso se le da privilegio para leer e insertar data al rol de analista.
+
+Si se utiliza la palabra **PUBLIC**, indica que los privilegios se le otorgan a todos los roles, incluso a los que todavia no fueron creados. Con **WITH GRANT OPTION**, el que recibe el privilegio puede darle el mismo a otros. 
+El permiso para poder dropear o alterar un objeto de la base no se podra entregar, y solo lo tendra el owner del objeto de la base. 
+Dependiendo el objeto de base que se genera, puede ser que tenga privilegios por default entregados a **PUBLIC**. Para tablas, esquemas y espacio de tablas el default no sera **PUBLIC**.
+
+En algunos casos el privilegio solo puede ser dada a columnas en epecifico, por ejemplo: 
+```sql
+GRANT SELECT(nombre)
+ON empleados
+TO usuario1;
+```
+```sql
+GRANT UPDATE(salario)
+ON empleados
+TO rrhh;
+```
+Esto implica que el privilegio solo se le estoy dando sobre una columan en particular. En el primer caso el rol usuario1 solo podra cosultar valores de la columna nombre, mientras que en el seundo ejemplo el rol rrhh solo pofra modificar la columna salario. 
+
+Estas operaciones poseen una variante sobre roles, donde un rol puede ser miembro de otro rol. Esto permite que un rol herede privilegios del rol del que es miembro. 
+```sql
+CREATE USER juan;
+GRANT lector TO juan;
+```
+juan pertenece a lector, por lo que tendra todos los privilegios de lector. Si a su vez se utiliza la opcion **WITH ADMIN OPTION**, juan podra adminsitrar la membresia de ese rol.
+
+### SEGURIDAD A NIVEL TABLA
+Los privilegios que se puede otorgar son:
+- SELECT: permite la operacion SELECT sobre el objeto especificado. Este permitira seleccionar cualer columna o una columna especifica. Tambien permtiria utilizar el COPY TO. Este privilegio tambien debera ser dado para referenciar columnas existententes en UPDATE, DELETE o MERGE.
+- INSERT: permite la insercion de datos a una determinada tablas. Tmabien podra ser utilziados para columnas en especifico, esto hara que las columnas sobre las que no se tienen permiso reciban valores por defaul. Permite tambien el COPY FROM
+- UPDATE: permite modificar alguna columan de una tabla. Se necesita privilegio sobre SELECT si se desea consultar columnas. Tambien se podra utilizar sobre columnas en especifico.
+- DELETE: permite eliminar filas de una tabla. Se necesita privilegio sobre SELECT si se desea consultar columnas. Como el borrado es sobre una tabla, no se puede especificar permisos sobre columnas. 
+- RULE: perimite la creacion de reglas sobre tablas y views.
+- TRUNCATE: Permite la accion TRUNCATE sobre una tabla
+- TRIGGER: Permite la creacion de TRIGGER sobre una tabla, una view, entre otros. 
+- REFERENCES: permite poder crear constrains de foreign keys.
+
+Por defecto solamente los propietarios de la tabla poseen todos los privilegios sobre ella. Las operaciones ALTER TABLE o DROP TABLE no podran ser otorgados por medio de la operacion GRANT, sino que solo pertenecen al propietario del objeto.
+
+Ejemplo:
+```sql
+GRANT SELECT, UPDATE
+ON empleados
+TO analista;
+```
+
+### SEGURIDAD A NIVEL BASE DE DATOS
+Los privilegios que se puede otorgar son:
+- CREATE: permite crear esquemas dentro de la base. para esqumeas permite crear objetos dentro del mismo. para espacios de tablas, permite a tablas de indices pueden ser creados dentro del mismo espacio. Tambien permite la instalacion de extensiones dentro de la base. 
+- CONNECT: Permite garantizar la coneccion a una base de datos. Este privilegio se chequeo al comienzo de la conexion. Sin este todos los demas no tendra sentido, tal que si no tengo el privilegio de conexion no podre ejecutar nignuna accion.
+- TEMPORARY: permite poder crear tablas temporales usando la base especificada.
+```sql
+GRANT CONNECT ON DATABASE universidad TO alumno;
+```
+Estos determina que puede conectarse a la base y realizar operaciones generales sobre la misma.
+
+### SEGURIDAD A NIVEL DE ESQUEMAS
+tenemos los siguientes privilegiso:
+- USAGE: Este tendra distintos usos depende a que se lo este asignando:
+  - Para lenguajes procedurales, permite al mismo la creacion de funciones en ese lenguaje. Unico privilegio para estos lenguajes
+  - Para esquemas, permite el acceso a objetos contenidos dentro del esquema. Sin este permiso igual es posible podre ver los nombre de los objetos contenidos dentro del mismo. 
+  - Para tipos y dominions, permite el uso de tipos y dominions en la creacion de tablas, funciones y otro objetos de esquemas. 
+  - Para servidores externos, permite la cracion de tablas foragneas. 
+- CREATE: permite crear objetos dentro del esquema. 
+
+Ejemplo:
+```sql
+GRANT USAGE ON SCHEMA ventas TO analista;
+```
+Un usuario podra tener privilegios sobre una tabla pero aun asi no poder acceder a ella si no posee USAGE sobre el esquema que la contiene.
+
+### PRIVILEGIOS POR DEFECTO
+PostgreSQL permite definir qué privilegios tendrán automáticamente los objetos creados en el futuro.
+
+Ejemplo:
+```sql
+ALTER DEFAULT PRIVILEGES
+GRANT SELECT ON TABLES TO analista;
+```
+A partir de ese momento, las nuevas tablas creadas por un rol correspondiente otorgaran automaticamente permisos SELECT al rol analista. Esto evita ejecutar GRANT manualmente cada vez que se crear una nueva tabla.
+### REVOKE
+Permite revocar los permitos que se han otorgado previamente a usuarios o roles sobre objetos de la base de datos.  
+```sql
+REVOKE [permisos] ON [objeto] FROM [usuario_o_rol];
+```
+Un usuario solo puede revocar los privilegios que fueron directamente otorgados por ese usuario. Si A le dio privilegios a B, y B le dio privilegios a C, A no le puede sacar directamente los privilegios a C. Si alguien que no es owner de un objeto de la base revoca los priviliegios sobre le objeto, fallara. 
+El propietario tendra control total, puede actuar como propietario: el dueño del objeto, el superusuario, el miembro del rol propietorio y un rol con WITH GRANT OPTION.
+
+### SEGURIDAD A NIVEL DE FILA
+Ademas de la seguridad estandar de SQL, que nos permite garantizar privilegios por medio de GRANT, tambien se puede tener seguridad por FILAS. Esto determina que filas podran ser retornadas o insertadas, actualizadas o eliminadas.  Por deafult, las tablas, no poseen ninguna politica, por lo que si un usuario tiene privilegios sobre la misma, todas las filas podran ser accesibles por el mismo. 
+
+Si se activa/desactiva la politica de seguridad de una tabla:
+```sql
+ALTER TABLE [tabla] ENABLE/DISABLE ROW LEVEL SECURITY
+```
+Si tengo politicas definidas, desactivar la seguridad por fila, no elimina ninguna politica deifnida.
+
+Las operaciones de seleccion o modificacion deberan ser aceptads por las politicas sobre filas establecidas. Cuando Row Level Security está habilitado y no existe ninguna política aplicable, PostgreSQL utiliza un comportamiento por defecto de denegación total (default deny), impidiendo que las filas sean visibles o modificadas.
+
+Las politicas puede ser aplicadas a todos los comandos (ALL) o a SELECT; INSERT; UPDATE o DELETE. Se le puede asignar la politica a multiples roles, a esto aplican las reglas de herencia tambien.
+
+La política debe ser una expresión booleana evaluada para cada fila. PostgreSQL incorpora esta condición al plan de ejecución de la consulta, filtrando automáticamente aquellas filas para las cuales la expresión no devuelve TRUE. La politica estara por encima de cualquier condicion o funcion de una query de usuario.
+
+La politicas se crean mediante la instruccion CREATE POLICY, y se alteran con ALTER POLICY., y se eliminar con DROP POLICY. Podemos tener multiples politicas y cada una debera tener un nombres unico. Ejemplo de politica:
+```sql
+CREATE TABLE accounts (manager text, company text, contact_email text);
+
+ALTER TABLE accounts ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY account_managers ON accounts TO managers
+    USING (manager = current_user);
+```
+Esta politica aplica de forma que se aplica tanto para operaciones de modificacion como consulta. La idea es que el rol managers solo podra hacer la queries especificadas sobre accounts, si el manager de la misma es el usuario actual de la base. Si no se especifica un ROL, por default se aplica a PUBLIC.
+
+Hasta ahora todas las politicas definidas se evaluna en cadena usando un OR, para poder tener un comportamiento distinto se utiliza, la palabra AS RESTRICTIVE, que implica que se agregar un conectivo AND para la evaluacion. 
+
+En contextos por ejemplo de backups de bases de datos, es importante que las polticas no se evaluen, ya que pueden generar multiples errores. En estos casos se puede setear row_security como off. 
+
+La forma mas performante de generar policies es de considerar los valores actuales de la fila que se evalua, pero en algunos casos es posibles hacer una sub querie con el fin de generar logica frente al valor de otras filas. 
+
+Los superusuarios y los roles que poseen el atributo BYPASSRLS ignoran las políticas de Row Level Security. Asimismo, el propietario de una tabla normalmente no se encuentra sujeto a las políticas definidas sobre la misma, salvo que se utilice:
+```sql
+ALTER TABLE tabla FORCE ROW LEVEL SECURITY;
+```
+### SEGRURIDAD EN FUNCIONES
+Para la definicion de funciones tenemos los argumentos SECURITY_INVOKER y SECURITY_DEFINER. La primera permite que la funcion sea ejeuctada con los privilegios del usuario que la llama. Esto sera el default. la segunda permite que la funcion sea ejecutada con los privilegios del dueño de la funcion. 
+
+Las funciones SECURITY DEFINER deben utilizarse cuidadosamente.Un usuario que posea privilegio EXECUTE sobre una función SECURITY DEFINER puede acceder indirectamente a información que normalmente no podría consultar.
+Por este motivo suele recomendarse definir explícitamente el search_path dentro de estas funciones.
+
+Para poder ejecutar una función es necesario poseer el privilegio EXECUTE sobre la misma.
+
+### AUTENTIFIACION DE CLIENT  
+Una conexión PostgreSQL requiere:
+- host
+- puerto
+- usuario
+- contraseña
+- base de datos
+
+Ejemplo:
+```bash
+psql -h 192.168.1.10 -p 5432 -U admin -d universidad
+```
+Donde:
+- host: conexión TCP/IP
+- primera all: cualquier base de datos
+- segunda all: cualquier usuario
+- 192.168.1.0/24: red permitida
+- md5: método de autenticación
+
+El archivo pg_hba.conf controla qué clientes pueden autenticarse.El archivo pg_hba.conf se evalúa de arriba hacia abajo y la primera regla que coincide es la que se aplica.
+
+Ejemplo:
+```text
+host all all 192.168.1.0/24 md5
+
+El parámetro listen_addresses del archivo postgresql.conf controla las interfaces de red sobre las cuales PostgreSQL acepta conexiones.
+
+Ejemplo:
+
+```ini
+listen_addresses='*'

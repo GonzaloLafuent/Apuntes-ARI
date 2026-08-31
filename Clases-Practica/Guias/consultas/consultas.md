@@ -9,3 +9,9 @@
 
 - 1.7, agrego otra relacion sobre la misma entidad
 - 1.4, b) tengo que agregar un atributo de interrelacion que se clave?
+
+- diapo , clase de hoy
+
+2.5 agregacion entre publicidad y video. falta elacion entr contenido y comentario.
+
+no solo cosas fisicas son entidades, tmb eventos

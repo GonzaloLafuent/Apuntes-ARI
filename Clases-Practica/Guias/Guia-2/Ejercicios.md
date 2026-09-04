@@ -122,7 +122,38 @@ Podemos decir que:
 - La ultimos dos, por axiomas de amstrong generan redundanci. Por lo tanto el conjunto completo de depdencias funcionales sera: F = {URL -> AUTOR,TITULO;}. Key word no queda determinada por ningun atributo debido a que cada pagina puede poseer muchas keyowrds.
 - Podemos decir que no esta en FNBC. Si analizamos las depdendencias, mas la relacion dada, la unica clave candidate sera {URL, KEYWORD}, luego tenemos que la unica dependecia funcional dada, esta sostenida por URL solo. 
 
-b)  
+## 2.3
+a)
+Tenemos que la relacion sera R = {ABCDEI}. Analizando las dependecias funcionales, tenemos que puedo llegar por medio de ellas a D,B,C,E. Por lo que probablamente la clave esta conformada por {A,I}. analicemos la clausura de la misma:
+
+- {A,I}^+:
+    - Aplicando A -> D, tenemos {A,D,I}
+    - Aplicando I -> B, tenemos {A,B,D,I}
+    - Aplicando IA -> C, tenemos {A,B,C,C,I}
+    - Aplicando B -> E, tenemos {A,B,C,D,E,I}  = R
+    - Luego {A,I} sera clave
+
+b)
+- Para chequear SPI, ver ejercicio de tableau hecho en apunte
+- Veamos SPDF:
+- I -> B Vale localmente en la particion {I,B}
+- IA -> C vale localmente en la particion {I,A,C}
+- A -> D , vale localmente en la particion {A,D}
+- B -> E, cruza el esquema:
+    - Tomemos Z = {B}:
+        - Si tomento {B} interseccion {B,I}, ontengo B. Y no puedo seguir para ningun otro             camino
+        - Para el resto de los esquema la interseccion es vacia. Luego no puedo derivar B -            >E
+- La particion no preservar las dependencias funcionales     
+
+c)
+Sabemos que {A,I} es clave. Por lo tanto la primer opcion de 3FN no la cumple que es que para toda depencia funcional X-> Y, X sea superclave. Podemos ver que como {A,I} es clave, neceitariamos tener por lo menos algun elemento mas sobre {A,I}.
+
+La segund opcion tampooc vale, solo tenemos una clave posible, dada por{A,I}, por lo tanto no valdra que los arguemnto de la izquierda de la dependencias son primos
+
+Para construir la 3FN:
+- Primero definimos una cobertura minimal F_m. primero descompongo en atributo simples a la derecha, esto ya ocurre: {A->D, I->B, IA ->C, B->E}. Quedara igual, no hay nada redundante para sacar.
+- A partir de la F_m creo los esquemas: {{A,D},{I,B},{IA,C},{B,E}}. No tengo nada que unificar, la clave ya esta y asu vez no hay redundancia, por lo tanto esta particion si esta en 3FN.
+
 ## 2.14
 Valen:
 - B,D

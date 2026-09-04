@@ -154,6 +154,17 @@ Para construir la 3FN:
 - Primero definimos una cobertura minimal F_m. primero descompongo en atributo simples a la derecha, esto ya ocurre: {A->D, I->B, IA ->C, B->E}. Quedara igual, no hay nada redundante para sacar.
 - A partir de la F_m creo los esquemas: {{A,D},{I,B},{IA,C},{B,E}}. No tengo nada que unificar, la clave ya esta y asu vez no hay redundancia, por lo tanto esta particion si esta en 3FN.
 
+## 2.4
+Uitilizemos el algoritmo de 3NF, el mismo garantiza que no solo va estra en este modelo sino que tambien va a posee la propiedad de SPI y SPF. 
+Primero obtengo la cobertura minimal. Dividimos los lados izquierdos, tal que queda {C -> E, D -> B, D->H, EH -> A}. No posee information redudnate asi que probalmente esa sea la cobertura minimal. 
+Dividimos en esquemas, tal que tengo {{C,E},{D,B},{D,H},{EH,A}}. Lo que nos falta ver ahora es cual es la clave, con el fin de poder identificar si esta dentro de algun esquema. 
+
+tenemos que R = {ABCDEFGHI}. A partir de las DF que nos dan, sabemos que puedo llegar a los atributos A,B,H,E. El resto no, por lo que podria ser una lcave todo el conjunto dado por {C,D,F,G,I}.
+
+Luego para completar la formula normal nos queda agregar un esuqema con la clave, por lo tanto tenemos:{{C,E},{D,B},{D,H},{EH,A},{C,D,F,G,I}}. Esto sera SPI y SPF
+
+Con respecto a FNBC, sabemos que la clave es {C,D,F,G,I}, Como es minimna otroa supercalve debria ser igual o mas astributos. A paritr de eso podemos decir que a la ziquierda de binguna dependencia funcional tnemos un superclave, por lo anto no esta en FNBC
+
 ## 2.14
 Valen:
 - B,D

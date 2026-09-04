@@ -116,6 +116,11 @@ Veamos las claves:
 - Segunda forma normal: Estara si todo atributo no primo (Que no pertenece a una clave candidata), no es parcialmente dependiente de alguna clave de R. No estara en segunda forma normal, tal que por ejemplo AD, o C, dependen parcialmente de las claves
 
 - 
+## 2.2
+Podemos decir que:
+- F = {URL -> AUTOR,TITULO; URL,AUTOR -> TITULO, URL,TITULO -> AUTOR}
+- La ultimos dos, por axiomas de amstrong generan redundanci. Por lo tanto el conjunto completo de depdencias funcionales sera: F = {URL -> AUTOR,TITULO;}. Key word no queda determinada por ningun atributo debido a que cada pagina puede poseer muchas keyowrds.
+- Podemos decir que no esta en FNBC. Si analizamos las depdendencias, mas la relacion dada, la unica clave candidate sera {URL, KEYWORD}, luego tenemos que la unica dependecia funcional dada, esta sostenida por URL solo. 
 
 b)  
 ## 2.14

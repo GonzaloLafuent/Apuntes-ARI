@@ -165,9 +165,127 @@ Luego para completar la formula normal nos queda agregar un esuqema con la clave
 
 Con respecto a FNBC, sabemos que la clave es {C,D,F,G,I}, Como es minimna otroa supercalve debria ser igual o mas astributos. A paritr de eso podemos decir que a la ziquierda de binguna dependencia funcional tnemos un superclave, por lo anto no esta en FNBC
 
+## 2.5
+a)
+Tenemos que {AGCE} representa una clave, por lo tanto es una superclvae minima. Por cardinalidad, como es la unica clave, sabemos que no existe otra superclave de la misma logintud, y de existir otra superclave deberia contener estos atributos y algunos mas. 
+
+Si estuviera en 3NF, vale que:
+- Para toda X -> A, X es superclave. Por lo dispuesto arriba podemos decir que esto no vale
+O puede valer que:
+- A es primo. Como {AGCE} es la unica clave, y B no pertenece a la misma, podemos decir que la condicion no se cumple.
+
+Redundancia y modificacion?
+
+b) 
+Primero obtenemos la cobertura minimal. Esta simlificada pero hay redundancia:
+- F_{m} = {A->B, B->D}
+- Luego tenemos los subesuqmeas {{AB}{BD}}
+- Agregamos una para la clave {{AB}{BD}{AGCE}}
+
+c)
+Sabemos que las dependencias funcionales se mantienen, tal que algoritmo planteando preserva las dependencias y a su vez es SPI.
+Analicemos las dependencias sobre cada subesquema:
+- Para {A,B} sabemos que surge de A->B, por lo tanto la supercalve dentro de este esuqmea es A, luego se cumple localmente que A->B y A es superclave, mas aun es clave
+- Para {B,D} vale la mims aidea que para {A,B}, localmente se cumple que valñe B->D.
+- Para el ulitmo subesuqme ano tenemos ningun tipo de dependencia funcionla, por lo tanto vale.
+
+Podemos decir que estar en FNBC
+
+## 2.6
+a)
+{FUTBOLISTA -> CLUB, PERIODISTA -> MEDIO, REFERI -> DIVISION}
+
+b)
+Como todas las dependencias funcionales son de de 1 a 1, la unica forma de recomponener toda la relacion es a aprtir de tener como calve {FUTBOLISTA,PERIODISTA,REFERI}. Es la unica forma de aplicar dependencia de maner tal que pueda obtener todo el modelo. 
+
+A su vez es minima porque si sacamos algun atributo de la misma, no podramos configurar toda la relacion.
+
+c)
+Se puede ver a simple vista que cada depencia se preserva de manera local para cada subesquema,. tal que se genero en base a las dependencias dadas.
+
+d)
+Tenemos que hacer las juntas naturales entre:
+- {R1} junta {R2} junta {R3} junta {R4}
+
+LO que es extraño es que si tomamos en cunta la ultima relacion, tenemos repertir furbolitsa. Luego si hago la union de las R, lo que obtengo no es la relacion originla, tengo repetida el aitributo futbolista
+
+Analicemos las juntas:
+- Podemos obtener (F1,C1,P1,M1,R2,D2), lo cual no esta en la instancia original. Por lo tanto el join no es lossles
+
+e)
+Ahora tenemos que agregar {CLUB -> MEDIO}. Por lo tanto el conjunto de dependencias queda como:
+- {FUTBOLISTA -> CLUB, PERIODISTA -> MEDIO, REFERI -> DIVISION, CLUB -> MEDIO}
+
+En este caso tenemos que para D1, la nueva dependecnia cruza los esquemas. Vemaos si las mantiene:
+- Z = CLUB
+- Con la unica particion que nos da algo es R1, pero el aplicar ahi no nos da ninguan dependencia extra para aplciar
+- Por lo tanto no podemos seguir
+No se mantiene las dependencias funcionales
+
+Podemos descomponer en 3FN. El algoritmo garantiza que va estar en SPDF y SPI. Mas importante en nuestro caso es que este en SPDF.
+- La cobertura ya es minila, por lo que no hay muchas mas que realiza ahi.
+- Dividimos en {{FUTBOLISTA,CLUB}{PERIODISTA,MEDIO}{REFERI,DIVISION}{CLUB,MEDIO}}
+
+- En este caso al agregar la DF {CLUB -> MEDIO} se modifico la clave. En realidad no se modifico la calve, solo tengo un camino mas para obtener la ifnormacion, pero sigo necesito la misma. por lo tanto agregar un esquema {FUTBOLISTA,PERIODISTA,REFERI} para la clave.
+
+## 2.7
+a)
+Tenemos las siguiente anomlias:
+Redundancia: si un persona por ejemplo tiene varios hijos o distitnas direcciones, vamos  atenre que tener una entrada con los mismos datos por cada persona que se incerta en la tabla. 
+
+Actuailziacion: Si una persona cambia su nombre por ejemplo, direccion o algun otro datao de la mimsa. Tengo que actualizar varias filas, correpsoniented por ejmplo ac ada hijo. Lo mimos si tuviera que actucliza algun dato de donde vota. 
+
+Borraado: si por ejemplo quisieramos borrar un hijo de ujna persona o una direccion, debemos borrar todos los datos de la misma. Lo mismo si la persona ya no votora o tuvuera otra direcion de votado. 
+
+Insercion: vamos a tener que dar de alta una persona con grands valores nulos. Por ejemplo la persona al nacer no tiene edad de votar por lo tanto no va atener escual de voto y ese tipo de datos, lo mimso en realicion a los hijos
+
+b)
+En base a lo que se propone sabemos que no puedo llegar por medio de una dependencia a {nombre,DNI,Direccion,NombreHijo,EscuelaDondeVota,LocalidadEscuela}. Po lo tanto la calve dberia contener eso. veamos la clausura:
+
+- DNI y NombreHijo llego a EdadHijo
+- EcualdadDondeVota por si sola no llego a la informacion de escuela, me falta algot
+
+Agrego {localidad} a la clabve
+
+- DNI y HombreHijo -> EdadHijo
+- EscuelaDondeVota y Localidad -> DireccionEscuela,CodigoPostalEscuela
+- Localidad -> CodigoPostal
+
+Podria tener dos posibles claves:
+- {nombre,DNI,Direccion,NombreHijo,EscuelaDondeVota,LocalidadEscuela, localidad}
+- {nombre,DNI,Direccion,NombreHijo,EscuelaDondeVota,LocalidadEscuela, copdigoPostal}. Po mediode codigoPostal puedo llegar a localidad y luego derivar toda la relacion.
+
+Preguntar: DNI -> Nombre; Direccion por mas que no lo diga el enunciado?
+
+c)
+Preguntar?
+
+## 2.8
+a)
+F = {AC -> E, E -> U}
+No se puede aplicar nada mas, por lo que este tambien sera la cobertura minimal.
+
+b)
+Pensemos en la clave. {AC} es la unica, tal que a E y U puedo llegarb por medio de dependecias. Luego toda superclave tiene que tener mas atribtuos que 2. Y a us vez toda candidata debe ser de 2 atributos.
+
+2FN: Cumnple. E depende deirectmane de {A,C}. Luego pued hacer depende a E->U  apartir de AC->E. 
+Con la otra defincion podemos evr que A->E y C->E por lo que no depende parcialmente de la clave. Luego U como no depende de la calve, y depende de E pero ya vimos que E no depende parcialemnte, entonces vale. 
+
+3FN:La primer condicion no la cumple tal que E no es superclave de la relacion. La segunda tampoco la cumple dado que E y U no son primos
+
+FNBC: Tampoco la cumple. 
+
+c) 
+Es binaria la descomposicion, por lo tanto no tengo que hacer tableu para determinar en que forma esta. 
+
+La intersecciond de ambos esquemas nos da: vacio. Luego esto no define ninguna superclave para ningun esquema, por lo tanto no sera SPI.
+
+## 2.9
+
+
 ## 2.14
 Valen:
-- B,D
+- B,D 
 Las que no valem:
 - A no vale, porque es al reves, cada plato es exlusivo de un cocinero, no se define nada sobre la relacion contraria
 - C no vale, dado que puede haber mas de un plato generado por ese cocinero en esa fecha y evento
@@ -189,3 +307,10 @@ Las que no valem:
 - ABD y ACD ya no seran minimales, mas alla de que determine todas la relacion. Luego la unica opcion correcta sera B)
 
 ## 2.16
+a) F, esta mal la defincion, si fuera FNBC todo atributo de la izquierda es parte de una superclave
+
+b) es falsa por c y d
+
+c) F, no esta en 3FN, estan mal ambas condicones. Pirmero lo de la izquierad ano es uperclvae, deberia tener carinalidad mayor a 2. Y luego lo de la derecha no es primo, porque esta B en el caso de la primera dependencia funcional.
+
+d) V

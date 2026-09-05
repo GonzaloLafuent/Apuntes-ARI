@@ -281,7 +281,10 @@ Es binaria la descomposicion, por lo tanto no tengo que hacer tableu para determ
 La intersecciond de ambos esquemas nos da: vacio. Luego esto no define ninguna superclave para ningun esquema, por lo tanto no sera SPI.
 
 ## 2.9
-
+{E -> Ce, T Di -> A, T A -> Di D CA E}
+- E -> Ce sale por la ultima oracion
+- T A -> Di sabemos que un diretor solo hace un titulo, poer un titulo lo pueden hacer varios directores. Pero un titulo no se puede realizar un  imso año, por lo tanto Año y Titulo determina al director. A us vez detmeirna el rsto de la informacion de la pelicula
+-  A su vez con la mimsa idea que antes, como un titulo solo se hace unabvez por año, y un director solo haec un titulo luego el director mas el itutlo detemrina el año. 
 
 ## 2.14
 Valen:

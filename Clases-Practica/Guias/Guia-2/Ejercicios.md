@@ -29,9 +29,7 @@ invalida
 
 
 ## 1.2
-$F_{a}⁺$ = {}
-
-Preguntar si hya una forma mas sencilla de hacre esto en vez de calcular toda la clausura
+Hecho en una de las notas
 
 ## 1.3
 No hace falta aplicar tablue para resolver esto. Como son visiones bianrias solo debo ver que: 
@@ -93,6 +91,8 @@ f)
         - Z = {B}. 
         - No tengo forma de llegar al otro lado por meio de B
         * No se preservan
+## 1.4
+Hecho
 
 ## 2.1
 a)
@@ -111,11 +111,38 @@ Veamos las claves:
         - Aplico A -> B, tengo {A,B,C,D,E,F,G,H,I}
         - Como al clausura es igual a la relacion, tengo una clave candidata
     - {E,G,I,H} tambien sera candidata, porbando la clausura, podemos llegar al conjunto de la relacion
-- Luego nuestras claves candiditas seran {E,G,I,D}, {E,H,I,H}
+- Luego nuestras claves candiditas seran {E,G,I,D}, {E,G,I,H}
 
 - Segunda forma normal: Estara si todo atributo no primo (Que no pertenece a una clave candidata), no es parcialmente dependiente de alguna clave de R. No estara en segunda forma normal, tal que por ejemplo AD, o C, dependen parcialmente de las claves
 
-- 
+- Tercera forma normal: La segunda condicion no la ucmple, dado que del lado derecho tenemos por ejemplo B el cual no pertenece a un aitrbuto primo. La pirmera condicion tampoco, sabemos que la clave posee caridnalidad 4, luego para ser supercalve lo que esta del lado izquierdo deberia ser por lo menos de cardinalidad .
+
+- fnbc: Tampoco estara, dao que no cumple la pirmer codicion de la terecera forma normal, podemos ver que la part izuqierda no es superlave
+
+b) 
+Aplicamos el algoritmo, esto garantiza que va a ser SPI y SPDF. 
+
+Buscamos la cobertura minima: 
+- Aplico la descomposicion de los lados derechos: {A->B, CD->F, H->A, H->D, I->C, D->H}
+- Esto no se puede reducir mas.
+- Creamos un esquema en base a las dependencias
+- {{AB},{CDF},{HAD}, {IC}, {DH}}
+- Agergo un esquema mas con uan de las claves:
+- {{AB},{CDF},{HAD},{IC}, {DH}, {E,G,I,H}}
+- Reduzco la redundancia
+- {{AB},{CDF},{HAD},{IC},{E,G,I,H}}
+
+c)
+Podemos tomar A->B como uan dependia que viola esta forma normal. Luego obtengo R1 = AB y la subrelacion queda como {ACDEFGHI}
+
+Si calculamos la cularus con las claves anteriores, volvemos a legar a la relacion que nos queda, por lo tanto siguen siendo clave. COn esto en mente ahora podemos tomar a H -> AD como dependencia que rompe. R = {HAD}, y la relacion que nos queda sera {CEFGHI}, y las dependencaias seran {I->C}
+
+Solo nos sobrevive una dependencia, luego tenemos que van a pertener a la clave, todos los aitrbutos menos C, {E,F,G,H,I}
+
+Luego divido nuevamente en base a eso y tengo R3= {IC}. lo que queda sera  = {EFGHI}
+
+por lo tanto la descompision sera: {{AB},{HAD},{IC},{EGHI}}
+
 ## 2.2
 Podemos decir que:
 - F = {URL -> AUTOR,TITULO; URL,AUTOR -> TITULO, URL,TITULO -> AUTOR}
@@ -230,12 +257,12 @@ Podemos descomponer en 3FN. El algoritmo garantiza que va estar en SPDF y SPI. M
 
 ## 2.7
 a)
-Tenemos las siguiente anomlias:
+Tenemos las siguiente anomalias:
 Redundancia: si un persona por ejemplo tiene varios hijos o distitnas direcciones, vamos  atenre que tener una entrada con los mismos datos por cada persona que se incerta en la tabla. 
 
-Actuailziacion: Si una persona cambia su nombre por ejemplo, direccion o algun otro datao de la mimsa. Tengo que actualizar varias filas, correpsoniented por ejmplo ac ada hijo. Lo mimos si tuviera que actucliza algun dato de donde vota. 
+Actuailizacion: Si una persona cambia su nombre por ejemplo, direccion o algun otro datao de la mimsa. Tengo que actualizar varias filas, correpsoniented por ejmplo ac ada hijo. Lo mimos si tuviera que actucliza algun dato de donde vota. 
 
-Borraado: si por ejemplo quisieramos borrar un hijo de ujna persona o una direccion, debemos borrar todos los datos de la misma. Lo mismo si la persona ya no votora o tuvuera otra direcion de votado. 
+Borrado: si por ejemplo quisieramos borrar un hijo de ujna persona o una direccion, debemos borrar todos los datos de la misma. Lo mismo si la persona ya no votora o tuvuera otra direcion de votado. 
 
 Insercion: vamos a tener que dar de alta una persona con grands valores nulos. Por ejemplo la persona al nacer no tiene edad de votar por lo tanto no va atener escual de voto y ese tipo de datos, lo mimso en realicion a los hijos
 
@@ -284,7 +311,15 @@ La intersecciond de ambos esquemas nos da: vacio. Luego esto no define ninguna s
 {E -> Ce, T Di -> A, T A -> Di D CA E}
 - E -> Ce sale por la ultima oracion
 - T A -> Di sabemos que un diretor solo hace un titulo, poer un titulo lo pueden hacer varios directores. Pero un titulo no se puede realizar un  imso año, por lo tanto Año y Titulo determina al director. A us vez detmeirna el rsto de la informacion de la pelicula
--  A su vez con la mimsa idea que antes, como un titulo solo se hace unabvez por año, y un director solo haec un titulo luego el director mas el itutlo detemrina el año. 
+-  A su vez con la mimsa idea que antes, como un titulo solo se hace unabvez por año, y un director solo haec un titulo luego el director mas el titulo detemrina el año. 
+
+## 2.10
+a)
+{P -> C, PI -> CN, I -> U}
+
+
+## 2.12
+{idOrden -> fecha,idCliente,importeTotal, idOrden;nroItem -> precioUnitario, descuento}
 
 ## 2.14
 Valen:
